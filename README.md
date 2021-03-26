@@ -36,7 +36,7 @@ You can also run `docker-compose down -v` to delete the volumes, which contain t
 1. Choose or get assigned a ticket
 2. Create a new branch off your team’s branch . For simplicity name your branch: `team#-issue#-brief description`.
    e.g: `git checkout -b 1-1-test team-3-vaccination`
-3. Work on your code; commit & push often (so that if something comes up your team has something to work with) `git push origin your-branch-name`
+3. Work on your code; commit & push often (so that if something comes up your team has something to work with)
 4. Once done, create a pull request (PR) via git request-pull and assign it to your team lead.
 5. Repeat :)
 
