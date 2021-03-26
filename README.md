@@ -28,3 +28,5 @@ You can also run `docker-compose down -v` to delete the volumes, which contain t
 3. Work on your code; commit often (so that if something comes up your team has something to work with)
 4. Once done, create a pull request (PR) via git request-pull and assign it to your team lead.
 5. Repeat :)
+
+**Note** If you are behind your team's branch don't forget to run `git pull origin team-branch`
