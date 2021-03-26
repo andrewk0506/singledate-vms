@@ -1,29 +1,30 @@
 # vms
+
 Vaccine management system
 
 This system manages all stages of the vaccination process, from registration to recording doses.
 
 ## Environment setup instructions
 
-__Note__ These instructions assume you have `python3` and `pip` installed on your development environment.
+**Note** These instructions assume you have `python3` and `docker` installed on your development environment.
 
-1. Create a virtual environment outside of the project directory
-    - `python3 -m venv myvenv`
+1. `cd` into directory with `docker-compose.yml`
+2. `docker-compose up` to run the containers in the foreground or `docker-compose up -d` to run them detached in the background (and `docker-compose logs -f` to tail the logs).
+3. App should run on `localhost:8000`
 
-The above command will create a `myvenv` directory
+## Stop an Environment
 
-2. Activate the virtual environment
-    - For mac/linux: `source myvenv/bin/activate`
-    - For windows: `myvenv/Scripts/activate.bat`
+- If `docker-compose` is running in the foreground, `CTRL+C` should stop the containers.
 
-If the virutal environment has been successfully started, you should see your shell
-prompt change to begin with: `(myvenv)`. You should always remember to activate this virtual environment when you're working on this project.
+- If `docker-compose` is running detached, then call `docker-compose stop` or `docker-compose down`. The difference between the two is that down will also remove the containers and networks created.
 
-To deactivate the virtual environment, you can simply run `deactivate`. Your shell prompt should return to normal once virtual environment has been deactivated.
+You can also run `docker-compose down -v` to delete the volumes, which contain the data and logs, when you want to start with a fresh install.
 
-3. `cd` into the base directory of the project and run the following command to install all the dependencies.
-    - `pip install -r requirements.txt`
+## Workflow
 
-4. Execute the `run.sh` script. This should start the django server, which by default listens on port 8000. You can then go to `http://localhost:8000/` to access your django application.
-
-To use precommit hooks to enforce style and PEP8, run `pre-commit install` - you'll only need to do this once and your code will be automatically tidied after you attempt to `git commit`.
+1. Choose or get assigned a ticket
+2. Create a new branch off your team’s branch . For simplicity name your branch: `team#-issue#-brief description`.
+   e.g: `git checkout -b 1-1-test team-3-vaccination`
+3. Work on your code; commit often (so that if something comes up your team has something to work with)
+4. Once done, create a pull request (PR) via git request-pull and assign it to your team lead.
+5. Repeat :)
