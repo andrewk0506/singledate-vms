@@ -6,6 +6,15 @@ This system manages all stages of the vaccination process, from registration to 
 
 ## Environment setup instructions
 
+To set up the database connection:
+
+1. copy `config.template.json` and rename it to `config.json`
+2. add your logging credentials where needed
+
+It is _VERY_ important only add credentials in `config.json`. Add it anywhere else and you are compromising people's privacy.
+
+## Start an Environment
+
 **Note** These instructions assume you have `python3` and `docker` installed on your development environment.
 
 1. `cd` into directory with `docker-compose.yml`
