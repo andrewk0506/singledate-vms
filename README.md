@@ -12,6 +12,8 @@ This system manages all stages of the vaccination process, from registration to 
 2. `docker-compose up` to run the containers in the foreground or `docker-compose up -d` to run them detached in the background (and `docker-compose logs -f` to tail the logs).
 3. App should run on `localhost:8000`
 
+**Note** If you are making changes to the environement docker-compose will not rebuild automatically, so run `docker-compose up --build`
+
 ## Stop an Environment
 
 - If `docker-compose` is running in the foreground, `CTRL+C` should stop the containers.

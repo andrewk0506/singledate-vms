@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -73,10 +74,17 @@ WSGI_APPLICATION = 'vms.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+with open('config.json') as f:
+    db = json.load(f)
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': db['NAME'],
+        'USER': db['USER'],
+        'PASSWORD': db['PASSWORD'],
+        'HOST': db['HOST'],
+        'PORT': db['PORT'],
     }
 }
 
