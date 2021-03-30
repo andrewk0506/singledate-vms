@@ -1,5 +1,6 @@
 asgiref==3.3.1
 Django==3.1.7
+django-phone-field==1.8.1
 docker==4.4.4
 docker-compose==1.25.5
 dockerpty==0.4.1
@@ -7,4 +8,3 @@ mysqlclient==2.0.3
 pre_commit==2.11.1
 pytz==2021.1
 sqlparse==0.4.1
-
