@@ -15,3 +15,4 @@ def signup(request):
 
 def verify(request):
 	return render(request, "verify.html", {})
+	
