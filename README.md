@@ -28,3 +28,21 @@ You can also run `docker-compose down -v` to delete the volumes, which contain t
 3. Work on your code; commit often (so that if something comes up your team has something to work with)
 4. Once done, create a pull request (PR) via git request-pull and assign it to your team lead.
 5. Repeat :)
+
+
+Instructions for setting up MySQL locally (if not using Docker):
+
+NOTE: MacOS instructions below. If you have a Windows machine, add to this README once you've figured it out :)
+1. Install homebrew (google it!)
+2. `brew install mysql`
+3. `mysql.server start`
+4. Find the path to your mysql installation with `brew info mysql`.
+5. You can play around with the REPL with `path/to/mysql -u root`.
+6. In the REPL, create a local mysql database called `vms`:
+   - Run `path/to/mysql -u root` to open the REPL
+   - Run `CREATE DATABASE vms;` to create the `vms` database
+If the command was successful, running `SHOW DATABASES` should list `vms` as one of the databases.
+7. Sequel Pro is a nice (free) GUI client for interacting with your DB, to set it up to connect with your mysqlserver, you might have to open the REPL and run the following: `ALTER USER root@localhost IDENTIFIED WITH mysql_native_password BY '';`
+   - `local.cnf` is a configuration file that django uses to access your local database. If you want to use your own config feel free to modify your local version of the file with your own credentials.
+
+8. Success! Ping wuharvey@gmail.com with Q's.
