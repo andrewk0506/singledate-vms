@@ -133,3 +133,5 @@ dmypy.json
 
 # mysql configuration file
 local.cnf
+
+.DS_Store
