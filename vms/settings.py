@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'vms_app.apps.VmsAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'vms.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "vms/templates")],
+        'DIRS': [os.path.join(BASE_DIR, "vms_app/templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,17 +76,12 @@ WSGI_APPLICATION = 'vms.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-with open('config.json') as f:
-    db = json.load(f)
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': db['NAME'],
-        'USER': db['USER'],
-        'PASSWORD': db['PASSWORD'],
-        'HOST': db['HOST'],
-        'PORT': db['PORT'],
+        'OPTIONS': {
+            "read_default_file": "local.cnf"
+        }
     }
 }
 
