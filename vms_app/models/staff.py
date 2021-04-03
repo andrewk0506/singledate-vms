@@ -1,12 +1,16 @@
 from django.db import models
+from .role import Role
 
 
 class Staff(models.Model):
-    last_name = models.CharField(max_length=100)
-    first_name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=40, null=True)
+    class Meta:
+        app_label = "vms_app"
+
+    surName = models.CharField(max_length=100)
+    givenName = models.CharField(max_length=100)
+    phoneNumber = models.CharField(max_length=40)
     email = models.CharField(max_length=60)
-    password = models.CharField(max_length=60, null=True)
-    HIPAACert = models.DateTimeField(null=True, blank=True)
-    medical_id = models.IntegerField(null=True, blank=True)
-    role = models.CharField(max_length=60)
+    medicalId = models.DecimalField(decimal_places=0, max_digits=10)
+    HIPAACert = models.DateTimeField()
+    password = models.CharField(max_length=60)
+    role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
