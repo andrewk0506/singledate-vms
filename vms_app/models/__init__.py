@@ -1,3 +1,3 @@
-from vms_app.models.medical import MedicalElgibility
+from vms_app.models.medical import MedicalEligibility
 
-__all__ = ['MedicalElgibility']
+__all__ = ['MedicalEligibility']

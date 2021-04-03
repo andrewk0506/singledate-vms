@@ -1,9 +1,9 @@
 from django.db import models
 from .utils import Gender
 
-class MedicalElgibility(models.Model):
+class MedicalEligibilityQuestion(models.Model):
     """
-        Medical Eligibility schema
+        Medical Eligibility Question schema
     """
 
     id = models.AutoField(primary_key=True)
@@ -14,3 +14,24 @@ class MedicalElgibility(models.Model):
     gender = models.CharField(max_length=1, choices=Gender.choices(), default=Gender.F)
     bool = models.BooleanField(default=True)
 
+class MedicalEligibilityAnswer(models.Model):
+    """
+        Medical Eligibility Answer
+    """
+    # person = "models.ForeignKey(Patient)"
+    question = models.ForeignKey(MedicalEligibilityQuestion, on_delete=models.CASCADE)
+    answered = models.DateTimeField()
+    answer = "mediumtext or bool"
+
+
+class MedicalEligibility(models.Model):
+    """
+    
+    """
+    QUESTION_TYPE = [('S', 'Screening'), ('E', 'Eligibility')]
+    
+    # site = models.ForeignKey(Site)
+    question = models.ForeignKey(MedicalEligibilityQuestion, on_delete=models.CASCADE)
+    type = models.CharField(max_length=1, choices=QUESTION_TYPE)
+    start_date = models.DateField()
+    end_date = models.DateField()
