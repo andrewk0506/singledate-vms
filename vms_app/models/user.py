@@ -14,9 +14,9 @@ class NoCommaField(models.CharField):
         att = getattr(model_instance, self.attname)
         return att.replace(',', ' ')
 
-class User(models.Model):
+class Patient(models.Model):
     """
-    Table of user's personal and contact information.
+    Table of patient's personal and contact information.
     """
     ### Define field choices.
     GENDER = [('M', 'Male'),

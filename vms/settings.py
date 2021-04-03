@@ -75,17 +75,12 @@ WSGI_APPLICATION = 'vms.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-with open('config.json') as f:
-    db = json.load(f)
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': db['NAME'],
-        'USER': db['USER'],
-        'PASSWORD': db['PASSWORD'],
-        'HOST': db['HOST'],
-        'PORT': db['PORT'],
+        'OPTIONS': {
+            "read_default_file": "local.cnf"
+        }
     }
 }
 
