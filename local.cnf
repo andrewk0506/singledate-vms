@@ -3,5 +3,5 @@
 database = vms
 host = localhost
 user = root
-password = 
+password = dbuserdbuser
 default-character-set = utf8
