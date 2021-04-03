@@ -14,7 +14,7 @@ class Dose(models.Model):
 	('RT', "Right Thigh"),
 	('RVL', "Right Vastus Lateralis")]
 
-	patient = models.ForeignKey("Person", on_delete=models.SET_NULL) # should become foreign key
+	patient = models.ForeignKey(Patient, on_delete=models.SET_NULL) # should become foreign key
 	vaccine = models.ForeignKey(VaccineBatch, on_delete=models.SET_NULL)
 	amount = models.FloatField()
 	administered = models.CharField(max_length=2)
