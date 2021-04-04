@@ -2,6 +2,8 @@
 	font: large;
 }
 
+/* Start CSS for Vaccine Information */
+
 #page-header {
 	background-color: #14213D;
 	color: #ffffff;
@@ -9,3 +11,73 @@
 	font-family: 'Archivo', sans-serif;
 	padding: 0.75em;
 }
+
+.page-header-button {
+	color: #ffffff;
+	font-size: 20px;
+	font-family: 'Archivo', sans-serif;
+	padding: 0px;
+}
+
+.page-header-button:hover {
+	color: #ffffff;
+	font-size: 20px;
+	font-family: 'Archivo', sans-serif;
+	padding: 0px;
+}
+
+
+#page-form {
+	padding-top: 2em;
+}
+
+#page-form  label {
+	font-size: 1.5em;
+	font-weight: 500;
+}
+
+#page-form  textarea {
+	box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.2);
+	border: 1px solid rgba(0,0,0,0.2);
+}
+
+#page-form select {
+	box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
+	border: 1px solid rgba(0,0,0,0.2);
+}
+
+#page-form-header {
+	font-size: 2em;
+	font-weight: bold;
+	padding-bottom: 1em;
+}
+
+#page-form-row {
+	background-color: #D7D7D7;
+}
+
+#page-form-container {
+	margin-top: 5em;
+}
+
+.form-card {
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	transition: 0.3s;
+	border-radius: 1em;
+}
+
+.form-card:hover {
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.form-button {
+	background-color: #14213D;
+	color: #ffffff;
+}
+
+.form-button:hover {
+	background-color: #14213D;
+	color: #ffffff;
+}
+
+/* End CSS for Vaccine Information */
