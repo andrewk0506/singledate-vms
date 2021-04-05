@@ -1,6 +1,10 @@
 from django.db import models
 
 class Site(models.Model):
+
+	class Meta:
+		app_label = "vms_app"
+	
 	street = models.CharField(max_length=100)
 	city = models.CharField(max_length=100)
 	zipcode = models.CharField(max_length=5)
