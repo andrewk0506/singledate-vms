@@ -1,5 +1,4 @@
 from django.db import models
-from .role import Role
 from .staff import Staff
 from .person import Person
 from .vaccine_type import VaccineType

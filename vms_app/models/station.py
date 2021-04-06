@@ -7,4 +7,4 @@ class Station(models.Model):
 		app_label = "vms_app"
 
 	site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True)
-	stationName = models.CharField(max_length=50)
+	stationName = models.CharField(max_length=50, default=None, null=True)
