@@ -2,3 +2,5 @@
 per-file-ignores =
     # line too long
     vms/settings.py: E501,
+exclude = 
+    vms_app/migrations/*
