@@ -6,11 +6,22 @@ This system manages all stages of the vaccination process, from registration to 
 
 ## Environment setup instructions
 
+To set up the database connection:
+
+1. copy `config.template.json` and rename it to `config.json`
+2. add your logging credentials where needed
+
+It is _VERY_ important to only add credentials in `config.json`. Add it anywhere else and you are compromising people's privacy.
+
+## Start an Environment
+
 **Note** These instructions assume you have `python3` and `docker` installed on your development environment.
 
 1. `cd` into directory with `docker-compose.yml`
 2. `docker-compose up` to run the containers in the foreground or `docker-compose up -d` to run them detached in the background (and `docker-compose logs -f` to tail the logs).
 3. App should run on `localhost:8000`
+
+**Note** If you are making changes to the environement docker-compose will not rebuild automatically, so run `docker-compose up --build`
 
 ## Stop an Environment
 
@@ -30,10 +41,10 @@ You can also run `docker-compose down -v` to delete the volumes, which contain t
 4. Once done, create a pull request (PR) via git request-pull and assign it to your team lead.
 5. Repeat :)
 
-
 Instructions for setting up MySQL locally (if not using Docker):
 
 NOTE: MacOS instructions below. If you have a Windows machine, add to this README once you've figured it out :)
+
 1. Install homebrew (google it!)
 2. `brew install mysql`
 3. `mysql.server start`
@@ -42,8 +53,9 @@ NOTE: MacOS instructions below. If you have a Windows machine, add to this READM
 6. In the REPL, create a local mysql database called `vms`:
    - Run `path/to/mysql -u root` to open the REPL
    - Run `CREATE DATABASE vms;` to create the `vms` database
-If the command was successful, running `SHOW DATABASES` should list `vms` as one of the databases.
+     If the command was successful, running `SHOW DATABASES` should list `vms` as one of the databases.
 7. Sequel Pro is a nice (free) GUI client for interacting with your DB, to set it up to connect with your mysqlserver, you might have to open the REPL and run the following: `ALTER USER root@localhost IDENTIFIED WITH mysql_native_password BY '';`
+
    - `local.cnf` is a configuration file that django uses to access your local database. If you want to use your own config feel free to modify your local version of the file with your own credentials.
 
 8. Success! Ping wuharvey@gmail.com with Q's.
