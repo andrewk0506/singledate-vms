@@ -1,7 +1,0 @@
-# Do not commit any changes to this file 
-[client]
-database = vms
-host = localhost
-user = root
-password = dbuserdbuser
-default-character-set = utf8
