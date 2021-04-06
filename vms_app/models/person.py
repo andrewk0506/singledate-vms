@@ -1,11 +1,28 @@
 from django.db import models
 
-class Site(models.Model):
-	
+class Person(models.Model):
+
 	class Meta:
 		app_label = "vms_app"
 
-    STATES = [('AL', 'Alabama'), ('AK', 'Alaska'), ('AS', 'American Samoa'), ('AZ', 'Arizona'),
+	GENDERS = [('M', 'Male'),
+			   ('F', 'Female'),
+			   ('X', 'Non-Binary'),
+			   ('O', 'Other/Prefer not to specify')]
+
+	RACES = [('A', 'American Indian/Alaskan Native'),
+			('S', 'Asian'),
+			('B', 'Black/African American'),
+			('P', 'Native Hawaiian/Other Pacific Islander'),
+			('W', 'White'),
+			('O', 'Other'),
+			('X', 'Prefer not to specify')]
+
+	ETHNICITIES = [('H', 'Hispanic'),
+				   ('N', 'Not Hispanic'),
+				   ('X', 'Prefer not to specify')]
+
+	STATES = [('AL', 'Alabama'), ('AK', 'Alaska'), ('AS', 'American Samoa'), ('AZ', 'Arizona'),
               ('AR', 'Arkansas'), ('CA', 'California'), ('CO', 'Colorado'), ('CT', 'Connecticut'),
               ('DE', 'Delaware'), ('DC', 'District of Columbia'), ('FL', 'Florida'),
               ('GA', 'Georgia'), ('GU', 'Guam'), ('HI', 'Hawaii'), ('ID', 'Idaho'),
@@ -21,8 +38,32 @@ class Site(models.Model):
               ('TN', 'Tennessee'), ('TX', 'Texas'), ('UT', 'Utah'), ('VT', 'Vermont'),
               ('VI', 'Virgin Islands'), ('VA', 'Virginia'), ('WA', 'Washington'),
               ('WV', 'West Virginia'), ('WI', 'Wisconsin'), ('WY', 'Wyoming')]
-    
-    
+
+    ADDRESS_TYPES = [('H', 'Home'),
+    				 ('B', 'Billing'),
+    				 ('S', 'Business'),
+    				 ('C', 'Contact')]
+
+	surName = models.charField(max_length=100)
+	givenName = models.charField(max_length=100)
+	dateOfBirth = models.DateTimeField()
+	gender = models.charField(
+        max_length=1,
+        choices = GENDERS,
+        default = "O"
+    )
+    race = models.charField(
+    	max_length=1,
+        choices = RACES,
+        default = "X"
+    )
+    ethnicity = models.charField(
+    	max_length=1,
+        choices = ETHNICITIES,
+        default = "X"
+    )
+    phoneNumber = models.charField(max_length=10)
+    emailAddress = models.charField(max_length=100)
     street = models.charField(max_length=100)
     city = models.charField(max_length=100)
     zipCode = models.charField(max_length=5)
@@ -31,4 +72,8 @@ class Site(models.Model):
         choices = STATES,
         default = "NJ",
     )
-    comments = models.textField()
+    addressType = models.charField(
+    	max_length=1,
+        choices = ADDRESS_TYPES,
+        default = "H"
+    )
