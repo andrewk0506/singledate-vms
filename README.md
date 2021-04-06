@@ -22,6 +22,7 @@ You can also run `docker-compose down -v` to delete the volumes, which contain t
 
 ## Workflow
 
+0. Run `pre-commit install` - you'll only need to do this once and your code will be automatically tidied after you attempt to `git commit`.
 1. Choose or get assigned a ticket
 2. Create a new branch off your team’s branch . For simplicity name your branch: `team#-issue#-brief description`.
    e.g: `git checkout -b 3-1-test team-3-vaccination`
