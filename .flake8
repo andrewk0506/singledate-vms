@@ -2,3 +2,4 @@
 per-file-ignores =
     # line too long
     vms/settings.py: E501,
+    vms_app/models/role.py: E501,
