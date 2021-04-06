@@ -1,1 +1,10 @@
-
+from django.db import models
+from .role import Role
+from .staff import Staff
+from .person import Person
+from .vaccine_type import VaccineType
+from .site import Site
+from .station import Station
+from .vaccine_batch import VaccineBatch
+from .slot import Slot
+from .dose import Dose
