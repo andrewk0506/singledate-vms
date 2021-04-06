@@ -10,7 +10,27 @@ class Gender(ChoiceEnum):
     M = 'Male'
     X = 'Non binary'
 
-class States(Enum):
+class Race(ChoiceEnum):
+    A = 'American Indian/Alaskan Native'
+    S = 'Asian'
+    B = 'Black/African American'
+    P = 'Native Hawaiian/Other Pacific Islander'
+    W = 'White'
+    O = 'Other Race'
+    X = 'Prefer not to specify'
+
+class Ethnicity(ChoiceEnum):
+    H = 'Hispanic'
+    N = 'Non-hispanic'
+    X = 'Prefer not to specify'
+
+class AddressType(ChoiceEnum):
+    H = 'Home'
+    C = 'Current/Temporary'
+    P = 'Permanet'
+    M = 'Mailing'
+
+class States(ChoiceEnum):
     AL = 'Alabama'
     AK = 'Alaska'
     AS = 'American Samoa'
