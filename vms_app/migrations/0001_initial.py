@@ -499,7 +499,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.SET_NULL,
-                        to="vms_app.person",
+                        to="vms_app.patient",
                     ),
                 ),
                 (

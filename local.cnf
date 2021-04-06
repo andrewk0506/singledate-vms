@@ -2,6 +2,6 @@
 [client]
 database = dev
 host = localhost
-user = root
-password = dbuserdbuser
+user = 
+password = 
 default-character-set = utf8

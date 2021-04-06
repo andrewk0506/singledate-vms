@@ -42,9 +42,6 @@ class Migration(migrations.Migration):
             name="Dose",
         ),
         migrations.DeleteModel(
-            name="Person",
-        ),
-        migrations.DeleteModel(
             name="Role",
         ),
         migrations.DeleteModel(
