@@ -190,6 +190,11 @@ html, body {
         width: 0px !important;
         display: none !important;
     }
+
+    .termlabel { 
+         max-width: 450px;
+         line-height: 22.5px;
+    }
 }
 
 
@@ -308,4 +313,6 @@ html, body {
 
 .termlabel {
     font-family: sans-serif; color: rgba(0,0,0,0.6);
+    margin-left: 32.5px;
+
 }
