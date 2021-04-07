@@ -1,4 +1,5 @@
 """vms URL Configuration
+
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
 Examples:
@@ -14,12 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
-from django.conf import settings
-from django.conf.urls.static import static
+from . import views
 
 urlpatterns = [
-    # path('', include('portal.urls')),
-    path('vms/', include('vms_app.urls')),
-    path('admin/', admin.site.urls),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('', views.index),
+    path('preregister/', views.preregister),
+    path('preregister/check', views.check),
+    path('preregister/signup', views.signup),
+    path('preregister/verify', views.verify),
+]

@@ -131,3 +131,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# mysql configuration file
+local.cnf
+
+.DS_Store
