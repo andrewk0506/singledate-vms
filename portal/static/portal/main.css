@@ -192,8 +192,10 @@ html, body {
     }
 
     .termlabel { 
-         max-width: 450px;
-         line-height: 22.5px;
+         width: 80%;
+         line-height: 25px;
+        margin-bottom: -7.5px;
+
     }
 }
 
@@ -313,6 +315,12 @@ html, body {
 
 .termlabel {
     font-family: sans-serif; color: rgba(0,0,0,0.6);
-    margin-left: 32.5px;
+    margin-top: 64.5px;
+    margin-left: -20px;
+}
+
+.termbox {
+    display: flex;   
+    align-items: center;
 
 }
