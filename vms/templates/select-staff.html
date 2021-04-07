@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
+		integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+	<link rel="stylesheet" href="/vms/static/css/main.css">
+
+	<title>Staff Selection</title>
+
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+</head>
+
+<body>
+
+	<div class="container" id="page-form-container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<div id="page-form-header">
+					Select Station Information
+				</div>
+			</div>
+		</div>
+
+		<div class="row text-center">
+			<div class="col-4">
+				<div class="description bold">Station Number</div>
+				<form id="page-form">
+					<!--Administration method-->
+					<div class="row m-3">
+						<div class="col-md-12">
+							<!--Source: https://www.cdc.gov/vaccines/hcp/admin/administer-vaccines.html-->
+							<select id="stationNumber" class="form-select">
+								<option selected>1A</option>
+								<option>2A</option>
+								<option>3A</option>
+								<option>1B</option>
+								<option>2B</option>
+							</select>
+						</div>
+					</div>
+					<br />
+					<br />
+				</form>
+			</div>
+			<div class="col-4">
+				<div class="description bold">Vaccinator</div>
+				<form id="page-form">
+					<!--Administration method-->
+					<div class="row m-3">
+						<div class="col-md-12">
+							<!--Source: https://www.cdc.gov/vaccines/hcp/admin/administer-vaccines.html-->
+							<select id="vaccinator-select" class="form-select">
+								<option selected>William Flanders</option>
+								<option>Charlie Boggart</option>
+								<option>Sydney O'Donnel</option>
+								<option>Caroline Murphy</option>
+								<option>Theresa Williams</option>
+							</select>
+						</div>
+					</div>
+					<br />
+					<br />
+				</form>
+			</div>
+			<div class="col-4">
+				<div class="description bold">Support Staff</div>
+				<form id="page-form">
+					<!--Administration method-->
+					<div class="row m-3">
+						<div class="col-md-12">
+							<!--Source: https://www.cdc.gov/vaccines/hcp/admin/administer-vaccines.html-->
+							<select id="staff-select" class="form-select">
+								<option selected>Rosaline Thompson</option>
+								<option>Gertrude Connors</option>
+								<option>Anisha Huddle</option>
+								<option>Thomas Yeomans</option>
+								<option>Michael Stopka</option>
+							</select>
+						</div>
+					</div>
+					<br />
+					<br />
+				</form>
+			</div>
+		</div>
+		<div class = "row" id = "continue-main">
+			<div class="col-12 text-center">
+				<div class="row justify-content-center">
+					<div class="col-md-6 align-self-center">
+						<button type="button" id="continue-button" class="button-decoration btn mb-3 form-button"
+							onclick="setUpLoaderUntilSuccess()">Continue</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>
