@@ -3,7 +3,7 @@
 import django.core.validators
 from django.db import migrations, models
 import django.db.models.deletion
-import phone_field.models
+# import phone_field.models
 import vms_app.models.user
 import vms_app.models.utils
 
@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                 ('gender', models.CharField(choices=[('M', 'Male'), ('F', 'Female'), ('X', 'Non-binary'), ('N', 'null')], max_length=1)),
                 ('race', models.CharField(choices=[('A', 'American Indian/Alaskan Native'), ('S', 'Asian'), ('B', 'Black/African American'), ('P', 'Native Hawaiian/Other Pacific Islander'), ('W', 'White'), ('O', 'Other Race'), ('X', 'Prefer not to specify')], max_length=1)),
                 ('ethnicity', models.CharField(choices=[('H', 'Hispanic'), ('N', 'Non-hispanic'), ('X', 'Prefer not to specify')], max_length=1)),
-                ('phone', phone_field.models.PhoneField(blank=True, max_length=31)),
+                # ('phone', phone_field.models.PhoneField(blank=True, max_length=31)),
                 ('email', models.EmailField(max_length=254, validators=[django.core.validators.EmailValidator()])),
                 ('street', vms_app.models.user.NoCommaField(max_length=100)),
                 ('city', models.CharField(max_length=100)),

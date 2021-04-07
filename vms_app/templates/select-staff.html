@@ -1,10 +1,11 @@
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
 		integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
-	<link rel="stylesheet" href="/vms/static/css/main.css">
+		<link rel="stylesheet" href="{% static 'css/main.css' %}">
 
 	<title>Staff Selection</title>
 
@@ -15,6 +16,7 @@
 </head>
 
 <body>
+
 
 	<div class="container" id="page-form-container">
 		<div class="row">
@@ -91,8 +93,8 @@
 			<div class="col-12 text-center">
 				<div class="row justify-content-center">
 					<div class="col-md-6 align-self-center">
-						<button type="button" id="continue-button" class="button-decoration btn mb-3 form-button"
-							onclick="setUpLoaderUntilSuccess()">Continue</button>
+						<a href = "/vms/stations/appointments" type="button" id="continue-button" class="button-decoration btn mb-3 form-button"
+							onclick="setUpLoaderUntilSuccess()">Continue</a>
 					</div>
 				</div>
 			</div>
