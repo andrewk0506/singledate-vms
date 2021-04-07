@@ -26,8 +26,9 @@ SECRET_KEY = 'dev'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
+STATIC_URL = '/static/'
 
 # Application definition
 
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'portal',
 ]
 
 MIDDLEWARE = [
@@ -73,20 +75,29 @@ WSGI_APPLICATION = 'vms.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+#
+# with open('config.json') as f:
+#     db = json.load(f)
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': db['NAME'],
+#         'USER': db['USER'],
+#         'PASSWORD': db['PASSWORD'],
+#         'HOST': db['HOST'],
+#         'PORT': db['PORT'],
+#     }
+# }
 
-with open('config.json') as f:
-    db = json.load(f)
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': db['NAME'],
-        'USER': db['USER'],
-        'PASSWORD': db['PASSWORD'],
-        'HOST': db['HOST'],
-        'PORT': db['PORT'],
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation

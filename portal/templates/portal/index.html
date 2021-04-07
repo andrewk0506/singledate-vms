@@ -2,215 +2,132 @@
     <head>
         <title>Appointment Signup Page</title>
         <link rel="preconnect" href="https://fonts.gstatic.com">
+        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;500;600;900&display=swap" rel="stylesheet">    
-        <style>
-            .textInput {
-                /* Override defaults */
-                height: 45px;
-                outline: none;
-                border: none;
-
-                /* Form styling */
-                background-color: rgba(0,0,0,0.04);
-                font-size: 20px;
-                color: rgba(0,0,0,0.8);
-                font-weight: 100;
-                font-family: sans-serif;
-                border-radius: 5px;
-                text-indent: 10px;
-
-                /* Spacing */
-                margin-right: 50px;
-            }
-
-            .textInput::placeholder {
-                opacity: 0.5;
-            }
-
-            .formRow {
-                display: flex;
-                flex-direction: row;
-                margin-top: 20px;
-            }
-
-            #pageForm {
-                width: 100%;
-                margin-left: 70px;
-                margin-top: 50px;
-            }
-
-            .formSection {
-              display: flex;
-              flex-direction: column;
-            }
-
-            .sectionName {
-                font-family: sans-serif; 
-                font-weight: 400;
-                color: rgba(0,0,0,0.5);
-            }
-
-            .nameRow {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-            }
-
-            .dividerLeft {
-                width: 85px;
-                height: 2.5px;
-                background-color: rgba(0,0,0,0.4);
-                margin-right: 25px;
-            }
-
-            .dividerRight {
-                flex: 0.8;
-                height: 2.5px;
-                background-color: rgba(0,0,0,0.4);
-                margin-left: 25px;
-            }
-
-            .mt {
-                margin-top: 30px;
-            }
-
-            .sectionDescription {
-                font-family: sans-serif;
-                font-weight: 300;
-                color: rgba(0,0,0,0.2);
-                font-size: 15px;
-            }  
-            
-            .genderSelection {
-                margin-right: 30px;
-                background-color: rgba(0,0,0,0.04);
-                padding-left: 10px;
-                padding-right: 10px;
-                border-radius: 5px;
-                opacity: 0.4;
-
-            }
-
-            .chosen {
-                opacity: 1;
-            }
-
-            .genderSelectionText {
-                font-weight: 200;
-                font-family: sans-serif;
-                color: rgba(0,0,0,0.5);
-                font-size: 19px;
-            }
-
-            html, body {
-                margin: 0;
-                padding: 0;
-            }
-
-            #pageContainer {
-                display: flex;
-                flex-direction: row;
-                height: 100%;
-            }
-
-            #leftContent {
-                flex: 0.3;
-                background-color: rgb(45, 122, 247);
-                height: 100%;
-                display: flex;
-                flex-direction: column; 
-                align-items: center;
-            }
-
-            #rightContent {
-                flex: 0.7;
-            }
-
-            #almostThere {
-                color: white;
-                font-weight: 600;
-                font-family: 'Nunito', sans-serif;
-                margin-top: 40px;
-            }
-
-            #panelImg {
-                width: 250px;
-                height: 250px;
-                border-radius: 20px; 
-            }
-            
-            #continue {
-                background-color: rgba(45, 122, 247, 0.85);
-                color: white;
-                font-weight: 400;
-                font-family: 'Nunito', sans-serif;
-                border: none;
-                outline: none;
-                padding: 15px;
-                padding-left: 25px;
-                padding-right: 25px;
-                font-size: 20px;
-                margin-top: 40px;
-                display: none;
-
-            }
-
-        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.js" integrity="sha512-GkPcugMfi6qlxrYTRUH4EwK4aFTB35tnKLhUXGLBc3x4jcch2bcS7NHb9IxyM0HYykF6rJpGaIJh8yifTe1Ctw==" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.css" integrity="sha512-uHuCigcmv3ByTqBQQEwngXWk7E/NaPYP+CFglpkXPnRQbSubJmEENgh+itRDYbWV0fUZmUz7fD/+JDdeQFD5+A==" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css"/>
+        
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'portal/main.css' %}" />
+    
     </head>
 
     <body>
-        
-        <div id="pageContainer">
-            <div id="leftContent">
-                <h1 id="almostThere">Register Now!</h1>
-                <!-- <img id="panelImg" src="https://i.imgur.com/6IyKYac.png"/> -->
-            </div>
-            <div id="rightContent">
+            <!-- Top Loading Bars -->
+            <div id="defaultprog"></div>
+            <div id="progress"></div>
+
+            <!-- Main Form -->
+            <div id="pageBox">
                 <form id="pageForm" action="/register">
                     <div class="formSection"> 
-                        <div class="nameRow">
-                        <div class="dividerLeft"></div>
-                        <h1 class="sectionName">Personal Information</h1>
-                        <div class="dividerRight"></div>
-                        </div>
-                        <h1 class="sectionDescription">Full legal name:</h1>
+                      
+                        <h1 class="prompt">Please enter your full legal name: </h1>
                         <div class="formRow">
-                            <input placeholder="First Name" class="textInput" type="text" id="firstname" name="first_name"/>
-                            <input placeholder="Last Name" class="textInput" type="text" id="lastname" name="last_name"/>
+                            <input class="textInput" type="text" id="firstname" name="first_name"/>
                         </div>
+
+                        
+                        <h1 class="prompt pl">Select an age range: </h1>
+                        <div class="formRow">
+                            <select class="selectInput">
+                                <option data-display="Select">16-25</option>
+                                <option value="1">26-40</option>
+                                <option value="2">40-64</option>
+                                <option value="3">65+</option>
+                              </select>
+                        </div>
+
+
+                        
+                        <h1 class="prompt pl">Select your gender: </h1>
+                        
+                        <div class="slitem">
+                        <div class="sltem pretty p-default p-pulse p-round">
+                        <input type="checkbox" id="huey" name="drone" value="huey">
+                        <div class="state p-primary"> 
+                            <label class="lbf" for="huey">Male</label>
+                        </div>
+                          </div>
+                        </div>
+
+                        <div class="sltem pretty p-default p-pulse p-round">
+                        <input type="checkbox" id="huey" name="drone" value="huey">
+                        <div class="state p-primary"> 
+                            <label class="lbf" for="huey">Female</label>
+                        </div>
+                            </div>
+                        
+                            
+                        <div class="sltem pretty p-default p-pulse p-round">
+                        <input type="checkbox" id="huey" name="drone" value="huey">
+                        <div class="state p-primary"> 
+                            <label class="lbf" for="huey">Other</label>
+                        </div>
+                            </div>
+                    
+                            
+                        <div class="sltem pretty p-default p-pulse p-round">
+                        <input type="checkbox" id="huey" name="drone" value="huey">
+                        <div class="state p-primary"> 
+                            <label class="lbf" for="huey">Prefer not To Say</label>
+                        </div>
+                            </div>
+
+                        
+
+                        <div style="background-color: rgba(45, 122, 247, 0.3); margin-top: 50px; margin-bottom: -10px; width: 85%; height: 2px;"></div>
+                          
+                        <div class="pl pretty p-svg p-curve">
+                            <input type="checkbox" />
+                            <div class="state p-success">
+                                <svg class="svg svg-icon" viewBox="0 0 20 20">
+                                    <path d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z" style="stroke: white;fill:white;"></path>
+                                </svg>
+                                <label class="termlabel">By checking this box I certify that I have read and agree to the Terms.</label>
+                            </div>
+                        </div>
+
+                     
+                          
+
                     </div>
         
-                    <div class="formSection mt"> 
-                        <div class="nameRow">
-                        <div class="dividerLeft"></div>
-                        <h1 class="sectionName">Identity</h1>
-                        <div class="dividerRight"></div>
-                        </div>
-                        <h1 class="sectionDescription">Please select your gender:</h1>
-                        <div class="formRow">
-                            <div class="genderSelection chosen" id="m"><h1 class="genderSelectionText" id="mtxt">Male</h1></div>
-                            <div class="genderSelection" id="f"><h1 class="genderSelectionText" id="ftxt">Female</h1></div>
-                            <div class="genderSelection" id="o"><h1 class="genderSelectionText" id="otxt">Other</h1></div>
-                        </div>
-                        <h1 style="margin-top: 20px;" class="sectionDescription">Provide your race/ethnicity below:</h1>
-                        <div class="formRow">
-                            <div class="genderSelection" id="m"><h1 class="genderSelectionText" id="mtxt">American Indian</h1></div>
-                            <div class="genderSelection" id="f"><h1 class="genderSelectionText" id="ftxt">Asian</h1></div>
-                            <div class="genderSelection chosen" id="o"><h1 class="genderSelectionText" id="otxt">Pacific Islander</h1></div>
-                            <div class="genderSelection" id="m"><h1 class="genderSelectionText" id="mtxt">African American</h1></div>
-                            <div class="genderSelection" id="f"><h1 class="genderSelectionText" id="ftxt">White</h1></div>
-                            <div class="genderSelection" id="o"><h1 class="genderSelectionText" id="otxt">Other</h1></div>
-                        </div>
-                    </div>
-                    <button id="continue">
-                        Continue
-                    </button>
+                 
                  </form>
            
             </div>
-        </div>
-        
-       
+
+              
+            <div id="navigation">
+                <button class="navBtn navLeft">
+                Back
+                </button>
+                <button id="cont" class="navBtn navRight">
+                Next »
+                </button>
+            </div>
+
     </body>
+
+    <script>
+        
+        var page = 0;
+        function pageRender(){
+            
+        }
+
+        /* Selection styling */
+        $(document).ready(function() {
+            $('select').niceSelect();
+        });
+
+        /* Multi page system */
+        $('#cont').click( () => {
+            page++;
+            pageRender();
+        })
+    </script>
 
 </html>
