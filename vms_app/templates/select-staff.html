@@ -27,6 +27,7 @@
 			</div>
 		</div>
 
+
 		<div class="row text-center">
 			<div class="col-4">
 				<div class="description bold">Station Number</div>
@@ -35,6 +36,7 @@
 					<div class="row m-3">
 						<div class="col-md-12">
 							<!--Source: https://www.cdc.gov/vaccines/hcp/admin/administer-vaccines.html-->
+							<!-- todo: link tables in from backend -->
 							<select id="stationNumber" class="form-select">
 								<option selected>1A</option>
 								<option>2A</option>
@@ -56,11 +58,11 @@
 						<div class="col-md-12">
 							<!--Source: https://www.cdc.gov/vaccines/hcp/admin/administer-vaccines.html-->
 							<select id="vaccinator-select" class="form-select">
-								<option selected>William Flanders</option>
-								<option>Charlie Boggart</option>
-								<option>Sydney O'Donnel</option>
-								<option>Caroline Murphy</option>
-								<option>Theresa Williams</option>
+								{% for person in staff %}
+								{% if person.role == "vaccinator" %}
+								<option>{{person.first_name}} {{person.last_name}}</option>
+								{% endif %}
+								{% endfor %}
 							</select>
 						</div>
 					</div>
@@ -76,11 +78,11 @@
 						<div class="col-md-12">
 							<!--Source: https://www.cdc.gov/vaccines/hcp/admin/administer-vaccines.html-->
 							<select id="staff-select" class="form-select">
-								<option selected>Rosaline Thompson</option>
-								<option>Gertrude Connors</option>
-								<option>Anisha Huddle</option>
-								<option>Thomas Yeomans</option>
-								<option>Michael Stopka</option>
+								{% for person in staff %}
+								{% if person.role == "support" %}
+								<option>{{person.first_name}} {{person.last_name}}</option>
+								{% endif %}
+								{% endfor %}
 							</select>
 						</div>
 					</div>

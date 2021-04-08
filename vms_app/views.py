@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from vms_app.models import Staff
 
 def index(request):
 	return render(request, "index.html", {})
@@ -23,7 +24,10 @@ def role_select(request):
 	return render(request, "role-selection.html")
 
 def staff_select(request):
-	return render(request, "select-staff.html")
+	context = {
+		'staff': Staff.objects.all()
+	}
+	return render(request, "select-staff.html", context)
 
 def appointments(request):
 	return render(request, "todays-appts.html")
