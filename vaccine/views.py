@@ -102,7 +102,7 @@ def daterange(request):
         datetime.datetime.strptime(request.POST['datepicker'], '%m/%d/%Y')
     except:
         return render(request, 'vaccine/dashboard2.html', {
-            'error_message': "You didn't select a date.",
+            # 'error_message': "Select date",
         })
     try:
         print(request.POST['datepicker'])
@@ -154,11 +154,12 @@ def daterange(request):
     vaccinated_people = filterDate(one)
     ## ADD TABLE QUERIES AND MAKE CSV
     print(vaccinated_people)
-    context = {'vaccinated_people': vaccinated_people}
+    # error_message = " "
+    # context = {'error_message': error_message}
     with open('vaccinated_data.csv', 'wb') as csv_file:
         write_csv(vaccinated_people, csv_file)
     return render_to_csv_response(vaccinated_people)
-    # return render(request, 'vaccine/dateRange.html', context)
+    # return render(request, 'vaccine/dateRange.html')
 
 def dashboard(request):
     # print(request.POST['datepicker'])
@@ -168,15 +169,50 @@ def dashboard(request):
     return render(request, 'vaccine/dashboard.html', context)
 
 def dashboard2(request):
-    # activateDates = []
-    # for i in Personmini.objects.all():
-    #     activateDates.append(i.datevaccinatednumone)
-    # print(activateDates)
-    activateDates = Personmini.objects.all()
+    latest_question_list = Question.objects.order_by('-pub_date')[:3]
+    def makeDateCal(datetimeobj):
+        x = ""
+        if (len(str(datetimeobj.day)) == 1):
+            x = "0" + str(datetimeobj.day) + "/"
+        else:
+            x = x + str(datetimeobj.day) + "/"
+        if (len(str(datetimeobj.month)) == 1):
+            x = x + "0" + str(datetimeobj.month) + "/"
+        else:
+            x = x + str(datetimeobj.month) + "/"
+        x = x + str(datetimeobj.year)
+        return x
+    def makeDefaultDate(datetimeobj):
+        x = ""
+        if (len(str(datetimeobj.month)) == 1):
+            x = x + "0" + str(datetimeobj.month) + "/"
+        else:
+            x = x + str(datetimeobj.month) + "/"
+        if (len(str(datetimeobj.day)) == 1):
+            x = "0" + str(datetimeobj.day) + "/"
+        else:
+            x = x + str(datetimeobj.day) + "/"
+        x = x + str(datetimeobj.year)
+        return x
 
-    context = {'activateDates':activateDates}
     # try:
-    print(request.POST['datepicker'])
+    # print(request.POST['datepicker'])
+    will_be_unique = Personmini.objects.all()
+    canuarray = [4,5,6]
 
-    return render(request, 'vaccine/dashboard2.html')
+    activateDates = []
+    for i in will_be_unique:
+        print(i.datevaccinatednumone)
+        #convert to day/month/year
+        print(i.datevaccinatednumone.day)
+        activateDates.append(makeDateCal(i.datevaccinatednumone))
+    print(activateDates)
+    defaultDate = makeDefaultDate(i.datevaccinatednumone)
 
+
+
+    context = {'latest_question_list': latest_question_list,
+               'canuarray': canuarray,
+               'activateDates':activateDates,
+               'defaultDate':defaultDate}
+    return render(request, 'vaccine/dashboard2.html',context)

@@ -13,24 +13,31 @@
 <!-- calendar select option -->
   <script>
 
-<!--  $( function() {-->
-<!--    $( ".datepicker" ).datepicker({-->
-<!--        defaultDate: "03/20/2021",-->
-<!--        minDate: "02/20/2021"-->
+   var dates = '{{activateDates|escapejs}}';
+   dates = dates.replace(/'/g, '"');
+<!--   Make the Json string into an array-->
+   dates = JSON.parse(dates)
+   console.log(dates);
+   console.log(dates.length)
 
-<!--    });-->
-<!--  });-->
-var dates = ["28/03/2021", "31/03/2021", "29/03/2021", "23/01/2021"];
+   var defaultDate = '{{defaultDate|escapejs}}';
+   defaultDate = defaultDate.replace(/'/g, '"');
+
+<!--   var defaultDate = dates.pop()-->
+   console.log("Default Date")
+   console.log(defaultDate)
+
+<!--var dates = ["28/03/2021", "31/03/2021", "29/03/2021", "23/01/2021"];-->
 
 function DisableDates(date) {
     var string = jQuery.datepicker.formatDate('dd/mm/yy', date);
     return [dates.indexOf(string) != -1];
 }
-
+<!--"03/23/2021"-->
 $(function() {
      $(".datepicker").datepicker({
          beforeShowDay: DisableDates,
-          defaultDate : "03/23/2021",
+          defaultDate : defaultDate,
           changeMonth : true,
           changeYear :true
      });
@@ -227,7 +234,7 @@ btn:hover{
             <div class = "col header">
 <!--                <h1>Download Vaccine Data as a CSV</h1>-->
                     <h1>Download Vaccination Data</h1>
-                <h3> {{activateDates}}</h3>
+<!--                <h3> {{activateDates}}</h3>-->
             </div>
         </div>
         <div class="row">
@@ -250,6 +257,8 @@ btn:hover{
                             <use xlink:href="#icon-calendar"></use>
                         </svg>
                 </label>
+                {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
 
             </div>
 
@@ -259,7 +268,7 @@ btn:hover{
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-2">
-                <button type="submit" class="btn ">
+                <button type="submit" class="btn btn-primary">
                   Download CSV
                 </button>
             </div>
