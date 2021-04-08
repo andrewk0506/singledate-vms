@@ -57,11 +57,8 @@
                             <div class="col-md-6">
                                 <!--Source: https://www.cdc.gov/vaccines/hcp/admin/administer-vaccines.html-->
                                 <select id="administrationMethod" class="form-select">
-                                    <option selected>Oral</option>
-                                    <option>Intramuscular</option>
-                                    <option>Subcutaneous</option>
-                                    <option>Intradermal</option>
-                                    <option>Intranasal</option>
+                                    <option selected>Injection</option>
+                                    <option disabled>Oral</option>
                                 </select>
                             </div>
                         </div>
@@ -73,14 +70,9 @@
                             </div>
                             <div class="col-md-6">
                                 <select id="administrationArea" class="form-select">
-                                    <option selected>Mouth</option>
-                                    <option>Left Arm</option>
-                                    <option>Right Arm</option>
-                                    <option>Left Thigh</option>
-                                    <option>Right Thigh</option>
-                                    <option>Left Back</option>
-                                    <option>Right Back</option>
-                                    <option></option>
+                                    {% for location in locations %}
+                                        <option {% if forloop.first %} selected {% endif %} value="{{ location.0 }}">{{ location.1 }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
