@@ -101,9 +101,7 @@ def daterange(request):
         one = request.POST['datepicker']
         # print(request.POST['datepicker2'])
         #two = request.POST['datepicker2']
-        # print(one)
         one = datetime.datetime.strptime(one, '%m/%d/%Y')
-        print(one)
         # two = datetime.datetime.strptime(two,'%m/%d/%Y')
     except (KeyError):
     # # Redisplay the question voting form.
@@ -145,6 +143,7 @@ def daterange(request):
     # vaccinated_people = filterData(one, two)
     # print(makeDate(one))
     vaccinated_people = filterDate(one)
+    ## ADD TABLE QUERIES AND MAKE CSV
     print(vaccinated_people)
     context = {'vaccinated_people': vaccinated_people}
     with open('vaccinated_date_range.csv', 'wb') as csv_file:
@@ -155,7 +154,7 @@ def daterange(request):
 def dashboard(request):
     # print(request.POST['datepicker'])
     # print(request.POST['datepicker2'])
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    latest_question_list = Question.objects.order_by('-pub_date')[:3]
     context = {'latest_question_list': latest_question_list}
     return render(request, 'vaccine/dashboard.html', context)
 

@@ -162,7 +162,39 @@ color: #000000;
     top: 461px;
 
 }
+label {
+  position: relative;
+}
 
+label > .icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: silver;
+}
+
+label > input {
+  padding-left: calc(1em + 10px + 8px); /* icon width + icon padding-left + desired separation*/
+  height: 2em;
+}
+
+/*
+  SVG SpriteSheet
+*/
+
+.spritesheet {
+  display: none;
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
 </style>
 </head>
 
@@ -200,8 +232,15 @@ color: #000000;
 <!--      Start Date:-->
 <!--<label class="control-label" for="date"></label>-->
 <!--        <input class="form-control" id="datestart" name="datestart" placeholder="MM/DD/YYYY" type="text"/>-->
-                <p>Start Date: <input type="text" placeholder="MM/DD/YYYY" name="datepicker" class="datepicker"></p>
+                <label class="name-label">
+                    <input type="text" placeholder="Select a Date" name="datepicker" class="datepicker btn-default">
+                        <svg class="icon icon-calendar">
+                            <use xlink:href="#icon-calendar"></use>
+                        </svg>
+                </label>
+
             </div>
+
             <div class="col-md-7"></div>
         </div>
   <!-- Submit Button -->
@@ -218,3 +257,13 @@ color: #000000;
     </form>
 
 </div>
+
+<svg class="spritesheet">
+    <symbol id="icon-calendar" viewBox="0 0 20 20">
+    <title>calendar</title>
+    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"></path>
+  </symbol>
+</svg>
+<!--<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">-->
+<!--  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>-->
+<!--</svg>-->
