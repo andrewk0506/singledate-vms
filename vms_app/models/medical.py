@@ -21,7 +21,7 @@ class MedicalEligibilityAnswer(models.Model):
     """
         Medical Eligibility Answer
     """
-    person = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    # person = models.ForeignKey(Patient, on_delete=models.CASCADE)
     question = models.ForeignKey(MedicalEligibilityQuestion, on_delete=models.CASCADE)
     answered = models.DateTimeField()
     answer_bool = models.BooleanField(default=True)

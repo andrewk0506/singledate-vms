@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Rosario&display=swap" rel="stylesheet" />
+        <style>
+					body {
+  font-size: 14px;
+}
+
+div.scrollmenu {
+  background-color: rgba(122,216,107,1);
+  overflow: auto;
+  white-space: nowrap;
+}
+
+div.scrollmenu a {
+  display: inline-block;
+  color: black;
+  text-align: center;
+  font-family: Roboto;
+  font-weight: Regular;
+  font-size: 30px;
+  padding: 25px;
+  text-decoration: none;
+}
+
+div.scrollmenu a:hover, div.scrollmenu:focus  {
+    background:  #47c333;
+}
+
+div.scrollmenu a:active, div.scrollmenu.active div.scrollmenu.active, .open > .dropdown-toggle.div.scrollmenu{
+    background: #b0e8a8;
+    box-shadow: #000000;
+}
+
+.mainback {
+  width: 100%;
+  height: 900px;
+  background: rgba(255,255,255,1);
+  opacity: 1;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  overflow: hidden;
+}
+.nav {
+  width: 100%;
+  height: 116px;
+  background: rgba(20,33,61,1);
+  opacity: 1;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  overflow: hidden;
+}
+.red{
+	color: red;
+}
+.titleback {
+  width: 85%;
+  height: 117px;
+  background: rgba(20,33,61,1);
+  opacity: 1;
+  position: absolute;
+  top: 240px;
+  left: 114px;
+  border: 1px solid rgba(20,33,61,1);
+  overflow: hidden;
+}
+.name {
+  color: #fff;
+}
+.back {
+  width: 452px;
+  color: rgba(255,255,255,1);
+  position: absolute;
+  top: 39px;
+  left: 42px;
+  font-family: Roboto;
+  font-weight: Regular;
+  font-size: 35px;
+  opacity: 1;
+  text-align: center;
+}
+.row1back {
+  width: 85%;
+  height: 128px;
+  background: rgba(229,229,229,1);
+  opacity: 1;
+  position: absolute;
+  top: 727px;
+  left: 114px;
+  border: 1px solid rgba(0,0,0,1);
+  overflow: hidden;
+}
+.row2back {
+  width: 85%;
+  height: 126px;
+  background: rgba(229,229,229,1);
+  opacity: 1;
+  position: absolute;
+  top: 478px;
+  left: 114px;
+  border: 1px solid rgba(0,0,0,1);
+  overflow: hidden;
+}
+.titletime {
+  width: 137px;
+  color: rgba(255,255,255,1);
+  position: absolute;
+  top: 277px;
+  left: 789px;
+  font-family: Roboto;
+  font-weight: Regular;
+  font-size: 35px;
+  opacity: 1;
+  text-align: left;
+}
+.row3back {
+  width: 85%;
+  height: 125px;
+  background: rgba(255,255,255,1);
+  opacity: 1;
+  position: absolute;
+  top: 603px;
+  left: 114px;
+  border: 1px solid rgba(0,0,0,1);
+  overflow: hidden;
+}
+.row4back {
+  width: 85%;
+  height: 124px;
+  background: rgba(255,255,255,1);
+  opacity: 1;
+  position: absolute;
+  top: 355px;
+  left: 114px;
+  border: 1px solid rgba(0,0,0,1);
+  overflow: hidden;
+}
+.titledate {
+  width: 112px;
+  color: rgba(255,255,255,1);
+  position: absolute;
+  top: 277px;
+  left: 226px;
+  font-family: Roboto;
+  font-weight: Regular;
+  font-size: 35px;
+  opacity: 1;
+  text-align: left;
+}
+.person {
+  width: 601px;
+  color: rgba(0,0,0,1);
+  position: absolute;
+  top: 168px;
+  left: 402px;
+  font-family: Roboto;
+  font-weight: Bold;
+  font-size: 35px;
+  opacity: 1;
+  text-align: center;
+}
+.date1 {
+  width: 341px;
+  color: rgba(0,0,0,1);
+  position: absolute;
+  top: 401px;
+  left: 207px;
+  font-family: Roboto;
+  font-weight: Bold;
+  font-size: 30px;
+  opacity: 1;
+  text-align: left;
+}
+.date2 {
+  width: 342px;
+  color: rgba(0,0,0,1);
+  position: absolute;
+  top: 525px;
+  left: 203px;
+  font-family: Roboto;
+  font-weight: Bold;
+  font-size: 30px;
+  opacity: 1;
+  text-align: left;
+}
+.date3 {
+  width: 341px;
+  color: rgba(0,0,0,1);
+  position: absolute;
+  top: 641px;
+  left: 207px;
+  font-family: Roboto;
+  font-weight: Bold;
+  font-size: 30px;
+  opacity: 1;
+  text-align: left;
+}
+.date4 {
+  width: 341px;
+  color: rgba(0,0,0,1);
+  position: absolute;
+  top: 772px;
+  left: 207px;
+  font-family: Roboto;
+  font-weight: Bold;
+  font-size: 30px;
+  opacity: 1;
+  text-align: left;
+}
+.row1 {
+  width: 55%;
+  height: 92px;
+  background: rgba(110,63,63,0);
+  opacity: 1;
+  position: absolute;
+  top: 370px;
+  left: 460px;
+  border: 1px solid rgba(0,0,0,1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  overflow: hidden;
+}
+
+.massive{
+	font-size: 70px;
+}
+
+.row2 {
+  width: 55%;
+  height: 92px;
+  background: rgba(110,63,63,0);
+  opacity: 1;
+  position: absolute;
+  top: 622px;
+  left: 460px;
+  border: 1px solid rgba(0,0,0,1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  overflow: hidden;
+}
+
+.row3 {
+  width: 55%;
+  height: 92px;
+  background: rgba(110,63,63,0);
+  opacity: 1;
+  position: absolute;
+  top: 747px;
+  left: 462px;
+  border: 1px solid rgba(0,0,0,1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  overflow: hidden;
+}
+
+.row4 {
+  width: 55%;
+  height: 92px;
+  background: rgba(110,63,63,0);
+  opacity: 1;
+  position: absolute;
+  top: 498px;
+  left: 460px;
+  border: 1px solid rgba(0,0,0,1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  overflow: hidden;
+}
+				</style>
+				<title>Next Appointment</title>
+
+  </head>
+  <body>
+
+		
+    <div class="container">
+        <div class = "red massive">TEMP PAGE, UNDER RECONSTRUCTION</div>
+        <div class="titleback"></div>
+        <div class="name"></div>
+        <div class="row1back"></div>
+        <div class="row2back"></div>
+        <div class="row3back"></div>
+        <div class="row4back"></div>
+				<form action = "vaccine_info">
+				<button>CLICK HERE TO CONTINUE WITH USER JOURNEY/CONFIRM VACCINATION</button>
+			</form>
+        <span class="titledate">Date</span>
+        <span class="person">Scheduling for: Jen Person</span>
+        <span class="date1">03/29/21</span>
+        <span class="date2">03/30/21</span>
+        <span class="date3">03/31/21</span>
+        <span class="date4">04/01/21</span>
+        <div class="row1">
+            <div class="scrollmenu">
+                <a href="#10:00am">10:00 am</a>
+                <a href="#10:30am">10:30 am</a>
+                <a href="#11:00am">11:00 am</a>
+                <a href="#11:30am">11:30 am</a>
+                <a href="#12:00pm">12:00 pm</a>
+                <a href="#12:30pm">12:30 pm</a>
+                <a href="#1:00pm">1:00 pm</a>
+                <a href="#1:30pm">1:30 pm</a>
+            </div>
+        </div>
+        <div class="row2">
+            <div class="scrollmenu">
+                <a href="#10:00am">10:00 am</a>
+                <a href="#10:30am">10:30 am</a>
+                <a href="#11:00am">11:00 am</a>
+                <a href="#11:30am">11:30 am</a>
+                <a href="#12:00pm">12:00 pm</a>
+                <a href="#12:30pm">12:30 pm</a>
+                <a href="#1:00pm">1:00 pm</a>
+                <a href="#1:30pm">1:30 pm</a>
+            </div>
+        </div>
+        <div class="row3">
+            <div class="scrollmenu">
+                <a href="#10:00am">10:00 am</a>
+                <a href="#10:30am">10:30 am</a>
+                <a href="#11:00am">11:00 am</a>
+                <a href="#11:30am">11:30 am</a>
+                <a href="#12:00pm">12:00 pm</a>
+                <a href="#12:30pm">12:30 pm</a>
+                <a href="#1:00pm">1:00 pm</a>
+                <a href="#1:30pm">1:30 pm</a>
+            </div>
+        </div>
+        <div class="row4">
+            <div class="scrollmenu">
+                <a href="#10:00am">10:00 am</a>
+                <a href="#10:30am">10:30 am</a>
+                <a href="#11:00am">11:00 am</a>
+                <a href="#11:30am">11:30 am</a>
+                <a href="#12:00pm">12:00 pm</a>
+                <a href="#12:30pm">12:30 pm</a>
+                <a href="#1:00pm">1:00 pm</a>
+                <a href="#1:30pm">1:30 pm</a>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>

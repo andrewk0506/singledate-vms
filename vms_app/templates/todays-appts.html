@@ -1,0 +1,109 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
+		integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+		<link rel="stylesheet" href="{% static 'css/main.css' %}">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+
+	<title>Today's Appointments</title>
+
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="row" id="page-header">
+				<div class="col-md-10 align-self-center">
+						<a href = "/vms/stations/staff_select" class="btn page-header-button" type="button">
+								<i class="bi bi-caret-left-fill" style="font-size:1em"></i> 
+								Back to Staff Selection
+						</a>
+				</div>
+				<div class="col-md-2 align-self-center">
+						<a href = "/vms/stations/staff_select" class="btn page-header-button" type="button">Home</a>
+				</div>
+		</div>
+</div>
+	<div class="container" id="page-form-container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<div id="page-form-header">
+					Today's Appointments
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-5">
+				<form>
+					<div class="form-group email-group">
+						<label for="input-name" class="description pad-bottom">Name</label>
+						<input type="email" class="form-control input-form" id="input-email" aria-describedby="emailHelp"
+							placeholder="Enter name">
+					</div>
+				</form>
+			</div>
+
+			<div class="col-3">
+				<form>
+					<div class="form-group pad-bottom">
+						<label for="input-password" class="description pad-bottom">Time</label>
+						<input type="password" class="form-control input-form" id="input-form" placeholder="Enter time">
+					</div>
+				</form>
+			</div>
+			<div class="col-4">
+				<label for="input-password" class="description pad-bottom">&nbsp;</label> <br>
+				<i class="bi-search" style="font-size: 2rem; color: cornflowerblue;"></i>
+
+			</div>
+		</div>
+
+		<div class = "row text-center">
+			<div class = "col-12 description">
+				<table class="table blue">
+					<!-- need to change accent so it's navy here, also need to add some more padding / not quite done yet -->
+					<thead class="table-blue">
+						<tr class = "table-title">
+							<th scope="col">Person</th>
+							<th scope="col">Time</th>
+							<th scope="col">Dose</th>
+							<th scope="col">Completed</th>
+						</tr>
+					</thead>
+					<tbody>
+							<tr onclick="window.location='/vms/stations/patient_info';" class = "green-background appt-row">
+							<td class = "info-row">One, Person</td>
+							<td class = "info-row">10:00am</td>
+							<td class = "info-row">First</td>
+							<td class = "info-row">Y</td>
+						</tr>
+					
+						<tr onclick="window.location='/vms/stations/patient_info';" class = "red-background">
+							<td class = "info-row">Two, Person</td>
+							<td class = "info-row">11:00am</td>
+							<td class = "info-row">First</td>
+							<td class = "info-row">N</td>
+						</tr>
+						<tr onclick="window.location='/vms/stations/patient_info';" class = "red-background">
+							<td class = "info-row">Three, Person</td>
+							<td class = "info-row">1:00pm</td>
+							<td class = "info-row">First</td>
+							<td class = "info-row">N</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+
+	</div>
+
+</body>
+
+</html>
