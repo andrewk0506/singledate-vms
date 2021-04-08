@@ -5,7 +5,6 @@
     border: none;
 
     /* Form styling */
-    /* background-color: rgba(0,0,0,0.04); */
     border: 1px solid rgba(0,0,0,0.35);
     font-size: 16px;
     color: rgba(0,0,0,0.8);
@@ -180,48 +179,6 @@ html, body {
     }
 }
 
-@media only screen and (max-width: 600px) {
-
-    .navRight {
-        width: 100% !important;
-    }
-
-    .navLeft { 
-        width: 0px !important;
-        display: none !important;
-    }
-
-    .termlabel { 
-         width: 80%;
-         line-height: 25px;
-        margin-bottom: -7.5px;
-
-    }
-}
-
-
-@media (pointer:none), (pointer:coarse) {
-    .navRight {
-        width: 100% !important;
-        font-size: 27.5px !important;
-    }
-
-    .navLeft { 
-        width: 0px !important;
-        display: none !important;
-    }
-
-    .prompt {
-        font-size: 30px !important;
-        margin-top: 100px !important;
-    }
-
-    .lbf {
-        font-size: 20px !important;
-    }
-
-}
-
 .pl {
     margin-top: 50px;
 }
@@ -322,5 +279,47 @@ html, body {
 .termbox {
     display: flex;   
     align-items: center;
+
+}
+
+@media only screen and (max-width: 600px) {
+
+    .navRight {
+        width: 100%;
+    }
+
+    .navLeft { 
+        width: 0px;
+        display: none;
+    }
+
+    .termlabel { 
+         width: 80%;
+         line-height: 25px;
+        margin-bottom: -7.5px;
+
+    }
+}
+
+
+@media (pointer:none), (pointer:coarse) {
+    .navRight {
+        width: 100%;
+        font-size: 27.5px;
+    }
+
+    .navLeft { 
+        width: 0px;
+        display: none;
+    }
+
+    .prompt {
+        font-size: 30px;
+        margin-top: 100px;
+    }
+
+    .lbf {
+        font-size: 20px;
+    }
 
 }
