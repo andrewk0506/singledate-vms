@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>search form</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-4.0.0.css" rel="stylesheet">
+
+    <style>
+        span {
+            color: red;
+        }
+
+        span.winp {
+            color: #000;
+        }
+
+        .demo p {
+            padding: 5px 0;
+            color: red;
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body style="padding-top:200px;">
+    <div class="container">
+        <h2>Search by Email or Phone</h2>
+
+        <form class="demo">
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="first">First Name<span>*</span></label>
+                        <input type="text" class="form-control" id="first" value="">
+                        <p class="first">Not Valid</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="sel">Search By</label>
+                        <select class="form-control" id="sel">
+                            <option value="Phone">Phone</option>
+                            <option value="Email">Email</option>
+                        </select>
+                        <p>Not Valid</p>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="last">Last Name<span>*</span></label>
+                        <input type="text" class="form-control" id="last">
+                        <p class="last">Not Valid</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="win"><span class="winp">Phone</span><span>*</span></label>
+                        <input type="text" class="form-control" id="win">
+                        <p class="win">Not Valid</p>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <label for="code">Reference Code:</label>
+        <input type="text" class="form-control" id="code" value="">
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Check the List</button>
+        </div>
+    </div>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap-4.0.0.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script>
+        $(function () {
+
+            $('#first').blur(function () {
+                var first = $('#first').val();
+                if (first == "") {
+                    $('.first').css('opacity', "1");
+                    $('#first').css('borderColor', 'red');
+                } else {
+                    $('.first').css('opacity', "0");
+                    $('#first').css('borderColor', '#BDBDBD');
+                }
+            });
+
+            $('#last').blur(function () {
+                var last = $('#last').val();
+                if (last == "") {
+                    $('.last').css('opacity', "1");
+                    $('#last').css('borderColor', 'red');
+                } else {
+                    $('.last').css('opacity', "0");
+                    $('#last').css('borderColor', '#BDBDBD');
+                }
+            });
+
+
+            $('#win').blur(function () {
+                var last = $('#win').val();
+                if (last == "") {
+                    $('.win').css('opacity', "1");
+                    $('#win').css('borderColor', 'red');
+                } else {
+                    $('.win').css('opacity', "0");
+                    $('#win').css('borderColor', '#BDBDBD');
+                }
+            });
+
+            $('#sel').change(function () {
+                var checkVal = $("#sel").val();
+                $('.winp').html(checkVal);
+            });
+        });
+    </script>
+
+
+
+</body>
+
+</html>

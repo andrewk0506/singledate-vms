@@ -8,7 +8,7 @@ def preregister(request):
 	return render(request, "preregister.html", {})
 
 def check(request):
-	return render(request, "check.html", {})
+	return render(request, "search.html", {})
 
 def signup(request):
 	return render(request, "signup.html", {})

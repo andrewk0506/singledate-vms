@@ -1,5 +1,6 @@
 from django.db import models
 from .user import Patient
+from .site import Site
 from .utils import Gender
 
 
@@ -23,7 +24,8 @@ class MedicalEligibilityAnswer(models.Model):
     person = models.ForeignKey(Patient, on_delete=models.CASCADE)
     question = models.ForeignKey(MedicalEligibilityQuestion, on_delete=models.CASCADE)
     answered = models.DateTimeField()
-    answer = "mediumtext or bool"
+    answer_bool = models.BooleanField(default=True)
+    answer_text = models.TextField()
 
 
 class MedicalEligibility(models.Model):
@@ -32,7 +34,7 @@ class MedicalEligibility(models.Model):
     """
     QUESTION_TYPE = [('S', 'Screening'), ('E', 'Eligibility')]
     
-    # site = models.ForeignKey(Site)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
     question = models.ForeignKey(MedicalEligibilityQuestion, on_delete=models.CASCADE)
     type = models.CharField(max_length=1, choices=QUESTION_TYPE)
     start_date = models.DateField()
