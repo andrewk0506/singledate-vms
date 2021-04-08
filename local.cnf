@@ -1,8 +1,7 @@
-
 # Do not commit any changes to this file 
 [client]
 database = dev
-host = dev.c4l0m6tsvizp.us-east-1.rds.amazonaws.com
-user = admin
-password = VS5e25OeBMGrdECS2VfM
+host = localhost
+user = 
+password =
 default-character-set = utf8
