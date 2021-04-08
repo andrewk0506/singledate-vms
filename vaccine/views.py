@@ -14,6 +14,7 @@ from djqscsv import write_csv
 from djqscsv import render_to_csv_response
 
 
+
 import pandas as pd
 
 # def index(request):
@@ -97,6 +98,13 @@ def results(request, question_id):
 
 def daterange(request):
     try:
+        print("TRYIG")
+        datetime.datetime.strptime(request.POST['datepicker'], '%m/%d/%Y')
+    except:
+        return render(request, 'vaccine/dashboard2.html', {
+            'error_message': "You didn't select a date.",
+        })
+    try:
         print(request.POST['datepicker'])
         one = request.POST['datepicker']
         # print(request.POST['datepicker2'])
@@ -116,6 +124,18 @@ def daterange(request):
         )
         return filteredOnRange
 
+    def makeDate(datetimeobj):
+        x = str(datetimeobj.year) + '-'
+        if (len(str(datetimeobj.month)) == 1):
+            x = x + '0' + str(datetimeobj.month) + '-'
+        else:
+            x = x + str(datetimeobj.month) + '-'
+        if (len(str(datetimeobj.day)) == 1):
+            x = x + '0' + str(datetimeobj.day)
+        else:
+            x = x + str(datetimeobj.day)
+        return x
+
     def filterDate(date):
         # print(type(date))
         print("filter Date")
@@ -128,17 +148,6 @@ def daterange(request):
         filteredDate = Personmini.objects.filter(datevaccinatednumone__startswith=x)
         return filteredDate
 
-    def makeDate(datetimeobj):
-        x = str(datetimeobj.year) + '-'
-        if(len(str(datetimeobj.month))==1):
-            x = x + '0' + str(datetimeobj.month) + '-'
-        else:
-            x = x + str(datetimeobj.month) + '-'
-        if(len(str(datetimeobj.day))==1):
-            x = x + '0' + str(datetimeobj.day)
-        else:
-            x = x + str(datetimeobj.day)
-        return x
 
     # vaccinated_people = filterData(one, two)
     # print(makeDate(one))
@@ -146,7 +155,7 @@ def daterange(request):
     ## ADD TABLE QUERIES AND MAKE CSV
     print(vaccinated_people)
     context = {'vaccinated_people': vaccinated_people}
-    with open('vaccinated_date_range.csv', 'wb') as csv_file:
+    with open('vaccinated_data.csv', 'wb') as csv_file:
         write_csv(vaccinated_people, csv_file)
     return render_to_csv_response(vaccinated_people)
     # return render(request, 'vaccine/dateRange.html', context)
@@ -164,15 +173,10 @@ def dashboard2(request):
     #     activateDates.append(i.datevaccinatednumone)
     # print(activateDates)
     activateDates = Personmini.objects.all()
+
     context = {'activateDates':activateDates}
-    try:
-        print(request.POST['datepicker'])
-        # print(request.POST['datepicker2'])
-    except (KeyError):
-    # # Redisplay the question voting form.
-    #     return render(request, 'vaccine/detail.html', {
-    #         'question': question,
-    #         'error_message': "You didn't select a choice.",
-    #     })
-        print("no selection yet")
+    # try:
+    print(request.POST['datepicker'])
+
     return render(request, 'vaccine/dashboard2.html')
+
