@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from vms_app.models import Staff
 
 from .models import Dose
 
@@ -32,7 +33,8 @@ def role_select(request):
 
 
 def staff_select(request):
-    return render(request, "select-staff.html")
+    context = {"staff": Staff.objects.all()}
+    return render(request, "select-staff.html", context)
 
 
 def appointments(request):
