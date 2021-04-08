@@ -13,6 +13,7 @@
 <!-- calendar select option -->
   <script>
 
+// Get Activate Calendar Dates
    var dates = '{{activateDates|escapejs}}';
    dates = dates.replace(/'/g, '"');
 <!--   Make the Json string into an array-->
@@ -20,20 +21,26 @@
    console.log(dates);
    console.log(dates.length)
 
+// Get Default Date
    var defaultDate = '{{defaultDate|escapejs}}';
    defaultDate = defaultDate.replace(/'/g, '"');
 
+//practice
 <!--   var defaultDate = dates.pop()-->
+<!--var dates = ["28/03/2021", "31/03/2021", "29/03/2021", "23/01/2021"];-->//active dates format
+<!--"03/23/2021"-->//default date format
+
+//for testing
    console.log("Default Date")
    console.log(defaultDate)
 
-<!--var dates = ["28/03/2021", "31/03/2021", "29/03/2021", "23/01/2021"];-->
-
+//if not, not in array of active dates, enable
 function DisableDates(date) {
     var string = jQuery.datepicker.formatDate('dd/mm/yy', date);
     return [dates.indexOf(string) != -1];
 }
-<!--"03/23/2021"-->
+
+//calendar: JQuery Datepicker
 $(function() {
      $(".datepicker").datepicker({
          beforeShowDay: DisableDates,
@@ -44,11 +51,11 @@ $(function() {
 
 });
 
+//button activation styling
 $(function() {
   $('.back').hover(function() {
     $('.back').css('color', 'grey');
   }, function() {
-    // on mouseout, reset the background colour
     $('.back').css('color', '#FFFFF;');
   });
 });
@@ -152,26 +159,26 @@ h1   {
     color: #FFFFFF;
     position: absolute;
 }
-h2{
-  position: absolute;
+h2 {
+    position: absolute;
 
-height: 42px;
-left: 145px;
-top: 364px;
+    height: 42px;
+    left: 145px;
+    top: 364px;
 
-font-family: Roboto, sans-serif;
-font-style: normal;
-font-weight: normal;
-font-size: 36px;
-line-height: 42px;
-text-align: center;
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 36px;
+    line-height: 42px;
+    text-align: center;
 
-color: #000000;
+    color: #000000;
 
 }
 
-.dateselect{
-  position: absolute;
+.dateselect {
+    position: absolute;
     width: 715px;
     height: 99px;
     left: 15px;
