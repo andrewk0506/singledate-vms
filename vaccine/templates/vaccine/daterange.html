@@ -1,0 +1,9 @@
+{% if vaccinated_people %}
+    <ul>
+    {% for person in vaccinated_people %}
+        <li>{{person.givenname}} ; {{person.datevaccinatednumone}}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No data is available.</p>
+{% endif %}
