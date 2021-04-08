@@ -38,3 +38,4 @@ class Dose(models.Model):
     timeVax = models.DateTimeField()
     slot = models.ForeignKey(Slot, on_delete=models.CASCADE)
     secondDose = models.BooleanField()
+    notes = models.TextField()
