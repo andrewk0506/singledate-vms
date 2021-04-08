@@ -29,7 +29,6 @@ class Dose(models.Model):
         Patient, on_delete=models.SET_NULL, null=True
     )  # should become foreign key
     vaccine = models.ForeignKey(VaccineBatch, on_delete=models.SET_NULL, null=True)
-    amount = models.FloatField(null=True)
     administered = models.CharField(max_length=2, null=True)
     location = models.CharField(max_length=3, choices=LOCATIONS, null=True)
     vaccinator = models.ForeignKey(Staff, on_delete=models.SET_NULL, null=True)
