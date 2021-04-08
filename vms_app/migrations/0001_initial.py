@@ -1,7 +1,8 @@
 import django.core.validators
 from django.db import migrations, models
 import django.db.models.deletion
-import phone_field.models
+
+# import phone_field.models
 import vms_app.models.user
 import vms_app.models.utils
 
@@ -79,7 +80,8 @@ class Migration(migrations.Migration):
                         max_length=1,
                     ),
                 ),
-                ("phone", phone_field.models.PhoneField(blank=True, max_length=31)),
+                #commented out since throwing error -- ask auth team about this
+                #("phone", phone_field.models.PhoneField(blank=True, max_length=31)),
                 (
                     "email",
                     models.EmailField(
