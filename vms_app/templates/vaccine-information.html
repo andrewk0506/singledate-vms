@@ -49,6 +49,9 @@
                 <div class="col-md-10 offset-md-1">
                     <!--form-->
                     <form id="page-form">
+
+                        {% csrf_token %}
+
                         <!--Administration method-->
                         <div class="row m-3 p-3">
                             <div class="col-md-6">
@@ -56,7 +59,7 @@
                             </div>
                             <div class="col-md-6">
                                 <!--Source: https://www.cdc.gov/vaccines/hcp/admin/administer-vaccines.html-->
-                                <select id="administrationMethod" class="form-select">
+                                <select id="administrationMethod" class="form-select" name="page-form-administration-method">
                                     <option selected>Injection</option>
                                     <option disabled>Oral</option>
                                 </select>
@@ -69,7 +72,7 @@
                                 <label for="administrationArea" class="form-label">Administration Area</label>
                             </div>
                             <div class="col-md-6">
-                                <select id="administrationArea" class="form-select">
+                                <select id="administrationArea" class="form-select" name="page-form-administration-area">
                                     {% for location in locations %}
                                         <option {% if forloop.first %} selected {% endif %} value="{{ location.0 }}">{{ location.1 }}</option>
                                     {% endfor %}
@@ -86,7 +89,7 @@
                                 <label for="notes" class="form-label">Notes</label>
                             </div>
                             <div class="col-md-12">
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Add any additional notes here..."></textarea>
+                                <textarea class="form-control" id="notes" rows="3" placeholder="Add any additional notes here..." name="page-form-notes"></textarea>
                             </div>
                         </div>
                     </form>
@@ -114,6 +117,13 @@
                             <button class="btn btn-success" type="button">Successfully submitted!</button>
                         </div>
                     </div>
+
+                    <!--Submitted (display is toggled after failure submit)-->
+                    <div class="row justify-content-center m-3 p-3" id="failedSubmittedButtonRow" style="display: none;">
+                        <div class="col-md-2 align-self-center">
+                            <button class="btn btn-success" type="button">Submission Failed. Try again.</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -125,20 +135,51 @@
         <!--Some custom JS-->
         <script>
             function setUpLoaderUntilSuccess() {
+                // prevent
+                event.preventDefault();
+
                 const submitButtonRow = document.getElementById("submitButtonRow");
                 const loaderButtonRow = document.getElementById("loaderButtonRow");
                 const successButtonRow = document.getElementById("successfullySubmittedButtonRow");
+                const failedButtonRow = document.getElementById("failedSubmittedButtonRow");
 
+                // make the spinning appear now
                 submitButtonRow.style.display = "none";
                 loaderButtonRow.style.display = "flex";
+
+                // being prep for sending the POST request
+                const form = document.getElementById("page-form");
+                const XHR = new XMLHttpRequest();
+                const formData = new FormData(form);
+
+                // verify visually if form has everything
+                // for(const pair of formData.entries()) {
+                //     console.log(pair[0], pair[1]);
+                // }
+
+                // define on success
+                XHR.addEventListener( "load", function(event) {
+                    loaderButtonRow.style.display = "none";
+                    successButtonRow.style.display = "flex";
+                });
+
+                // define on error
+                XHR.addEventListener( "error", function(event) {
+                    loaderButtonRow.style.display = "none";
+                    failedButtonRow.style.display = "flex";
+                });
+
+                // sent the post request
+                XHR.open("POST", "/vms/stations/vaccine_info_submit");
+                XHR.send(formData);
                 
                 setTimeout(() => {
                     loaderButtonRow.style.display = "none";
                     successButtonRow.style.display = "flex";
                 }, 2000);
 
-                // alert("ok");
-                return false;
+                // document.getElementById("page-form").submit();
+                return true;
             }
         </script>
     </body>
