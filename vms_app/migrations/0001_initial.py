@@ -80,7 +80,8 @@ class Migration(migrations.Migration):
                         max_length=1,
                     ),
                 ),
-                ("phone", phone_field.models.PhoneField(blank=True, max_length=31)),
+                #commented out since throwing error -- ask auth team about this
+                #("phone", phone_field.models.PhoneField(blank=True, max_length=31)),
                 (
                     "email",
                     models.EmailField(
