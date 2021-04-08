@@ -9,11 +9,9 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 
-from .models import Choice, Question, Personmini
+from .models import Choice, Question, Personmini, Site, VaccineType, VaccineBatch, Slot, Person, Dose
 from djqscsv import write_csv
 from djqscsv import render_to_csv_response
-
-
 
 import pandas as pd
 
@@ -216,3 +214,45 @@ def dashboard2(request):
                'activateDates':activateDates,
                'defaultDate':defaultDate}
     return render(request, 'vaccine/dashboard2.html',context)
+
+
+""" @Andrew you had this function with download imported from .models but I'm not sure what download is
+def index(request):
+    download_link = download.objects.get(pk=1)
+    template = loader.get_template('polls/index.html')
+    context = {'download_link':download_link}
+    return HttpResponse(template.render(context))"""
+
+def detail(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="csvfile.csv"'
+
+    date_range = [datetime.date(2021, 5, 2), datetime.date(2021, 5, 3)] #replace with input from forms
+
+    qsSlot = Slot.objects.filter(startTime__range = date_range).values("id", "site", "startTime", "duration", 'capacity', "vaccineType")
+    for dicto  in qsSlot:
+        dicto['endTime'] = dicto['startTime'] + datetime.timedelta(minutes=+int(dicto['duration']))
+    dfSlot = pd.DataFrame(list(qsSlot), columns=["id", "site", "startTime", "endTime", "capacity", "vaccineType"])
+
+    qsDose = Dose.objects.filter(slot__in=list(dfSlot["id"])).values("id", "patient", "vaccine", "amount", 'administered', "location", "timeVax", "slot")
+    dfDose = pd.DataFrame(list(qsDose), columns=["id", "patient", "vaccine", "amount_administered", "administered", "timeVax", "slot"])
+
+    df_Dose_Slot = pd.merge(dfSlot, dfDose, left_on="id", right_on="id", how="left")
+
+
+    qsPatient = Person.objects.filter(pk__in=list(df_Dose_Slot["patient"])).values("id",  "givenName", "surName","dateOfBirth", "gender", "race", "ethnicity", "phoneNumber", "emailAddress", "street", "city", "zipCode", "state", "addressType")
+    dfPatient = pd.DataFrame(list(qsPatient), columns=["id", "givenName", "surName", "dateOfBirth", "gender", "race", "ethnicity", "phoneNumber", "emailAddress", "street", "city", "zipCode", "state", "addressType"])
+
+
+    df_Dose_Slot_Patient = pd.merge(df_Dose_Slot, dfPatient, left_on="id", right_on="id", how="left")
+
+    qsVaccineBatch = VaccineBatch.objects.filter(id__in=list(df_Dose_Slot_Patient["vaccine"])).values("id", "batch", "site", "vaccineType")
+    dfVaccineBatch = pd.DataFrame(list(qsVaccineBatch), columns = ["id", "batch", "site", "vaccineType"])
+
+    df_Dose_Slot_Patient_VaccineBatch = pd.merge(df_Dose_Slot_Patient, dfVaccineBatch, left_on="id", right_on="id", how="left")
+
+
+    df_Dose_Slot_Patient_VaccineBatch.to_csv(response)
+
+    return response
+
