@@ -1,7 +1,7 @@
 # Do not commit any changes to this file 
 [client]
-database = vms
-host = 127.0.0.1
-user = tester
-password = pass
+database = dev
+host = localhost
+user = 
+password = 
 default-character-set = utf8
