@@ -3,5 +3,5 @@
 database = dev
 host = localhost
 user = 
-password =
+password = 
 default-character-set = utf8
