@@ -143,6 +143,7 @@ h1   {
 
 }
 
+
 .back {
     position: absolute;
     width: 571px;
@@ -215,8 +216,8 @@ label > input {
 
 .icon {
   display: inline-block;
-  width: 1em;
-  height: 1em;
+  width: 15em;
+  height: 2.5em;
   stroke-width: 0;
   stroke: currentColor;
   fill: currentColor;
@@ -225,7 +226,11 @@ label > input {
 btn:hover{
     color: lightgrey;
 }
-
+.cal{
+width: 300px;
+height: 50px;
+font-size: 25px;
+}
 
 </style>
 </head>
@@ -265,7 +270,7 @@ btn:hover{
 <!--<label class="control-label" for="date"></label>-->
 <!--        <input class="form-control" id="datestart" name="datestart" placeholder="MM/DD/YYYY" type="text"/>-->
                 <label class="name-label">
-                    <input type="text" placeholder="Select a Date" name="datepicker" class="datepicker btn-default" readonly>
+                    <input type="text" placeholder="Select a Date" name="datepicker" class="datepicker btn-default cal" readonly>
                         <svg class="icon icon-calendar">
                             <use xlink:href="#icon-calendar"></use>
                         </svg>
@@ -305,7 +310,7 @@ btn:hover{
 </div>
 
 <svg class="spritesheet">
-    <symbol id="icon-calendar" viewBox="0 0 18 18">
+    <symbol id="icon-calendar" viewBox="0 -2 20 20" >
     <title>calendar</title>
     <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"></path>
   </symbol>
