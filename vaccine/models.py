@@ -266,7 +266,7 @@ class MedicalEligibilityQuestion(models.Model):
     language = models.CharField(max_length=20)
     question = models.CharField(max_length=255)
     explanation = models.TextField()
-    gender = models.CharField(max_length=1, choices=Gender.choices(), default=Gender.F)
+    gender = models.CharField(max_length=50, choices=Gender.choices(), default=Gender.F)
     bool = models.BooleanField(default=True)
 
 
@@ -279,9 +279,9 @@ class Patient(models.Model):
     given_name = models.CharField(max_length=100)  # Not null by default.
     surname = models.CharField(max_length=100)  # Not null by default.
     dob = models.DateField()  # Not null by default.
-    gender = models.CharField(max_length=1, choices=Gender.choices(), default=Gender.F)
-    race = models.CharField(max_length=1, choices=Race.choices(), default=Race.X)
-    ethnicity = models.CharField(max_length=1, choices=Ethnicity.choices(), default=Ethnicity.X)
+    gender = models.CharField(max_length=50, choices=Gender.choices(), default=Gender.F)
+    race = models.CharField(max_length=50, choices=Race.choices(), default=Race.X)
+    ethnicity = models.CharField(max_length=50, choices=Ethnicity.choices(), default=Ethnicity.X)
 
     ### Contact Info
     phone = PhoneField(blank=True)
@@ -289,8 +289,8 @@ class Patient(models.Model):
     street = NoCommaField(max_length=100)  # Not null by default.
     city = models.CharField(max_length=100)  # Not null by default.
     zip_code = models.CharField(max_length=5)  # Not null by default.
-    state = models.CharField(max_length=2, choices=States.choices(), default=States.NJ)
-    address_type = models.CharField(max_length=1, choices=AddressType.choices(),
+    state = models.CharField(max_length=50, choices=States.choices(), default=States.NJ)
+    address_type = models.CharField(max_length=50, choices=AddressType.choices(),
                                     default=AddressType.H)
 
 
