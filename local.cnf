@@ -2,6 +2,6 @@
 [client]
 database = dev
 host = localhost
-user = 
+user = temp
 password =
 default-character-set = utf8

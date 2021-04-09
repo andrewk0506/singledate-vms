@@ -132,6 +132,6 @@ dmypy.json
 .pyre/
 
 # mysql configuration file
-local.cnf
+/local.cnf
 
 .DS_Store
