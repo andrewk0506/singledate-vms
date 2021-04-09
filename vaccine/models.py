@@ -250,7 +250,7 @@ class States(ChoiceEnum):
     WV = 'West Virginia'
     WI = 'Wisconsin'
     WY = 'Wyoming'
-
+    
 class MedicalEligibilityQuestion(models.Model):
     """
         Medical Eligibility Question schema
@@ -288,7 +288,6 @@ class Patient(models.Model):
     address_type = models.CharField(max_length=50, choices=AddressType.choices(),
                                     default=AddressType.H)
 
-
 class MedicalEligibilityAnswer(models.Model):
     """
         Medical Eligibility Answer
@@ -296,19 +295,20 @@ class MedicalEligibilityAnswer(models.Model):
     person = models.ForeignKey(Patient, on_delete=models.CASCADE)
     question = models.ForeignKey(MedicalEligibilityQuestion, on_delete=models.CASCADE)
     answered = models.DateTimeField()
-    answer = "mediumtext or bool"
+    answer_bool = models.BooleanField(default=True)
+    answer_text = models.TextField(default="")
 
 
-class MedicalEligibility(models.Model):
-    """
-    """
-    QUESTION_TYPE = [('S', 'Screening'), ('E', 'Eligibility')]
+# class MedicalEligibility(models.Model):
+#     """
+#     """
+#     QUESTION_TYPE = [('S', 'Screening'), ('E', 'Eligibility')]
 
-    # site = models.ForeignKey(Site)
-    question = models.ForeignKey(MedicalEligibilityQuestion, on_delete=models.CASCADE)
-    type = models.CharField(max_length=1, choices=QUESTION_TYPE)
-    start_date = models.DateField()
-    end_date = models.DateField()
+#     # site = models.ForeignKey(Site)
+#     question = models.ForeignKey(MedicalEligibilityQuestion, on_delete=models.CASCADE)
+#     type = models.CharField(max_length=1, choices=QUESTION_TYPE)
+#     start_date = models.DateField()
+#     end_date = models.DateField()
 
 
 class Role(models.Model):
