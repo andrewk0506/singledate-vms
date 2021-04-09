@@ -1,7 +1,0 @@
-# Do not commit any changes to this file 
-[client]
-database = dev
-host = localhost
-user = temp
-password =
-default-character-set = utf8
