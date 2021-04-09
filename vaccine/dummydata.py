@@ -1,4 +1,4 @@
-from .models import VaccineBatch, VaccineType, Site, Slot, Staff, Person, Station, Dose
+from .models import VaccineBatch, VaccineType, Site, Slot, Staff, Patient, Station, Dose
 import datetime
 
 
@@ -36,9 +36,9 @@ def create_dummydata():
 
         chosen_date = datetime.datetime(2021, 5, 2, 12, 30) + datetime.timedelta(hours=+i)
 
-        p = Person.objects.create(surName='testsur'+str(i), givenName='testname'+str(i),
-                                  dateOfBirth= datetime.date(1776, 12, 4), phoneNumber='12344567',
-                                  emailAddress= 'email@email.com', street='street', city='city', zipCode='zip')
+        p = Patient.objects.create(surname='testsur' + str(i), given_name='testname' + str(i),
+                                   dob=datetime.date(1776, 12, 4), phone='12344567',
+                                   email='email@email.com', street='street', city='city', zip_code='zip')
         p.save()
         sl = Slot.objects.create(site=sites[i % num_sites_types], startTime=chosen_date, duration=10, capacity=50,
                                  vaccineType=vaccine_types[i % num_sites_types])
