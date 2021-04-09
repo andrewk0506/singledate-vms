@@ -13,28 +13,51 @@
 <!-- calendar select option -->
   <script>
 
-<!--  $( function() {-->
-<!--    $( ".datepicker" ).datepicker({-->
-<!--        defaultDate: "03/20/2021",-->
-<!--        minDate: "02/20/2021"-->
+// Get Activate Calendar Dates
+   var dates = '{{activateDates|escapejs}}';
+   dates = dates.replace(/'/g, '"');
+<!--   Make the Json string into an array-->
+   dates = JSON.parse(dates)
+   console.log(dates);
+   console.log(dates.length)
 
-<!--    });-->
-<!--  });-->
-var dates = ["20/01/2021", "21/01/2021", "22/01/2021", "23/01/2021"];
+// Get Default Date
+   var defaultDate = '{{defaultDate|escapejs}}';
+   defaultDate = defaultDate.replace(/'/g, '"');
 
+//practice
+<!--   var defaultDate = dates.pop()-->
+<!--var dates = ["28/03/2021", "31/03/2021", "29/03/2021", "23/01/2021"];-->//active dates format
+<!--"03/23/2021"-->//default date format
+
+//for testing
+   console.log("Default Date")
+   console.log(defaultDate)
+
+//if not, not in array of active dates, enable
 function DisableDates(date) {
     var string = jQuery.datepicker.formatDate('dd/mm/yy', date);
     return [dates.indexOf(string) != -1];
 }
 
+//calendar: JQuery Datepicker
 $(function() {
      $(".datepicker").datepicker({
          beforeShowDay: DisableDates,
-          defaultDate : "01/23/2021",
+          defaultDate : defaultDate,
           changeMonth : true,
           changeYear :true
      });
 
+});
+
+//button activation styling
+$(function() {
+  $('.back').hover(function() {
+    $('.back').css('color', 'grey');
+  }, function() {
+    $('.back').css('color', '#FFFFF;');
+  });
 });
 
   </script>
@@ -111,7 +134,7 @@ h1   {
     width: 0;
 	height: 0;
 	border-top: 20px solid transparent;
-	border-right: 40px solid #FFFFFF;;
+	border-right: 40px solid #FFFFFF;
 	border-bottom: 20px solid transparent;
 	position: absolute;
     left: 38px;
@@ -136,45 +159,86 @@ h1   {
     color: #FFFFFF;
     position: absolute;
 }
-h2{
-  position: absolute;
+h2 {
+    position: absolute;
 
-height: 42px;
-left: 145px;
-top: 364px;
+    height: 42px;
+    left: 145px;
+    top: 364px;
 
-font-family: Roboto, sans-serif;
-font-style: normal;
-font-weight: normal;
-font-size: 36px;
-line-height: 42px;
-text-align: center;
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 36px;
+    line-height: 42px;
+    text-align: center;
 
-color: #000000;
+    color: #000000;
 
 }
+.dash{
+    background-color = lightgrey;
+}
 
-.dateselect{
-  position: absolute;
+.dateselect {
+    position: absolute;
     width: 715px;
     height: 99px;
     left: 15px;
     top: 461px;
 
 }
+label {
+  position: relative;
+}
+
+label > .icon {
+  position: absolute;
+  top: 50%;
+  left: 150px;
+  transform: translateY(-50%);
+  color: silver;
+}
+
+label > input {
+  padding-left: calc(1em + 10px + 8px); /* icon width + icon padding-left + desired separation*/
+  height: 2em;
+}
+
+/*
+  SVG SpriteSheet
+*/
+
+.spritesheet {
+  display: none;
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+btn:hover{
+    color: lightgrey;
+}
+
 
 </style>
 </head>
 
 <nav class="navbar navbar-expand-lg">
-
-    <span class="triangle-left"></span>
-    <span class="back">Back To Menu</span>
+        <span class="triangle-left"></span>
+        <!--    replace with homepage url extension-->
+        <span class="back" onclick="location.href='dashboard'">Back To Menu</span>
 
 </nav>
 
 <div class="container">
-    <form action="{% url 'vaccine:daterange' %}" method="post">
+    <form action="{% url 'vaccine:daterangereal' %}" method="post">
         {% csrf_token %}
 
 <!-- Row for title-->
@@ -183,39 +247,66 @@ color: #000000;
             <div class = "col header">
 <!--                <h1>Download Vaccine Data as a CSV</h1>-->
                     <h1>Download Vaccination Data</h1>
+<!--                <h3> {{activateDates}}</h3>-->
             </div>
         </div>
         <div class="row">
-            <div class = "col header2">
+            <div class = "col-md-8 header2">
 <!--                <h1>Download Vaccine Data as a CSV</h1>-->
-                    <h2>Please select the daterange for which you want to download vaccination data.</h2>
+                    <h2>Please select the date for which you want to download vaccination data.</h2>
             </div>
         </div>
 
     <!-- Row for Daterange Selection-->
         <div class="row dateselect">
-            <div class="col-sm"></div>
-            <div class="col-sm">
+            <div class="col-md-3"></div>
+            <div class="col-md-2">
 <!--      Start Date:-->
 <!--<label class="control-label" for="date"></label>-->
 <!--        <input class="form-control" id="datestart" name="datestart" placeholder="MM/DD/YYYY" type="text"/>-->
-                <p>Start Date: <input type="text" placeholder="MM/DD/YYYY" name="datepicker" class="datepicker"></p>
+                <label class="name-label">
+                    <input type="text" placeholder="Select a Date" name="datepicker" class="datepicker btn-default" readonly>
+                        <svg class="icon icon-calendar">
+                            <use xlink:href="#icon-calendar"></use>
+                        </svg>
+                </label>
+                {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+
             </div>
-            <div class="col-sm">
-<!--      End Date:-->
-<!--        <label class="control-label" for="date"></label>-->
-<!--        <input class="form-control" id="dateend" name="dateend" placeholder="MM/DD/YYYY" type="text"/>-->
-                <p>End Date: <input type="text" placeholder="MM/DD/YYYY" name="datepicker2" class="datepicker"></p>
-            </div>
-            <div class="col-sm"></div>
+
+            <div class="col-md-7"></div>
         </div>
   <!-- Submit Button -->
         <div class="row">
-            <button type="submit" class="btn ">
-              Download CSV
-            </button>
+            <div class="col-md-3"></div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">
+                  Download CSV
+                </button>
+            </div>
+            <div class="col-md-7"></div>
         </div>
 
     </form>
+    <div class="row dashboard-container">
+        Dashboard:
+        <div class = "row dash">
+            <div class="col-md-4">
+                Doses Given:
+                {{defaultDate}}
+            </div>
+            <div class="col-md-4">
+                {{defaultDate}}
+            </div>
+        </div>
+    </div>
 
 </div>
+
+<svg class="spritesheet">
+    <symbol id="icon-calendar" viewBox="0 0 18 18">
+    <title>calendar</title>
+    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"></path>
+  </symbol>
+</svg>

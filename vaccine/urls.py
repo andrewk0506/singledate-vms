@@ -23,6 +23,9 @@ urlpatterns = [
     path('<int:question_id>/vote/', views.vote, name='vote'),
     path('dateRange', views.daterange, name='daterange'),
     path('dashboard',views.dashboard, name='dashboard'),
-    path('dashboard2', views.dashboard2, name='dashboard2')
+    path('dashboard2', views.dashboard2, name='dashboard2'),
+    path('happy',views.happy,name='happy'),
+    path('daterangereal',views.daterangereal,name='daterangereal'),
+    path('dashboardreal', views.dashboardreal,name='dashboardreal')
 ]
 

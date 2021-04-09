@@ -19,131 +19,358 @@ class Personmini(models.Model):
         managed = False
         db_table = 'PersonMini'
 
-
-class AuthGroup(models.Model):
-    name = models.CharField(unique=True, max_length=150)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_group'
-
-
-class AuthGroupPermissions(models.Model):
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_group_permissions'
-        unique_together = (('group', 'permission'),)
-
-
-class AuthPermission(models.Model):
-    name = models.CharField(max_length=255)
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
-    codename = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_permission'
-        unique_together = (('content_type', 'codename'),)
-
-
-class AuthUser(models.Model):
-    password = models.CharField(max_length=128)
-    last_login = models.DateTimeField(blank=True, null=True)
-    is_superuser = models.IntegerField()
-    username = models.CharField(unique=True, max_length=150)
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
-    email = models.CharField(max_length=254)
-    is_staff = models.IntegerField()
-    is_active = models.IntegerField()
-    date_joined = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user'
-
-
-class AuthUserGroups(models.Model):
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
-
-
-class AuthUserUserPermissions(models.Model):
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_user_permissions'
-        unique_together = (('user', 'permission'),)
-
-
-class DjangoAdminLog(models.Model):
-    action_time = models.DateTimeField()
-    object_id = models.TextField(blank=True, null=True)
-    object_repr = models.CharField(max_length=200)
-    action_flag = models.PositiveSmallIntegerField()
-    change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'django_admin_log'
-
-
-class DjangoContentType(models.Model):
-    app_label = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'django_content_type'
-        unique_together = (('app_label', 'model'),)
-
-
-class DjangoMigrations(models.Model):
-    app = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
-    applied = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_migrations'
-
-
-class DjangoSession(models.Model):
-    session_key = models.CharField(primary_key=True, max_length=40)
-    session_data = models.TextField()
-    expire_date = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_session'
-
-
-class VaccineChoice(models.Model):
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField()
-    question = models.ForeignKey('VaccineQuestion', models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'vaccine_choice'
-
-
-class VaccineQuestion(models.Model):
+class Question(models.Model):
     question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField()
+    pub_date = models.DateTimeField('date published')
+    def __str__(self):
+        return self.question_text
+    def was_published_recently(self):
+        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
-    class Meta:
-        managed = False
-        db_table = 'vaccine_question'
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    votes = models.IntegerField(default=0)
+    def __str__(self):
+        return self.choice_text
+
+
+class Personmini(models.Model):
+    personid = models.AutoField(primary_key=True)
+    givenname = models.CharField(db_column='GivenName', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    surname = models.CharField(db_column='SurName', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    dateofbirth = models.DateField(db_column='DateOfBirth', blank=True, null=True)  # Field name made lowercase.
+    datevaccinatednumone = models.DateTimeField(db_column='DateVaccinatedNumOne', blank=True, null=True)  # Field name made lowercase.
+
+
+class Site(models.Model):
+    STATES = [('AL', 'Alabama'), ('AK', 'Alaska'), ('AS', 'American Samoa'), ('AZ', 'Arizona'),
+              ('AR', 'Arkansas'), ('CA', 'California'), ('CO', 'Colorado'), ('CT', 'Connecticut'),
+              ('DE', 'Delaware'), ('DC', 'District of Columbia'), ('FL', 'Florida'),
+              ('GA', 'Georgia'), ('GU', 'Guam'), ('HI', 'Hawaii'), ('ID', 'Idaho'),
+              ('IL', 'Illinois'), ('IN', 'Indiana'), ('IA', 'Iowa'), ('KS', 'Kansas'),
+              ('KY', 'Kentucky'), ('LA', 'Louisiana'), ('ME', 'Maine'), ('MD', 'Maryland'),
+              ('MA', 'Massachusetts'), ('MI', 'Michigan'), ('MN', 'Minnesota'),
+              ('MS', 'Mississippi'), ('MO', 'Missouri'), ('MT', 'Montana'), ('NE', 'Nebraska'),
+              ('NV', 'Nevada'), ('NH', 'New Hampshire'), ('NJ', 'New Jersey'),
+              ('NM', 'New Mexico'), ('NY', 'New York'), ('NC', 'North Carolina'),
+              ('ND', 'North Dakota'), ('MP', 'Northern Mariana Islands'), ('OH', 'Ohio'),
+              ('OK', 'Oklahoma'), ('OR', 'Oregon'), ('PA', 'Pennsylvania'), ('PR', 'Puerto Rico'),
+              ('RI', 'Rhode Island'), ('SC', 'South Carolina'), ('SD', 'South Dakota'),
+              ('TN', 'Tennessee'), ('TX', 'Texas'), ('UT', 'Utah'), ('VT', 'Vermont'),
+              ('VI', 'Virgin Islands'), ('VA', 'Virginia'), ('WA', 'Washington'),
+              ('WV', 'West Virginia'), ('WI', 'Wisconsin'), ('WY', 'Wyoming')]
+
+    street = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    zipCode = models.CharField(max_length=5)
+    state = models.CharField(
+        max_length=2,
+        choices=STATES,
+        default="NJ",
+    )
+    comments = models.TextField()
+
+
+class VaccineType(models.Model):
+    name = models.CharField(max_length=100)
+    daysUntilNext = models.IntegerField()
+
+
+class VaccineBatch(models.Model):
+    batch = models.IntegerField()
+    site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True)
+    vaccineType = models.ForeignKey(VaccineType, on_delete=models.SET_NULL, null=True)
+
+
+class Slot(models.Model):
+    site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True)
+    startTime = models.DateTimeField()
+    duration = models.SmallIntegerField(3)
+    capacity = models.IntegerField()
+    vaccineType = models.ForeignKey(VaccineType, on_delete=models.SET_NULL, null=True)
+
+
+class Station(models.Model):
+    site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True)
+    stationName = models.CharField(max_length=50)
+
+
+class NoCommaField(models.CharField):
+    """
+    Helper CharField but with commas replaced by spaces.
+    """
+
+    def __init__(self, *args, **kwargs):
+        self.max_length = kwargs['max_length']
+        super().__init__(*args, **kwargs)
+
+    def pre_save(self, model_instance, add):
+        att = getattr(model_instance, self.attname)
+        return att.replace(',', ' ')
+
+
+class Person(models.Model):
+    GENDERS = [('M', 'Male'),
+               ('F', 'Female'),
+               ('X', 'Non-Binary'),
+               ('O', 'Other/Prefer not to specify')]
+
+    RACES = [('A', 'American Indian/Alaskan Native'),
+             ('S', 'Asian'),
+             ('B', 'Black/African American'),
+             ('P', 'Native Hawaiian/Other Pacific Islander'),
+             ('W', 'White'), ('O', 'Other'),
+             ('X', 'Prefer not to specify')]
+
+    ETHNICITIES = [('H', 'Hispanic'),
+                   ('N', 'Not Hispanic'),
+                   ('X', 'Prefer not to specify')]
+
+    STATES = [('AL', 'Alabama'), ('AK', 'Alaska'), ('AS', 'American Samoa'),
+              ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'),
+              ('CO', 'Colorado'), ('CT', 'Connecticut'), ('DE', 'Delaware'),
+              ('DC', 'District of Columbia'), ('FL', 'Florida'), ('GA', 'Georgia'),
+              ('GU', 'Guam'), ('HI', 'Hawaii'), ('ID', 'Idaho'), ('IL', 'Illinois'),
+              ('IN', 'Indiana'), ('IA', 'Iowa'), ('KS', 'Kansas'), ('KY', 'Kentucky'),
+              ('LA', 'Louisiana'), ('ME', 'Maine'), ('MD', 'Maryland'),
+              ('MA', 'Massachusetts'), ('MI', 'Michigan'), ('MN', 'Minnesota'),
+              ('MS', 'Mississippi'), ('MO', 'Missouri'), ('MT', 'Montana'),
+              ('NE', 'Nebraska'), ('NV', 'Nevada'), ('NH', 'New Hampshire'),
+              ('NJ', 'New Jersey'), ('NM', 'New Mexico'), ('NY', 'New York'),
+              ('NC', 'North Carolina'), ('ND', 'North Dakota'),
+              ('MP', 'Northern Mariana Islands'), ('OH', 'Ohio'),
+              ('OK', 'Oklahoma'), ('OR', 'Oregon'), ('PA', 'Pennsylvania'),
+              ('PR', 'Puerto Rico'), ('RI', 'Rhode Island'),
+              ('SC', 'South Carolina'), ('SD', 'South Dakota'), ('TN', 'Tennessee'),
+              ('TX', 'Texas'), ('UT', 'Utah'), ('VT', 'Vermont'),
+              ('VI', 'Virgin Islands'), ('VA', 'Virginia'), ('WA', 'Washington'),
+              ('WV', 'West Virginia'), ('WI', 'Wisconsin'), ('WY', 'Wyoming')]
+
+    ADDRESS_TYPES = [('H', 'Home'),
+                     ('B', 'Billing'),
+                     ('S', 'Business'),
+                     ('C', 'Contact')]
+
+    surName = models.CharField(max_length=100)
+    givenName = models.CharField(max_length=100)
+    dateOfBirth = models.DateTimeField()
+    gender = models.CharField(max_length=1, choices=GENDERS, default="O")
+    race = models.CharField(max_length=1, choices=RACES, default="X")
+    ethnicity = models.CharField(max_length=1, choices=ETHNICITIES, default="X")
+    phoneNumber = models.CharField(max_length=10)
+    emailAddress = models.CharField(max_length=100)
+    street = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    zipCode = models.CharField(max_length=5)
+    state = models.CharField(max_length=2, choices=STATES, default="NJ", )
+    addressType = models.CharField(max_length=1, choices=ADDRESS_TYPES, default="H")
+
+
+class ChoiceEnum(Enum):
+    @classmethod
+    def choices(cls):
+        return tuple((i.name, i.value) for i in cls)
+
+
+class Gender(ChoiceEnum):
+    F = 'Female'
+    M = 'Male'
+    X = 'Non binary'
+
+
+class Race(ChoiceEnum):
+    A = 'American Indian/Alaskan Native'
+    S = 'Asian'
+    B = 'Black/African American'
+    P = 'Native Hawaiian/Other Pacific Islander'
+    W = 'White'
+    O = 'Other Race'
+    X = 'Prefer not to specify'
+
+
+class Ethnicity(ChoiceEnum):
+    H = 'Hispanic'
+    N = 'Non-hispanic'
+    X = 'Prefer not to specify'
+
+
+class AddressType(ChoiceEnum):
+    H = 'Home'
+    C = 'Current/Temporary'
+    P = 'Permanet'
+    M = 'Mailing'
+
+
+class States(ChoiceEnum):
+    AL = 'Alabama'
+    AK = 'Alaska'
+    AS = 'American Samoa'
+    AZ = 'Arizona'
+    AR = 'Arkansas'
+    CA = 'California'
+    CO = 'Colorado'
+    CT = 'Connecticut'
+    DE = 'Delaware'
+    DC = 'District of Columbia'
+    FL = 'Florida'
+    GA = 'Georgia'
+    GU = 'Guam'
+    HI = 'Hawaii'
+    ID = 'Idaho'
+    IL = 'Illinois'
+    IN = 'Indiana'
+    IA = 'Iowa'
+    KS = 'Kansas'
+    KY = 'Kentucky'
+    LA = 'Louisiana'
+    ME = 'Maine'
+    MD = 'Maryland'
+    MA = 'Massachusetts'
+    MI = 'Michigan'
+    MN = 'Minnesota'
+    MS = 'Mississippi'
+    MO = 'Missouri'
+    MT = 'Montana'
+    NE = 'Nebraska'
+    NV = 'Nevada'
+    NH = 'New Hampshire'
+    NJ = 'New Jersey'
+    NM = 'New Mexico'
+    NY = 'New York'
+    NC = 'North Carolina'
+    ND = 'North Dakota'
+    MP = 'Northern Mariana Islands'
+    OH = 'Ohio'
+    OK = 'Oklahoma'
+    OR = 'Oregon'
+    PA = 'Pennsylvania'
+    PR = 'Puerto Rico'
+    RI = 'Rhode Island'
+    SC = 'South Carolina'
+    SD = 'South Dakota'
+    TN = 'Tennessee'
+    TX = 'Texas'
+    UT = 'Utah'
+    VT = 'Vermont'
+    VI = 'Virgin Islands'
+    VA = 'Virginia'
+    WA = 'Washington'
+    WV = 'West Virginia'
+    WI = 'Wisconsin'
+    WY = 'Wyoming'
+
+
+class MedicalEligibilityQuestion(models.Model):
+    """
+        Medical Eligibility Question schema
+    """
+
+    id = models.AutoField(primary_key=True)
+    label = models.CharField(max_length=10)
+    language = models.CharField(max_length=20)
+    question = models.CharField(max_length=255)
+    explanation = models.TextField()
+    gender = models.CharField(max_length=1, choices=Gender.choices(), default=Gender.F)
+    bool = models.BooleanField(default=True)
+
+
+class Patient(models.Model):
+    """
+    Table of patient's personal and contact information.
+    """
+    ### Personal Data
+    person = models.AutoField(primary_key=True)
+    given_name = models.CharField(max_length=100)  # Not null by default.
+    surname = models.CharField(max_length=100)  # Not null by default.
+    dob = models.DateField()  # Not null by default.
+    gender = models.CharField(max_length=1, choices=Gender.choices(), default=Gender.F)
+    race = models.CharField(max_length=1, choices=Race.choices(), default=Race.X)
+    ethnicity = models.CharField(max_length=1, choices=Ethnicity.choices(), default=Ethnicity.X)
+
+    ### Contact Info
+    phone = PhoneField(blank=True)
+    email = models.EmailField(validators=[validate_email])  # Not null by default.
+    street = NoCommaField(max_length=100)  # Not null by default.
+    city = models.CharField(max_length=100)  # Not null by default.
+    zip_code = models.CharField(max_length=5)  # Not null by default.
+    state = models.CharField(max_length=2, choices=States.choices(), default=States.NJ)
+    address_type = models.CharField(max_length=1, choices=AddressType.choices(),
+                                    default=AddressType.H)
+
+
+class MedicalEligibilityAnswer(models.Model):
+    """
+        Medical Eligibility Answer
+    """
+    person = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    question = models.ForeignKey(MedicalEligibilityQuestion, on_delete=models.CASCADE)
+    answered = models.DateTimeField()
+    answer = "mediumtext or bool"
+
+
+class MedicalEligibility(models.Model):
+    """
+    """
+    QUESTION_TYPE = [('S', 'Screening'), ('E', 'Eligibility')]
+
+    # site = models.ForeignKey(Site)
+    question = models.ForeignKey(MedicalEligibilityQuestion, on_delete=models.CASCADE)
+    type = models.CharField(max_length=1, choices=QUESTION_TYPE)
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+
+class Role(models.Model):
+    role = models.CharField(max_length=15)
+
+
+class Staff(models.Model):
+    last_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=40, null=True)
+    email = models.CharField(max_length=60)
+    password = models.CharField(max_length=60, null=True)
+    HIPAACert = models.DateTimeField(null=True, blank=True)
+    medical_id = models.IntegerField(null=True, blank=True)
+    role = models.CharField(max_length=60)
+
+
+class Log(models.Model):
+    timestamp = models.DateTimeField(auto_now=True)
+    ipAddress = models.CharField(max_length=40)
+    webRequest = models.CharField(max_length=64)
+    tableName = models.CharField(max_length=100)
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    alteredObject = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.timestamp} {self.ipAddress}"
+
+
+class Dose(models.Model):
+    LOCATIONS = [("LUA", "Left Upper Arm"),
+                 ("LD", "Left Deltoid"),
+                 ("LGM", "Left Gluteous Medius"),
+                 ("LLF", "Left Lower Forearm"),
+                 ("LT", "Left Thigh"),
+                 ('LVL', "Left Vastus Lateralis"),
+                 ('RUA', "Right Upper Arm"),
+                 ('RD', "Right Deltoid"),
+                 ('RGM', "Right Gluteous Medius"),
+                 ('RLF', "Right Lower Forearm"),
+                 ('RT', "Right Thigh"),
+                 ('RVL', "Right Vastus Lateralis")]
+
+    patient = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)  # should become foreign key
+    vaccine = models.ForeignKey(VaccineBatch, on_delete=models.SET_NULL, null=True)
+    amount = models.FloatField()
+    administered = models.CharField(max_length=2)
+    location = models.CharField(max_length=3, choices=LOCATIONS)
+    vaccinator = models.ForeignKey(Staff, on_delete=models.SET_NULL, null=True)
+    station = models.ForeignKey(Station, on_delete=models.SET_NULL, null=True)
+    signIn = models.DateTimeField()
+    timeVax = models.DateTimeField()
+    slot = models.ForeignKey(Slot, on_delete=models.CASCADE)
+    secondDose = models.BooleanField()
+

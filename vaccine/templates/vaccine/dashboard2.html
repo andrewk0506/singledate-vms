@@ -176,6 +176,9 @@ h2 {
     color: #000000;
 
 }
+.dash{
+    background-color = lightgrey;
+}
 
 .dateselect {
     position: absolute;
@@ -222,12 +225,15 @@ label > input {
 btn:hover{
     color: lightgrey;
 }
+
+
 </style>
 </head>
 
 <nav class="navbar navbar-expand-lg">
         <span class="triangle-left"></span>
-        <span class="back">Back To Menu</span>
+        <!--    replace with homepage url extension-->
+        <span class="back" onclick="location.href='dashboard'">Back To Menu</span>
 
 </nav>
 
@@ -283,6 +289,18 @@ btn:hover{
         </div>
 
     </form>
+    <div class="row dashboard-container">
+        Dashboard:
+        <div class = "row dash">
+            <div class="col-md-4">
+                Doses Given:
+                {{defaultDate}}
+            </div>
+            <div class="col-md-4">
+                {{defaultDate}}
+            </div>
+        </div>
+    </div>
 
 </div>
 
