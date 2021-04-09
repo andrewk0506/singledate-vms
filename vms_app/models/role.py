@@ -1,5 +1,5 @@
 from django.db import models
-from .site import Site
+from .scheduling import Site
 
 
 class Role(models.Model):

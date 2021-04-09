@@ -1,6 +1,6 @@
 from django.db import models
 from .user import Patient
-from .site import Site
+from .scheduling import Site
 from .utils import Gender
 
 
@@ -21,7 +21,7 @@ class MedicalEligibilityAnswer(models.Model):
     """
         Medical Eligibility Answer
     """
-    # person = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     question = models.ForeignKey(MedicalEligibilityQuestion, on_delete=models.CASCADE)
     answered = models.DateTimeField()
     answer_bool = models.BooleanField(default=True)
