@@ -1,8 +1,7 @@
 from django.db import models
 from .vaccine_batch import VaccineBatch
 from .slot import Slot
-from .user import Patient
-from .staff import Staff
+from .user import Patient, Staff
 from .station import Station
 
 
@@ -29,13 +28,12 @@ class Dose(models.Model):
         Patient, on_delete=models.SET_NULL, null=True
     )  # should become foreign key
     vaccine = models.ForeignKey(VaccineBatch, on_delete=models.SET_NULL, null=True)
-    amount = models.FloatField()
-    administered = models.CharField(max_length=2)
-    location = models.CharField(max_length=3, choices=LOCATIONS)
+    administered = models.CharField(max_length=2, null=True)
+    location = models.CharField(max_length=3, choices=LOCATIONS, null=True)
     vaccinator = models.ForeignKey(Staff, on_delete=models.SET_NULL, null=True)
     station = models.ForeignKey(Station, on_delete=models.SET_NULL, null=True)
-    signIn = models.DateTimeField()
-    timeVax = models.DateTimeField()
+    signIn = models.DateTimeField(null=True)
+    timeVax = models.DateTimeField(null=True)
     slot = models.ForeignKey(Slot, on_delete=models.CASCADE)
     secondDose = models.BooleanField()
     notes = models.TextField(default="")

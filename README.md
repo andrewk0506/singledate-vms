@@ -8,10 +8,10 @@ This system manages all stages of the vaccination process, from registration to 
 
 To set up the database connection:
 
-1. copy `config.template.json` and rename it to `config.json`
+1. copy `local.template.cnf` and rename it to `local.cnf`
 2. add your logging credentials where needed
 
-It is _VERY_ important to only add credentials in `config.json`. Add it anywhere else and you are compromising people's privacy.
+It is _VERY_ important to only add credentials in `local.cnf`. Add it anywhere else and you are compromising people's privacy.
 
 ## Start an Environment
 
