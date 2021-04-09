@@ -55,3 +55,8 @@ def next_appt(request):
 def vaccine_info(request):
     context = {"locations": Dose.LOCATIONS}
     return render(request, "vaccine-information.html", context)
+
+
+def vaccine_info_submit(request):
+    print(request.POST)
+    return vaccine_info(request)
