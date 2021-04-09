@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 
-from .models import Choice, Question, Personmini, Slot, Person,Dose
+from .models import Slot, Person,Dose
 from djqscsv import write_csv
 from djqscsv import render_to_csv_response
 from .dummydata import create_dummydata
@@ -54,16 +54,16 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """Return the last five published questions."""
-        return Question.objects.order_by('-pub_date')[:5]
+        return Slot.objects.order_by('-pub_date')[:5]
 
 
 class DetailView(generic.DetailView):
-    model = Question
+    model = Slot
     template_name = 'vaccine/detail.html'
 
 
 class ResultsView(generic.DetailView):
-    model = Question
+    model = Slot
     template_name = 'vaccine/results.html'
 
 def vote(request, question_id):
@@ -288,14 +288,56 @@ def dashboardreal(request):
 
 
 def daterangereal(request):
+    def makeDateCal(datetimeobj):
+        x = ""
+        if (len(str(datetimeobj.day)) == 1):
+            x = "0" + str(datetimeobj.day) + "/"
+        else:
+            x = x + str(datetimeobj.day) + "/"
+        if (len(str(datetimeobj.month)) == 1):
+            x = x + "0" + str(datetimeobj.month) + "/"
+        else:
+            x = x + str(datetimeobj.month) + "/"
+        x = x + str(datetimeobj.year)
+        return x
+    def makeDefaultDate(datetimeobj):
+        x = ""
+        if (len(str(datetimeobj.month)) == 1):
+            x = x + "0" + str(datetimeobj.month) + "/"
+        else:
+            x = x + str(datetimeobj.month) + "/"
+        if (len(str(datetimeobj.day)) == 1):
+            x = "0" + str(datetimeobj.day) + "/"
+        else:
+            x = x + str(datetimeobj.day) + "/"
+        x = x + str(datetimeobj.year)
+        return x
+
     try:
         print("TRYING")
         x = datetime.datetime.strptime(request.POST['datepicker'], '%m/%d/%Y')
     except:
         print("CATCH!")
-        return render(request, 'vaccine/daterangereal.html', {
-            # 'error_message': "Select date",
-        })
+        # try:
+        # print(request.POST['datepicker'])
+
+        will_be_unique = Slot.objects.all()
+        canuarray = [4, 5, 6]
+
+        activateDates = []
+        i = ""
+        for i in will_be_unique:
+            print(i.startTime)
+            # convert to day/month/year
+            print(i.startTime.day)
+            activateDates.append(makeDateCal(i.startTime))
+        print(activateDates)
+        defaultDate = makeDefaultDate(i.startTime)
+
+        context = {'canuarray': canuarray,
+                   'activateDates': activateDates,
+                   'defaultDate': defaultDate}
+        return render(request, 'vaccine/dashboardreal.html', context)
     print(x)
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="csvfile.csv"'
