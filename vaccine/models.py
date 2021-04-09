@@ -10,28 +10,28 @@ import datetime
 from django.db import models
 from django.utils import timezone
 
-class Question(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
-    def __str__(self):
-        return self.question_text
-    def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+# class Question(models.Model):
+#     question_text = models.CharField(max_length=200)
+#     pub_date = models.DateTimeField('date published')
+#     def __str__(self):
+#         return self.question_text
+#     def was_published_recently(self):
+#         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
-    def __str__(self):
-        return self.choice_text
+# class Choice(models.Model):
+#     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+#     choice_text = models.CharField(max_length=200)
+#     votes = models.IntegerField(default=0)
+#     def __str__(self):
+#         return self.choice_text
 
 
-class Personmini(models.Model):
-    personid = models.AutoField(primary_key=True)
-    givenname = models.CharField(db_column='GivenName', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    surname = models.CharField(db_column='SurName', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    dateofbirth = models.DateField(db_column='DateOfBirth', blank=True, null=True)  # Field name made lowercase.
-    datevaccinatednumone = models.DateTimeField(db_column='DateVaccinatedNumOne', blank=True, null=True)  # Field name made lowercase.
+# class Personmini(models.Model):
+#     personid = models.AutoField(primary_key=True)
+#     givenname = models.CharField(db_column='GivenName', max_length=100, blank=True, null=True)  # Field name made lowercase.
+#     surname = models.CharField(db_column='SurName', max_length=100, blank=True, null=True)  # Field name made lowercase.
+#     dateofbirth = models.DateField(db_column='DateOfBirth', blank=True, null=True)  # Field name made lowercase.
+#     datevaccinatednumone = models.DateTimeField(db_column='DateVaccinatedNumOne', blank=True, null=True)  # Field name made lowercase.
 
 
 class Site(models.Model):
@@ -251,7 +251,6 @@ class States(ChoiceEnum):
     WI = 'Wisconsin'
     WY = 'Wyoming'
 
-
 class MedicalEligibilityQuestion(models.Model):
     """
         Medical Eligibility Question schema
@@ -262,7 +261,7 @@ class MedicalEligibilityQuestion(models.Model):
     language = models.CharField(max_length=20)
     question = models.CharField(max_length=255)
     explanation = models.TextField()
-    gender = models.CharField(max_length=1, choices=Gender.choices(), default=Gender.F)
+    gender = models.CharField(max_length=50, choices=Gender.choices(), default=Gender.F)
     bool = models.BooleanField(default=True)
 
 
@@ -275,9 +274,9 @@ class Patient(models.Model):
     given_name = models.CharField(max_length=100)  # Not null by default.
     surname = models.CharField(max_length=100)  # Not null by default.
     dob = models.DateField()  # Not null by default.
-    gender = models.CharField(max_length=1, choices=Gender.choices(), default=Gender.F)
-    race = models.CharField(max_length=1, choices=Race.choices(), default=Race.X)
-    ethnicity = models.CharField(max_length=1, choices=Ethnicity.choices(), default=Ethnicity.X)
+    gender = models.CharField(max_length=255, choices=Gender.choices(), default=Gender.F)
+    race = models.CharField(max_length=255, choices=Race.choices(), default=Race.X)
+    ethnicity = models.CharField(max_length=255, choices=Ethnicity.choices(), default=Ethnicity.X)
 
     ### Contact Info
     phone = PhoneField(blank=True)
@@ -285,8 +284,8 @@ class Patient(models.Model):
     street = NoCommaField(max_length=100)  # Not null by default.
     city = models.CharField(max_length=100)  # Not null by default.
     zip_code = models.CharField(max_length=5)  # Not null by default.
-    state = models.CharField(max_length=2, choices=States.choices(), default=States.NJ)
-    address_type = models.CharField(max_length=1, choices=AddressType.choices(),
+    state = models.CharField(max_length=50, choices=States.choices(), default=States.NJ)
+    address_type = models.CharField(max_length=50, choices=AddressType.choices(),
                                     default=AddressType.H)
 
 
