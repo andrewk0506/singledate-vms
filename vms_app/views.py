@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from vms_app.models import Staff
 
 from .models import Dose
@@ -24,13 +26,43 @@ def verify(request):
 
 
 def admin_login(request):
-    return render(request, "admin-login.html")
+    print("In admin_login again")
+    if request.user.is_authenticated:
+        print("User is authentiated. Redirecting to role select")
+        return redirect('role-select')
+
+    else:
+        if request.method == "POST":
+            print("request.POST is: ", request.POST)
+            email = request.POST.get("email")
+            password = request.POST.get("password")
+            user = None
+            try:
+                user = authenticate(request, username=email, password=password)
+            except Exception as e:
+                print (e)
+
+            if user is not None:
+                print("user is not none!")
+                login(request, user)
+                return redirect('role-select')
+
+            print("email is: ", email)
+
+        else:
+            print("request.method is: ", request.method)
 
 
+    context = {}
+    return render(request, "admin-login.html", context)
+
+
+@login_required(login_url='admin-login')
 def role_select(request):
     return render(request, "role-selection.html")
 
 
+@login_required(login_url='admin-login')
 def staff_select(request):
     context = {"staff": Staff.objects.all()}
     return render(request, "select-staff.html", context)
