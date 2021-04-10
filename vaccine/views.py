@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 
-from .models import Slot, Person,Dose, Station
+from .models import Slot, Person,Dose, Station, Patient, VaccineType, VaccineBatch, MedicalEligibilityAnswer, MedicalEligibilityQuestion
 from djqscsv import write_csv
 from djqscsv import render_to_csv_response
 from .dummydata import create_dummydata
@@ -95,8 +95,8 @@ def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'vaccine/results.html', {'question': question})
 def happy(request):
-    create_dummydata()
-    return render(request, 'vaccine/dashboard.html')
+    # create_dummydata()
+    return render(request, 'vaccine/happy.html')
 
 def daterange(request):
     try:
@@ -383,7 +383,10 @@ def daterangereal(request):
 
         # filteredDate = Personmini.objects.filter(datevaccinatednumone__date=date.year)
         # return filteredDate
-        filteredDate = Slot.objects.filter(startTime__startswith=x).values("id", "site", "startTime", "duration", 'capacity', "vaccineType")
+        # filteredDate = Slot.objects.filter(startTime__startswith=x).values("id", "site", "startTime", "duration", 'capacity', "vaccineType")
+        filteredDate = Dose.objects.filter(timeVax__startswith=x).order_by('patient').values("patient", "vaccine",
+                                                                                           "amount", 'administered',
+                                                                                           "slot")
         return filteredDate
 
     def query_dash_data(date, site):
@@ -406,21 +409,72 @@ def daterangereal(request):
             station_doses.append((station['stationName'], len(st_doses)))
 
         return num_doses, station_doses
-    num_doses, station_doses = (query_dash_data(x,6))
-    print("num doses: " + str(num_doses))
-    print("station doses: " + str(station_doses))
+    try:
+        print("TRYING Dash if date")
+        x = datetime.datetime.strptime(request.POST['datepicker'], '%m/%d/%Y')
+        num_doses, station_doses = (query_dash_data(x.date(), 1))
+        print("num doses: " + str(num_doses))
+        print("station doses: " + str(station_doses))
+    except:
+        print("CATCH Dash no date!")
 
-    qsSlot = filterDate(x)
+
+
+    # qsSlot = filterDate(x)
+    qsDose = filterDate(x)
     ## ADD TABLE QUERIES AND MAKE CSV
     # print(qsSlot)
+
+
+    dfDose = pd.DataFrame(list(qsDose), columns=["patient", "vaccine", "amount", 'administered', "slot"])
+    dfDose.rename(columns={"vaccine": "Vaccine Lot Number", "administered": "Vaccine Route of Administration", "amount":"Vaccine Administered Amount"}, inplace=True)
+
+    qsSlot = Slot.objects.filter(id__in=list(dfDose["slot"])).values("id", "site", "startTime", "duration", "vaccineType")
     for dicto in qsSlot:
         dicto['endTime'] = dicto['startTime'] + datetime.timedelta(minutes=+int(dicto['duration']))
-    dfSlot = pd.DataFrame(list(qsSlot), columns=["id", "site", "startTime", "endTime", "capacity", "vaccineType"])
+        dicto['Date of Administration'] = dicto['startTime'].strftime("%Y%m%d")
+    dfSlot = pd.DataFrame(list(qsSlot), columns=["id", "site", "startTime", "endTime", "vaccineType", "Date of Administration"])
+    df_Dose_Slot = pd.merge(dfDose, dfSlot, left_on="slot", right_on="id", how="left")
+    df_Dose_Slot.rename(columns={"startTime":"Booking Start", "endTime":"Booking End", "site":"Site ID"}, inplace=True)
+    df_Dose_Slot.drop(columns='id', inplace=True)
 
-    qsDose = Dose.objects.filter(slot__in=list(dfSlot["id"])).values("id", "patient", "vaccine", "amount", 'administered', "location", "timeVax", "slot")
-    dfDose = pd.DataFrame(list(qsDose), columns=["id", "patient", "vaccine", "amount_administered", "administered", "timeVax", "slot"])
+    qsPatient = Patient.objects.filter(person__in=list(df_Dose_Slot["patient"])).values("person", "given_name", "surname","dob", "gender", "race", "ethnicity", "phone", "email", "street", "city", "zip_code", "state", "address_type")
+    for dicto in qsPatient:
+        dicto['DOB_Day'] = dicto["dob"].strftime("%d")
+        dicto['DOB_Month'] = dicto["dob"].strftime("%m")
+        dicto['DOB_Year'] = dicto["dob"].strftime("%Y")
+    dfPatient = pd.DataFrame(list(qsPatient), columns=["person", "given_name", "surname","DOB_Day", "DOB_Month", "DOB_Year", "gender", "race", "ethnicity", "phone", "email", "street", "city", "zip_code", "state", "address_type"])
+    df_Dose_Slot_Patient = pd.merge(df_Dose_Slot, dfPatient, left_on="patient", right_on="person", how="left")
+    df_Dose_Slot_Patient.rename(columns={"given_name":"Patient First Name", "surname":"Patient Last Name", "gender":"Administrative Sex", "ethnicity":"Ethnic Group", "street":"Street Address", "city":"City", "state":"State", "zip_code":"Zip Code", "email":"Email Address", "phone":"Phone Number", "address_type":"Patient Address Type", "race":"Race"},inplace=True)
+    df_Dose_Slot_Patient.drop(columns='person', inplace=True)
 
-    df_Dose_Slot = pd.merge(dfSlot, dfDose, left_on="id", right_on="id", how="left")
+    qsVaccineType = VaccineType.objects.filter(id__in=list(df_Dose_Slot_Patient["vaccineType"])).values("id", "name")
+    dfVaccineType = pd.DataFrame(list(qsVaccineType), columns=["id", "name"])
+
+    df_Dose_Slot_Patient_VaccineType = pd.merge(df_Dose_Slot_Patient, dfVaccineType, left_on="vaccineType", right_on="id", how="left")
+    df_Dose_Slot_Patient_VaccineType.drop(columns="id", inplace=True)
+    df_Dose_Slot_Patient_VaccineType.rename(columns={"name":"Vaccine Manufacturer Name"}, inplace=True)
+
+    df_Dose_Slot_Patient_VaccineType.drop(columns=["slot", "vaccineType"], inplace=True)
+    # df_Dose_Slot_Patient_VaccineType = df_Dose_Slot_Patient_VaccineType[["patient", "Site ID", "Booking Start", "Booking End", "Patient Last Name", "DOB_Day", "DOB_Month", "DOB_Year", "Administrative Sex", "Race", "Ethnic Group", "Street Address", "City", "State", "Zip Code", "Patient Address Type", "Phone Number", "Email Address", "Date of Administration", "Vaccine Administered Amount", "Vaccine Lot Number", "Vaccine Manufacturer Name", "Vaccine Route of Administration"]]
+
+    qsAnswers = MedicalEligibilityAnswer.objects.all().values("person", "question", "answer_text")
+    dfAnswers = pd.DataFrame(list(qsAnswers), columns=["person", "question", "answer_text"])
+    qsQuestions = MedicalEligibilityQuestion.objects.all().values("id", "question")
+    dfQuestions = pd.DataFrame(list(qsQuestions), columns=["id", "question"])
+    df_Questions_Answers = pd.merge(dfAnswers, dfQuestions, left_on="question", right_on="id", how="left")
+    df_Questions_Answers.drop(columns=["question_x", "id"], inplace=True)
+    df_Questions_Answers = df_Questions_Answers.pivot(index="person", columns="question_y", values="answer_text")
+    # df_Questions_Answers = df_Questions_Answers[["Do you have a bleeding disorder or are you on medication that affects your immune system?", "Do you have any allergies to medication, and/or have you ever had an adverse reaction to a vaccine?", "Do you have a fever?", "Are you pregnant or do you plan to become pregnant soon?", "Are you currently breastfeeding?", "Have you received another COVID-19 vaccine?", "Have you had any OTHER vaccine in the last 14 days?", "Will you be available for your second dose in approximately 4 weeks?", "Comments"]]
+
+    df_final = pd.merge(df_Dose_Slot_Patient_VaccineType, df_Questions_Answers, left_on="patient", right_on="person", how="left")
+    df_final.drop(columns="patient", inplace=True)
+    df_final = df_final[["Site ID", "Booking Start", "Booking End", "Patient Last Name", "Patient First Name", "DOB_Day", "DOB_Month", "DOB_Year", "Administrative Sex", "Race", "Ethnic Group", "Street Address", "City", "State", "Zip Code", "Patient Address Type", "Phone Number", "Email Address", "Do you have a bleeding disorder or are you on medication that affects your immune system?", "Do you have any allergies to medication, and/or have you ever had an adverse reaction to a vaccine?", "Do you have a fever?", "Are you pregnant or do you plan to become pregnant soon?", "Are you currently breastfeeding?", "Have you received another COVID-19 vaccine?", "Have you had any OTHER vaccine in the last 14 days?", "Will you be available for your second dose in approximately 4 weeks?", "Comments", "Date of Administration", "Vaccine Administered Amount", "Vaccine Lot Number", "Vaccine Manufacturer Name", "Vaccine Route of Administration"]]
+
+    df_final.to_csv(response)
+    return response
+
+
 
 
     # qsPatient = Person.objects.filter(pk__in=list(df_Dose_Slot["patient"])).values("id",  "givenName", "surName","dateOfBirth", "gender", "race", "ethnicity", "phoneNumber", "emailAddress", "street", "city", "zipCode", "state", "addressType")
@@ -435,9 +489,9 @@ def daterangereal(request):
     # df_Dose_Slot_Patient_VaccineBatch = pd.merge(df_Dose_Slot_Patient, dfVaccineBatch, left_on="id", right_on="id", how="left")
         #
         #
-    df_Dose_Slot.to_csv(response)
-
-    return response
+    # df_Dose_Slot.to_csv(response)
+    #
+    # return response
 
 #
 # def detail(request):
