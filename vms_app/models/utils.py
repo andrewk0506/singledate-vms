@@ -1,89 +1,85 @@
-from enum import Enum
+from django.db import models
+from django.utils.translation import gettext_lazy as _
 
-class ChoiceEnum(Enum):
-    @classmethod
-    def choices(cls):
-        return tuple((i.name, i.value) for i in cls)
+class Gender(models.TextChoices):
+    F = 'F', _('Female')
+    M = 'M', _('Male')
+    X = 'X', _('Non binary')
 
-class Gender(ChoiceEnum):
-    F = 'Female'
-    M = 'Male'
-    X = 'Non binary'
+class Race(models.TextChoices):
+    A = 'A', _('American Indian/Alaskan Native')
+    S = 'S', _('Asian')
+    B = 'B', _('Black/African American')
+    P = 'P', _('Native Hawaiian/Other Pacific Islander')
+    W = 'W', _('White')
+    O = 'O', _('Other Race')
+    X = 'X', _('Prefer not to specify')
 
-class Race(ChoiceEnum):
-    A = 'American Indian/Alaskan Native'
-    S = 'Asian'
-    B = 'Black/African American'
-    P = 'Native Hawaiian/Other Pacific Islander'
-    W = 'White'
-    O = 'Other Race'
-    X = 'Prefer not to specify'
+class Ethnicity(models.TextChoices):
+    H = 'H', _('Hispanic')
+    N = 'N', _('Non-hispanic')
+    X = 'X', _('Prefer not to specify')
 
-class Ethnicity(ChoiceEnum):
-    H = 'Hispanic'
-    N = 'Non-hispanic'
-    X = 'Prefer not to specify'
+class AddressType(models.TextChoices):
+    H = 'H', _('Home')
+    C = 'C', _('Current/Temporary')
+    P = 'P', _('Permanet')
+    M = 'M', _('Mailing')
 
-class AddressType(ChoiceEnum):
-    H = 'Home'
-    C = 'Current/Temporary'
-    P = 'Permanet'
-    M = 'Mailing'
-
-class States(ChoiceEnum):
-    AL = 'Alabama'
-    AK = 'Alaska'
-    AS = 'American Samoa'
-    AZ = 'Arizona'
-    AR = 'Arkansas'
-    CA = 'California'
-    CO = 'Colorado'
-    CT = 'Connecticut'
-    DE = 'Delaware'
-    DC = 'District of Columbia'
-    FL = 'Florida'
-    GA = 'Georgia'
-    GU = 'Guam'
-    HI = 'Hawaii'
-    ID = 'Idaho'
-    IL = 'Illinois'
-    IN = 'Indiana'
-    IA = 'Iowa'
-    KS = 'Kansas'
-    KY = 'Kentucky'
-    LA = 'Louisiana'
-    ME = 'Maine'
-    MD = 'Maryland'
-    MA = 'Massachusetts'
-    MI = 'Michigan'
-    MN = 'Minnesota'
-    MS = 'Mississippi'
-    MO = 'Missouri'
-    MT = 'Montana'
-    NE = 'Nebraska'
-    NV = 'Nevada'
-    NH = 'New Hampshire'
-    NJ = 'New Jersey'
-    NM = 'New Mexico'
-    NY = 'New York'
-    NC = 'North Carolina'
-    ND = 'North Dakota'
-    MP = 'Northern Mariana Islands'
-    OH = 'Ohio'
-    OK = 'Oklahoma'
-    OR = 'Oregon'
-    PA = 'Pennsylvania'
-    PR = 'Puerto Rico'
-    RI = 'Rhode Island'
-    SC = 'South Carolina'
-    SD = 'South Dakota'
-    TN = 'Tennessee'
-    TX = 'Texas'
-    UT = 'Utah'
-    VT = 'Vermont'
-    VI = 'Virgin Islands'
-    VA = 'Virginia'
-    WA = 'Washington'
-    WV = 'West Virginia'
-    WI = 'Wisconsin'
-    WY = 'Wyoming'
+class States(models.TextChoices):
+    AL = 'AL', _('Alabama')
+    AK = 'AK', _('Alaska')
+    AS = 'AS', _('American Samoa')
+    AZ = 'AZ', _('Arizona')
+    AR = 'AR', _('Arkansas')
+    CA = 'CA', _('California')
+    CO = 'CO', _('Colorado')
+    CT = 'CT', _('Connecticut')
+    DE = 'DE', _('Delaware')
+    DC = 'DC', _('District of Columbia')
+    FL = 'FL', _('Florida')
+    GA = 'GA', _('Georgia')
+    GU = 'GU', _('Guam')
+    HI = 'HI', _('Hawaii')
+    ID = 'ID', _('Idaho')
+    IL = 'IL', _('Illinois')
+    IN = 'IN', _('Indiana')
+    IA = 'IA', _('Iowa')
+    KS = 'KS', _('Kansas')
+    KY = 'KY', _('Kentucky')
+    LA = 'LA', _('Louisiana')
+    ME = 'ME', _('Maine')
+    MD = 'MD', _('Maryland')
+    MA = 'MA', _('Massachusetts')
+    MI = 'MI', _('Michigan')
+    MN = 'MN', _('Minnesota')
+    MS = 'MS', _('Mississippi')
+    MO = 'MO', _('Missouri')
+    MT = 'MT', _('Montana')
+    NE = 'NE', _('Nebraska')
+    NV = 'NV', _('Nevada')
+    NH = 'NH', _('New Hampshire')
+    NJ = 'NJ', _('New Jersey')
+    NM = 'NM', _('New Mexico')
+    NY = 'NY', _('New York')
+    NC = 'NC', _('North Carolina')
+    ND = 'ND', _('North Dakota')
+    MP = 'MP', _('Northern Mariana Islands')
+    OH = 'OH', _('Ohio')
+    OK = 'OK', _('Oklahoma')
+    OR = 'OR', _('Oregon')
+    PA = 'PA', _('Pennsylvania')
+    PR = 'PR', _('Puerto Rico')
+    RI = 'RI', _('Rhode Island')
+    SC = 'SC', _('South Carolina')
+    SD = 'SD', _('South Dakota')
+    TN = 'TN', _('Tennessee')
+    TX = 'TX', _('Texas')
+    UT = 'UT', _('Utah')
+    VT = 'VT', _('Vermont')
+    VI = 'VI', _('Virgin Islands')
+    VA = 'VA', _('Virginia')
+    WA = 'WA', _('Washington')
+    WV = 'WV', _('West Virginia')
+    WI = 'WI', _('Wisconsin')
+    WY = 'WY', _('Wyoming')
