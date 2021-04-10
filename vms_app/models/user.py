@@ -27,7 +27,7 @@ class Patient(models.Model):
     gender = models.CharField(max_length=1, choices=Gender.choices(), default=Gender.F)
     race = models.CharField(max_length=1, choices=Race.choices(), default=Race.X)
     ethnicity = models.CharField(max_length=1, choices=Ethnicity.choices(), default=Ethnicity.X)
-    
+
     ### Contact Info
     # phone = PhoneField(blank=True)
     email = models.EmailField(validators=[validate_email]) # Not null by default.
@@ -39,7 +39,7 @@ class Patient(models.Model):
                                     default=AddressType.H)
 
 class Staff(models.Model):
-    last_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100, default="")
     first_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=40, null=True)
     email = models.CharField(max_length=60)
