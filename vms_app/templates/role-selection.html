@@ -47,11 +47,20 @@
 			<div class="col-6 text-center">
 				<div class="row justify-content-center">
 					<div class="col-md-6 align-self-center">
-						<a href = "staff_select" type="button" id="staff-selection" class="button-decoration btn mb-3 form-button"
+						<a href = "{% url 'staff-select' %}" type="button" id="staff-selection" class="button-decoration btn mb-3 form-button"
 							onclick="setUpLoaderUntilSuccess()">Staff Selection</a>
 					</div>
 				</div>
 				<div class = "description-smaller">Transition to mode for staff setup/selection in preparation of vaccination administration.</div>
+			</div>
+			<div class="col-6 text-center">
+				<div class="row justify-content-center">
+					<div class="col-md-6 align-self-center">
+						<a href = "{% url 'staff-register-new' %}" type="button" id="staff-register-new" class="button-decoration btn mb-3 form-button"
+							onclick="setUpLoaderUntilSuccess()">Register Staff</a>
+					</div>
+				</div>
+				<div class = "description-smaller">Register new staff users and assign them roles</div>
 			</div>
 		</div>
 	</div>

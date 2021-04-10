@@ -12,28 +12,30 @@
     })
 
     $("#form-register-staff").submit(function(event) {
-        alert("Handler for submit event called!");
         let err = "";
         let password = $("#input-password").val();
         let confirm = $("#input-confirm-password").val();
 
-        alert("In submit handler");
         if (("#new-staff-role-select").val() == "ADMIN") {
             if (!password) {
                 err = "Password field cannot be empty";
-                alert(err);
             }
             else if (password  !== confirm) {
                 err = "Password fields do not match";
-                alert(err);
             }
         }
 
-        alert("error is: ", err);
         if (err) {
             event.preventDefault();
-            $("#error-messages").append(
-                `<p class="error-message"> ${err} </p>`
+            $("#page-form-container").append(
+                `
+              <div class="alert alert-error alert-dismissible" role="alert">
+                    <button type="button" class="close btn btn-danger" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    ${err}
+              </div>
+                `
             )
         }
     })

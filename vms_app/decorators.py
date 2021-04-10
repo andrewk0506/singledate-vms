@@ -5,8 +5,7 @@ def admin_login_required(view_func):
     print("In admin_login_required decorator")
     def wrapper_func(request, *args, **kwargs):
         role = request.session.get("role")
-        print("Role in wrapper_func is: ", req)
-
+        print("Role in wrapper_func is: ", role)
 
         if role != "ADMIN":
             return redirect("admin-login")

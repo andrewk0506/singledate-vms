@@ -28,9 +28,7 @@ def verify(request):
     return render(request, "verify.html", {})
 
 def admin_logout(request):
-    print("in logoutUser")
-    print("request.session[role] before delete is ", request.session['role'])
-    print("deleting request.session")
+    print("Role before logout is: ", request.session['role'])
     del request.session['role']
     logout(request)
 
@@ -59,23 +57,18 @@ def admin_login(request):
             print (e)
 
         if user is not None:
-            print("user is not none!")
             request.session["role"] = "ADMIN"
             login(request, user)
+            print("Authenticated user: {email} successfully.".format(email=email))
             return redirect('role-select')
         else:
             messages.info(request, 'Email or password is incorrect')
-
-        print("email is: ", email)
-    else:
-        print("request.method is: ", request.method)
-
 
     context = {}
     return render(request, "admin-login.html", context)
 
 
-@admin_login_required
+@login_required(login_url='admin-login')
 def role_select(request):
     return render(request, "role-selection.html")
 
@@ -87,33 +80,33 @@ def staff_select(request):
     return render(request, "select-staff.html", context)
 
 
-@login_required
+@login_required(login_url='admin-login')
 def appointments(request):
     return render(request, "todays-appts.html")
 
 
-@login_required
+@login_required(login_url='admin-login')
 def patient_info(request):
     return render(request, "patient-info.html")
 
 
-@login_required
+@login_required(login_url='admin-login')
 def medical_questions(request):
     return render(request, "medical-questions.html")
 
 
-@login_required
+@login_required(login_url='admin-login')
 def next_appt(request):
     return render(request, "nextappt.html")
 
 
-@login_required
+@login_required(login_url='admin-login')
 def vaccine_info(request):
     context = {"locations": Dose.LOCATIONS}
     return render(request, "vaccine-information.html", context)
 
 
-@login_required
+@login_required(login_url='admin-login')
 def vaccine_info_submit(request):
     print(request.POST)
     return vaccine_info(request)
@@ -121,14 +114,13 @@ def vaccine_info_submit(request):
 @admin_login_required
 def register_new_staff(request):
     if request.method == "POST":
-        print("Submission has been MADE!!!!!!!!!!!!!!")
         print("POST Data is: ", request.POST)
         form = CreateStaffForm(request.POST)
         if form.is_valid():
             print("cleaned data is: ", form.cleaned_data)
             form.save()
-            fname = form.cleaned_data.get('first-name')
-            lname = form.cleaned_data.get('last-name')
+            fname = form.cleaned_data.get('first_name')
+            lname = form.cleaned_data.get('last_name')
             roleLabel = form.cleaned_data.get('role')
             messages.success(request,
                     "{fname} {lname} has been added as a new {role}".format(
