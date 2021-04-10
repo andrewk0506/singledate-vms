@@ -59,10 +59,11 @@
 							<!--Source: https://www.cdc.gov/vaccines/hcp/admin/administer-vaccines.html-->
 							<select id="vaccinator-select" class="form-select">
 								{% for person in staff %}
-								{% if person.role == "vaccinator" %}
-								<option>{{person.first_name}} {{person.last_name}}</option>
-								{% endif %}
+								
+								<option>{{person.surName}} {{person.givenName}}</option>
+							
 								{% endfor %}
+								
 							</select>
 						</div>
 					</div>
@@ -79,9 +80,9 @@
 							<!--Source: https://www.cdc.gov/vaccines/hcp/admin/administer-vaccines.html-->
 							<select id="staff-select" class="form-select">
 								{% for person in staff %}
-								{% if person.role == "support" %}
-								<option>{{person.first_name}} {{person.last_name}}</option>
-								{% endif %}
+								<!-- {% if person.role_id == 0 %} -->
+								<option>{{person.firstName}} {{person.surName}}</option>
+								<!-- {% endif %} -->
 								{% endfor %}
 							</select>
 						</div>

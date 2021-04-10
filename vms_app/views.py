@@ -34,6 +34,7 @@ def role_select(request):
 
 def staff_select(request):
     context = {"staff": Staff.objects.all()}
+    print("staff is", Staff.objects.first().surName)
     return render(request, "select-staff.html", context)
 
 
