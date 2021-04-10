@@ -1,6 +1,21 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+class CleanCharField(models.CharField):
+    """
+    Helper CharField:
+        (1) with leading/trailing white spaces trimmed;
+        (2) with extra white spaces between words trimmed;
+        (3) converted to title format (first letter of each word capitalized).
+    """
+    def __init__(self, *args, **kwargs):
+        self.max_length = kwargs['max_length']
+        super().__init__(*args, **kwargs)
+
+    def pre_save(self, model_instance, add):
+        att = getattr(model_instance, self.attname)
+        return ' '.join(att.split()).title()
+
 class Gender(models.TextChoices):
     F = 'F', _('Female')
     M = 'M', _('Male')
@@ -83,3 +98,7 @@ class States(models.TextChoices):
     WV = 'WV', _('West Virginia')
     WI = 'WI', _('Wisconsin')
     WY = 'WY', _('Wyoming')
+
+class MedicalQuestionType(models.TextChoices):
+    S = 'S', _('Screening')
+    E = 'E', _('Eligibility')
