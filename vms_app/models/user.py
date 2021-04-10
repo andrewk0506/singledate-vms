@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import validate_email
-# from phone_field import PhoneField
+from phone_field import PhoneField
 from .utils import Gender, Race, Ethnicity, AddressType, States
 
 class NoCommaField(models.CharField):
@@ -41,9 +41,9 @@ class Patient(models.Model):
 class Staff(models.Model):
     last_name = models.CharField(max_length=100, default="")
     first_name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=40, null=True)
+    phone_number = PhoneField(null=True, blank=True)
     email = models.CharField(max_length=60)
-    password = models.CharField(max_length=60, null=True)
+    password = models.CharField(max_length=60, null=True, blank=True) # Password not required for non-admins
     HIPAACert = models.DateTimeField(null=True, blank=True)
     medical_id = models.IntegerField(null=True, blank=True)
     role = models.CharField(max_length=60)

@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from vms_app.models import Staff
+from vms_app.models import Dose, Role, Staff
+from vms_app.forms import CreateStaffForm
 
-from .models import Dose
 
 
 def index(request):
@@ -94,3 +94,31 @@ def vaccine_info(request):
 def vaccine_info_submit(request):
     print(request.POST)
     return vaccine_info(request)
+
+@login_required(login_url="admin-login")
+def register_new_staff(request):
+    if request.method == "POST":
+        print("Submission has been MADE!!!!!!!!!!!!!!")
+        print("POST Data is: ", request.POST)
+        form = CreateStaffForm(request.POST)
+        if form.is_valid():
+            print("cleaned data is: ", form.cleaned_data)
+            # form.save()
+            fname = form.cleaned_data.get('first-name')
+            lname = form.cleaned_data.get('last-name')
+            roleLabel = form.cleaned_data.get('role')
+            messages.success(request,
+                    "{fname} {lname} has been added as a new {role}".format(
+                    fname=fname, lname=lname, role=roleLabel
+                    )
+            )
+
+    roles = reversed(list(map(lambda x: x[1], Role.ROLES)))
+    context = {"roles": roles}
+    print("roles are: ", roles)
+    print("Context is ", context)
+
+    return render(request, "staff-register.html", context)
+
+
+

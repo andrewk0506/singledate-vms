@@ -64,10 +64,12 @@
 
 #error-messages{
 	/* TODO: customize */
-	background-color: #c33;
-	color: #fff;
 	padding: 10px;
 	margin-top: 10px;
+}
+
+.error-message {
+	color: #c33;
 }
 
 .button-decoration{
@@ -112,6 +114,10 @@
 
 .info-row{
 	color: black;
+}
+
+.form-group{
+	margin-top: 10px;
 }
 
 .pad-bottom{
