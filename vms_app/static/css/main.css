@@ -62,6 +62,14 @@
 	cursor: pointer;
 }
 
+#error-messages{
+	/* TODO: customize */
+	background-color: #c33;
+	color: #fff;
+	padding: 10px;
+	margin-top: 10px;
+}
+
 .button-decoration{
 	font-size: 2em;
 }

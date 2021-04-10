@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from vms_app.models import Staff
 
 from .models import Dose
@@ -46,9 +47,10 @@ def admin_login(request):
                 print("user is not none!")
                 login(request, user)
                 return redirect('role-select')
+            else:
+                messages.info(request, 'Email or password is incorrect')
 
             print("email is: ", email)
-
         else:
             print("request.method is: ", request.method)
 
