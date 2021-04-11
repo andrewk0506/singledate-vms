@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from vms_app.models import Dose, Role, Staff
 from vms_app.forms import CreateStaffForm
-from vms_app.decorators import admin_login_required
+from vms_app.decorators import admin_login_required, has_group
 
 
 
@@ -28,8 +28,9 @@ def verify(request):
     return render(request, "verify.html", {})
 
 def admin_logout(request):
-    print("Role before logout is: ", request.session['role'])
-    del request.session['role']
+    if request.session.has_key("role"):
+        print("Role before logout is: ", request.session['role'])
+        del request.session["role"]
     logout(request)
 
     return redirect("admin-login")
@@ -38,13 +39,16 @@ def admin_logout(request):
 def admin_login(request):
     print("In admin_login again")
     print("request.METHOD is: ", request.method)
-    if request.method == "GET" and request.user.is_authenticated:
+    if request.method == "GET" and request.user.is_authenticated and \
+            has_group(request.user, "ADMIN"):
         print("user is authenticated currently")
-        if request.session.has_key("role") and request.session["role"] == "ADMIN":
-            print("User is already authenticated as admin role")
-            return redirect('role-select')
+
+        if request.session.has_key("role") and request.session["role"] != "ADMIN":
+            context = { "message": "You need to login again to see this page" }
+            return render(request, "admin-login.html", context)
         else:
-            return render(request, "admin-login.html", {})
+            request.session["role"] = "ADMIN"
+            return render(request, "role-select.html", {})
 
     if request.method == "POST":
         print("request.POST is: ", request.POST)
