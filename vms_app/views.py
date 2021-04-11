@@ -137,16 +137,18 @@ def vaccine_info(request):
 #   "page-vaccine-info": {...}
 # }
 def process_request(session_data):
-    print("Session data: ", session_data)
-    process_vaccine_info_data(session_data.get("page-vaccine-info", None))
+    # print("Session data: ", session_data)
+    patient_id = session_data.get("patient_id", 0)
+    page_vaccine_info = session_data.get("page-vaccine-info", None)
+    process_vaccine_info_data(patient_id, page_vaccine_info)
 
 
-def process_vaccine_info_data(data):
+def process_vaccine_info_data(patient_id, data):
     if data is None:
         return
 
     # Update vaccine info
-    dose = Dose.objects.filter(patient=data.get("patient_id", 0)).first()
+    dose = Dose.objects.filter(patient_id=patient_id).first()
     if dose is not None:
         dose.notes = data.get("notes", None)
         dose.location = data.get("location", None)
