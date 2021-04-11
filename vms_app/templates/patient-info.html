@@ -38,7 +38,13 @@
             <h2>Patient Information</h2>
         </div>
         <div class="row text-center mt-4">
-            <h4>Person Name</h4>
+            <h4>
+                {% if patient %}
+                    {{ patient.given_name }} {{ patient.surname }}
+                {% else %}
+                    [Patient Name]
+                {% endif %}
+            </h4>
         </div>
         <div class="row mx-auto mt-3">
             <div class="col-centered">
