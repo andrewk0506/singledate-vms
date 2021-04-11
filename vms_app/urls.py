@@ -13,24 +13,24 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import include, path
+from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.index),
-    path('preregister/', views.preregister),
-    path('preregister/check', views.check),
-    path('preregister/signup', views.signup),
-    path('preregister/verify', views.verify),
-    path('stations/admin_login', views.admin_login),
-    path('stations/role_select', views.role_select),
-    path('stations/staff_select', views.staff_select),
-    path('stations/appointments', views.appointments),
-    path('stations/patient_info', views.patient_info),
-    path('stations/medical_questions', views.medical_questions),
-    path('stations/next_appt', views.next_appt),
-    path('stations/vaccine_info', views.vaccine_info)
+    path("", views.index),
+    path("preregister/", views.preregister),
+    path("preregister/check", views.check),
+    path("preregister/signup", views.signup),
+    path("preregister/verify", views.verify),
+    path("stations/admin_login", views.admin_login),
+    path("stations/role_select", views.role_select),
+    path("stations/staff_select", views.staff_select),
+    path("stations/appointments", views.appointments),
+    path("stations/patient_info", views.patient_info),
+    path("stations/medical_questions", views.medical_questions),
+    path("stations/next_appt", views.next_appt),
+    path("stations/vaccine_info", views.vaccine_info),
+    path("stations/vaccine_info_submit", views.vaccine_info_submit),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -34,7 +34,7 @@ def role_select(request):
 
 def staff_select(request):
     context = {"staff": Staff.objects.all()}
-    print("staff is", Staff.objects.first().surName)
+    # print("staff is", Staff.objects.first().surName)
     return render(request, "select-staff.html", context)
 
 
@@ -57,3 +57,8 @@ def next_appt(request):
 def vaccine_info(request):
     context = {"locations": Dose.LOCATIONS}
     return render(request, "vaccine-information.html", context)
+
+
+def vaccine_info_submit(request):
+    print(request.POST)
+    return vaccine_info(request)

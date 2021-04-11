@@ -1,17 +1,203 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-      <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Rosario&display=swap" rel="stylesheet" />
-        <style>
-					body {
-  font-size: 14px;
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
+		integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
+
+	<title>Today's Appointments</title>
+
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Schedule Next Appointment</title>
+</head>
+
+<style>
+.test-class{
+	font: large;
+}
+
+/* Start CSS for Vaccine Information */
+
+#page-header {
+	background-color: #14213D;
+	color: #ffffff;
+	font-size: 20px;
+	font-family: 'Archivo', sans-serif;
+	padding: 0.75em;
+}
+
+.page-header-button {
+	color: #ffffff;
+	font-size: 20px;
+	font-family: 'Archivo', sans-serif;
+	padding: 0px;
+}
+
+.page-header-button:hover {
+	color: #ffffff;
+	font-size: 20px;
+	font-family: 'Archivo', sans-serif;
+	padding: 0px;
+}
+
+
+#page-form {
+	padding-top: 2em;
+}
+
+#page-form  label {
+	font-size: 1.5em;
+	font-weight: 500;
+}
+.description{
+	font-size: 1.5em;
+}
+
+#page-form  textarea {
+	box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.2);
+	border: 1px solid rgba(0,0,0,0.2);
+}
+
+#page-form select {
+	box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
+	border: 1px solid rgba(0,0,0,0.2);
+}
+
+.input-form{
+	background-color: #F3F3F3;
+	box-shadow: 1px 2px;
+	font-size: 1.5em;
+}
+
+#forgot-creds{
+	color: #004BBB;
+	text-decoration: underline;
+	font-size: 1.2em;
+	cursor: pointer;
+}
+
+.button-decoration{
+	font-size: 2em;
+}
+
+.description-smaller{
+	font-size: 1.2em;
+}
+
+.appt-row{
+	padding-top: .5vh;
+}
+
+.navy-background{
+	padding-top: 0.5vh;
+	background-color:#004BBB
+}
+
+#choose-role{
+	padding-top: 15vh;
+}
+
+#continue-main{
+	padding-top: 15vh;
+}
+
+#staff-signIn{
+	font-size: 2em;
+}
+
+.table-title{
+	font-size: 1.3em;
+}
+
+.red-background{
+	background-color:rgb(244,0,0, 0.7);
+}
+.grey-background{
+	background-color:rgba(229,229,229,1);
+}
+.white-background{
+	background-color:rgba(255,255,255,1);
+}
+.green-background{
+	background-color:rgb(0,244,0, 0.7);
+}
+
+.info-row{
+	color: black;
+  text-align: center;
+  font-family: Roboto;
+  font-weight: Regular;
+  font-size: 20px;
+}
+
+.pad-bottom{
+	padding-bottom: 1.0vh;
+}
+
+.email-group{
+	padding-bottom: 3vh;
+}
+
+.bold{
+	font-weight: bold;
+}
+
+
+#page-form-header {
+	font-size: 2em;
+	font-weight: bold;
+	padding-bottom: 1em;
+}
+
+#page-form-subheader {
+	font-size: 1.5em;
+	font-weight: Regular;
+	padding-bottom: 0.75em;
+}
+
+#page-form-row {
+	background-color: #D7D7D7;
+}
+
+#page-form-container {
+	margin-top: 5em;
+}
+
+.form-card {
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	transition: 0.3s;
+	border-radius: 1em;
+}
+
+.form-card:hover {
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.form-button {
+	background-color: #14213D;
+	color: #ffffff;
+}
+
+.form-button:hover {
+	background-color: #14213D;
+	color: #ffffff;
+}
+
+
+.table-blue {
+	--bs-table-bg: #14213D;
+	--bs-table-striped-bg: #3e444a;
+	--bs-table-striped-color: #fff;
+	--bs-table-active-bg: #484e53;
+	--bs-table-active-color: #fff;
+	--bs-table-hover-bg: #43494e;
+	--bs-table-hover-color: #fff;
+	color: #fff;
+	border-color: #484e53;
 }
 
 div.scrollmenu {
@@ -26,8 +212,8 @@ div.scrollmenu a {
   text-align: center;
   font-family: Roboto;
   font-weight: Regular;
-  font-size: 30px;
-  padding: 25px;
+  font-size: 20px;
+  padding: 24px;
   text-decoration: none;
 }
 
@@ -37,194 +223,16 @@ div.scrollmenu a:hover, div.scrollmenu:focus  {
 
 div.scrollmenu a:active, div.scrollmenu.active div.scrollmenu.active, .open > .dropdown-toggle.div.scrollmenu{
     background: #b0e8a8;
-    box-shadow: #000000;
+    box-shadow: #00000;
 }
-
-.mainback {
-  width: 100%;
-  height: 900px;
-  background: rgba(255,255,255,1);
+.row_scroll {
+  width: 85%;
+  height: 80px;
+  background: rgba(110,63,63,0);
   opacity: 1;
   position: relative;
-  top: 0px;
-  left: 0px;
-  overflow: hidden;
-}
-.nav {
-  width: 100%;
-  height: 116px;
-  background: rgba(20,33,61,1);
-  opacity: 1;
-  position: relative;
-  top: 0px;
-  left: 0px;
-  overflow: hidden;
-}
-.red{
-	color: red;
-}
-.titleback {
-  width: 85%;
-  height: 117px;
-  background: rgba(20,33,61,1);
-  opacity: 1;
-  position: absolute;
-  top: 240px;
-  left: 114px;
-  border: 1px solid rgba(20,33,61,1);
-  overflow: hidden;
-}
-.name {
-  color: #fff;
-}
-.back {
-  width: 452px;
-  color: rgba(255,255,255,1);
-  position: absolute;
-  top: 39px;
-  left: 42px;
-  font-family: Roboto;
-  font-weight: Regular;
-  font-size: 35px;
-  opacity: 1;
-  text-align: center;
-}
-.row1back {
-  width: 85%;
-  height: 128px;
-  background: rgba(229,229,229,1);
-  opacity: 1;
-  position: absolute;
-  top: 727px;
-  left: 114px;
-  border: 1px solid rgba(0,0,0,1);
-  overflow: hidden;
-}
-.row2back {
-  width: 85%;
-  height: 126px;
-  background: rgba(229,229,229,1);
-  opacity: 1;
-  position: absolute;
-  top: 478px;
-  left: 114px;
-  border: 1px solid rgba(0,0,0,1);
-  overflow: hidden;
-}
-.titletime {
-  width: 137px;
-  color: rgba(255,255,255,1);
-  position: absolute;
-  top: 277px;
-  left: 789px;
-  font-family: Roboto;
-  font-weight: Regular;
-  font-size: 35px;
-  opacity: 1;
-  text-align: left;
-}
-.row3back {
-  width: 85%;
-  height: 125px;
-  background: rgba(255,255,255,1);
-  opacity: 1;
-  position: absolute;
-  top: 603px;
-  left: 114px;
-  border: 1px solid rgba(0,0,0,1);
-  overflow: hidden;
-}
-.row4back {
-  width: 85%;
-  height: 124px;
-  background: rgba(255,255,255,1);
-  opacity: 1;
-  position: absolute;
-  top: 355px;
-  left: 114px;
-  border: 1px solid rgba(0,0,0,1);
-  overflow: hidden;
-}
-.titledate {
-  width: 112px;
-  color: rgba(255,255,255,1);
-  position: absolute;
-  top: 277px;
-  left: 226px;
-  font-family: Roboto;
-  font-weight: Regular;
-  font-size: 35px;
-  opacity: 1;
-  text-align: left;
-}
-.person {
-  width: 601px;
-  color: rgba(0,0,0,1);
-  position: absolute;
-  top: 168px;
-  left: 402px;
-  font-family: Roboto;
-  font-weight: Bold;
-  font-size: 35px;
-  opacity: 1;
-  text-align: center;
-}
-.date1 {
-  width: 341px;
-  color: rgba(0,0,0,1);
-  position: absolute;
-  top: 401px;
-  left: 207px;
-  font-family: Roboto;
-  font-weight: Bold;
-  font-size: 30px;
-  opacity: 1;
-  text-align: left;
-}
-.date2 {
-  width: 342px;
-  color: rgba(0,0,0,1);
-  position: absolute;
-  top: 525px;
-  left: 203px;
-  font-family: Roboto;
-  font-weight: Bold;
-  font-size: 30px;
-  opacity: 1;
-  text-align: left;
-}
-.date3 {
-  width: 341px;
-  color: rgba(0,0,0,1);
-  position: absolute;
-  top: 641px;
-  left: 207px;
-  font-family: Roboto;
-  font-weight: Bold;
-  font-size: 30px;
-  opacity: 1;
-  text-align: left;
-}
-.date4 {
-  width: 341px;
-  color: rgba(0,0,0,1);
-  position: absolute;
-  top: 772px;
-  left: 207px;
-  font-family: Roboto;
-  font-weight: Bold;
-  font-size: 30px;
-  opacity: 1;
-  text-align: left;
-}
-.row1 {
-  width: 55%;
-  height: 92px;
-  background: rgba(110,63,63,0);
-  opacity: 1;
-  position: absolute;
-  top: 370px;
-  left: 460px;
+  top: 0;
+  right: 0;
   border: 1px solid rgba(0,0,0,1);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -233,129 +241,135 @@ div.scrollmenu a:active, div.scrollmenu.active div.scrollmenu.active, .open > .d
   overflow: hidden;
 }
 
-.massive{
-	font-size: 70px;
-}
-
-.row2 {
-  width: 55%;
-  height: 92px;
-  background: rgba(110,63,63,0);
-  opacity: 1;
-  position: absolute;
-  top: 622px;
-  left: 460px;
-  border: 1px solid rgba(0,0,0,1);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  overflow: hidden;
-}
-
-.row3 {
-  width: 55%;
-  height: 92px;
-  background: rgba(110,63,63,0);
-  opacity: 1;
-  position: absolute;
-  top: 747px;
-  left: 462px;
-  border: 1px solid rgba(0,0,0,1);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  overflow: hidden;
-}
-
-.row4 {
-  width: 55%;
-  height: 92px;
-  background: rgba(110,63,63,0);
-  opacity: 1;
-  position: absolute;
-  top: 498px;
-  left: 460px;
-  border: 1px solid rgba(0,0,0,1);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  overflow: hidden;
-}
-				</style>
-				<title>Next Appointment</title>
-
-  </head>
-  <body>
-
-		
-    <div class="container">
-        <div class = "red massive">TEMP PAGE, UNDER RECONSTRUCTION</div>
-        <div class="titleback"></div>
-        <div class="name"></div>
-        <div class="row1back"></div>
-        <div class="row2back"></div>
-        <div class="row3back"></div>
-        <div class="row4back"></div>
-				<form action = "vaccine_info">
-				<button>CLICK HERE TO CONTINUE WITH USER JOURNEY/CONFIRM VACCINATION</button>
-			</form>
-        <span class="titledate">Date</span>
-        <span class="person">Scheduling for: Jen Person</span>
-        <span class="date1">03/29/21</span>
-        <span class="date2">03/30/21</span>
-        <span class="date3">03/31/21</span>
-        <span class="date4">04/01/21</span>
-        <div class="row1">
-            <div class="scrollmenu">
-                <a href="#10:00am">10:00 am</a>
-                <a href="#10:30am">10:30 am</a>
-                <a href="#11:00am">11:00 am</a>
-                <a href="#11:30am">11:30 am</a>
-                <a href="#12:00pm">12:00 pm</a>
-                <a href="#12:30pm">12:30 pm</a>
-                <a href="#1:00pm">1:00 pm</a>
-                <a href="#1:30pm">1:30 pm</a>
-            </div>
-        </div>
-        <div class="row2">
-            <div class="scrollmenu">
-                <a href="#10:00am">10:00 am</a>
-                <a href="#10:30am">10:30 am</a>
-                <a href="#11:00am">11:00 am</a>
-                <a href="#11:30am">11:30 am</a>
-                <a href="#12:00pm">12:00 pm</a>
-                <a href="#12:30pm">12:30 pm</a>
-                <a href="#1:00pm">1:00 pm</a>
-                <a href="#1:30pm">1:30 pm</a>
-            </div>
-        </div>
-        <div class="row3">
-            <div class="scrollmenu">
-                <a href="#10:00am">10:00 am</a>
-                <a href="#10:30am">10:30 am</a>
-                <a href="#11:00am">11:00 am</a>
-                <a href="#11:30am">11:30 am</a>
-                <a href="#12:00pm">12:00 pm</a>
-                <a href="#12:30pm">12:30 pm</a>
-                <a href="#1:00pm">1:00 pm</a>
-                <a href="#1:30pm">1:30 pm</a>
-            </div>
-        </div>
-        <div class="row4">
-            <div class="scrollmenu">
-                <a href="#10:00am">10:00 am</a>
-                <a href="#10:30am">10:30 am</a>
-                <a href="#11:00am">11:00 am</a>
-                <a href="#11:30am">11:30 am</a>
-                <a href="#12:00pm">12:00 pm</a>
-                <a href="#12:30pm">12:30 pm</a>
-                <a href="#1:00pm">1:00 pm</a>
-                <a href="#1:30pm">1:30 pm</a>
-            </div>
-        </div>
+</style>
+<body>
+	<div class="container-fluid">
+		<div class="row" id="page-header">
+				<div class="col-md-10 align-self-center">
+						<a href = "/vms/stations/staff_select" class="btn page-header-button" type="button">
+								<i class="bi bi-caret-left-fill" style="font-size:1em"></i>
+								Back to Medical Questions
+						</a>
+				</div>
+				<div class="col-md-2 align-self-center">
+						<a href = "/vms/stations/staff_select" class="btn page-header-button" type="button">Home</a>
+				</div>
+		</div>
     </div>
-  </body>
+	<div class="container" id="page-form-container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<div id="page-form-header">
+					Schedule Next Appointment
+				</div>
+			</div>
+		</div>
+
+        <div class="row">
+			<div class="col-12 text-center">
+				<div id="page-form-subheader">
+					Scheduling for: Jen Person
+				</div>
+			</div>
+		</div>
+		<div class = "row text-center">
+			<div class = "col-12 description">
+                <div class="table-responsive">
+                    <table class="table blue">
+                        <!-- need to change accent so it's navy here, also need to add some more padding / not quite done yet -->
+                        <thead class="table-blue">
+                            <tr class = "table-title">
+                                <th scope="col">Date</th>
+                                <th scope="col">Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr onclick="window.location='/vms/stations/patient_info';" class = "grey-background appt-row">
+                                <td class = "info-row">03/29/2021</td>
+                                <td class = "info-row">
+                                    <div class="row_scroll">
+                                        <div class="scrollmenu">
+                                            <a href="#10:00am">10:00 am</a>
+                                            <a href="#10:30am">10:30 am</a>
+                                            <a href="#11:00am">11:00 am</a>
+                                            <a href="#11:30am">11:30 am</a>
+                                            <a href="#12:00pm">12:00 pm</a>
+                                            <a href="#12:30pm">12:30 pm</a>
+                                            <a href="#1:00pm">1:00 pm</a>
+                                            <a href="#1:30pm">1:30 pm</a>
+                                            <a href="#2:00pm">2:00 pm</a>
+                                            <a href="#2:30pm">2:30 pm</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr onclick="window.location='/vms/stations/patient_info';" class = "white-background">
+                                <td class = "info-row">03/30/2021</td>
+                                <td class = "info-row">
+                                    <div class="row_scroll">
+                                        <div class="scrollmenu">
+                                            <a href="#10:00am">10:00 am</a>
+                                            <a href="#10:30am">10:30 am</a>
+                                            <a href="#11:00am">11:00 am</a>
+                                            <a href="#11:30am">11:30 am</a>
+                                            <a href="#12:00pm">12:00 pm</a>
+                                            <a href="#12:30pm">12:30 pm</a>
+                                            <a href="#1:00pm">1:00 pm</a>
+                                            <a href="#1:30pm">1:30 pm</a>
+                                            <a href="#2:00pm">2:00 pm</a>
+                                            <a href="#2:30pm">2:30 pm</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr onclick="window.location='/vms/stations/patient_info';" class = "grey-background">
+                                <td class = "info-row">03/31/2021</td>
+                                <td class = "info-row">
+                                    <div class="row_scroll">
+                                        <div class="scrollmenu">
+                                            <a href="#10:00am">10:00 am</a>
+                                            <a href="#10:30am">10:30 am</a>
+                                            <a href="#11:00am">11:00 am</a>
+                                            <a href="#11:30am">11:30 am</a>
+                                            <a href="#12:00pm">12:00 pm</a>
+                                            <a href="#12:30pm">12:30 pm</a>
+                                            <a href="#1:00pm">1:00 pm</a>
+                                            <a href="#1:30pm">1:30 pm</a>
+                                            <a href="#2:00pm">2:00 pm</a>
+                                            <a href="#2:30pm">2:30 pm</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr onclick="window.location='/vms/stations/patient_info';" class = "white-background">
+                                <td class = "info-row">04/01/2021</td>
+                                <td class = "info-row">
+                                    <div class="row_scroll">
+                                        <div class="scrollmenu">
+                                            <a href="#10:00am">10:00 am</a>
+                                            <a href="#10:30am">10:30 am</a>
+                                            <a href="#11:00am">11:00 am</a>
+                                            <a href="#11:30am">11:30 am</a>
+                                            <a href="#12:00pm">12:00 pm</a>
+                                            <a href="#12:30pm">12:30 pm</a>
+                                            <a href="#1:00pm">1:00 pm</a>
+                                            <a href="#1:30pm">1:30 pm</a>
+                                            <a href="#2:00pm">2:00 pm</a>
+                                            <a href="#2:30pm">2:30 pm</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+			</div>
+		</div>
+
+
+	</div>
+
+</body>
+
 </html>

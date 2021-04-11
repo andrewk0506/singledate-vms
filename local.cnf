@@ -4,7 +4,7 @@
 #host = Dev.c4l0m6tsvizp.us-east-1.rds.amazonaws.com
 #user = dev
 #password = tei5VZqCbEcu3fTxhn
-default-character-set = utf8
+#default-character-set = utf8
 database = vms
 host = 127.0.0.1
 user = beans
