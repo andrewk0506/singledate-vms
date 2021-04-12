@@ -1,10 +1,24 @@
 from django.db import models
-from .vaccine_batch import VaccineBatch
-from .slot import Slot
-from .user import Patient
-from .staff import Staff
-from .station import Station
+from .scheduling import Site, Station, Slot
+from .user import Patient, Staff
 
+class VaccineType(models.Model):
+    class Meta:
+        app_label = "vms_app"
+
+    name = models.CharField(max_length=100)
+    daysUntilNext = models.IntegerField()
+    amount = models.FloatField()
+
+
+class VaccineBatch(models.Model):
+    class Meta:
+        app_label = "vms_app"
+
+    batch = models.IntegerField()
+    site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True)
+    vaccineType = models.ForeignKey(VaccineType, on_delete=models.SET_NULL, null=True)
+    expiration = models.DateTimeField(null=True)
 
 class Dose(models.Model):
     class Meta:
@@ -27,15 +41,14 @@ class Dose(models.Model):
 
     patient = models.ForeignKey(
         Patient, on_delete=models.SET_NULL, null=True
-    )  # should become foreign key
+    ) 
     vaccine = models.ForeignKey(VaccineBatch, on_delete=models.SET_NULL, null=True)
-    amount = models.FloatField()
-    administered = models.CharField(max_length=2)
-    location = models.CharField(max_length=3, choices=LOCATIONS)
+    administered = models.CharField(max_length=2, null=True)
+    location = models.CharField(max_length=3, choices=LOCATIONS, null=True)
     vaccinator = models.ForeignKey(Staff, on_delete=models.SET_NULL, null=True)
     station = models.ForeignKey(Station, on_delete=models.SET_NULL, null=True)
-    signIn = models.DateTimeField()
-    timeVax = models.DateTimeField()
+    signIn = models.DateTimeField(null=True)
+    timeVax = models.DateTimeField(null=True)
     slot = models.ForeignKey(Slot, on_delete=models.CASCADE)
     secondDose = models.BooleanField()
     notes = models.TextField(default="")

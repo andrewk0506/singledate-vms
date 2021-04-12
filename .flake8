@@ -5,5 +5,6 @@ per-file-ignores =
     vms_app/models/role.py: E501,
     vms_app/models/__init__.py: F401,
     vms_app/models/dose.py: E501, 
+    vms_app/models/vaccine_batch.py: E501, 
 exclude = 
     vms_app/migrations/*
