@@ -126,11 +126,6 @@
             
         }
 
-        /* Selection styling */
-        $(document).ready(function() {
-            $('select').niceSelect();
-        });
-
         /* Multi page system */
         $('#cont').click( () => {
             page++;
@@ -159,6 +154,16 @@
                               </select>
                         </div>`;
                         $('select').niceSelect();
+                    } else if (question.type === `radio`){
+                        document.getElementById("contentHolder").innerHTML += `
+                        <h1 class="prompt pl">${question.prompt}</h1>
+                        ${question.options.map(opt =>`<div class="sltem pretty p-default p-pulse p-round">
+                        <input type="radio" id="huey" name="drone" value="huey">
+                        <div class="state p-primary"> 
+                            <label class="lbf" for="huey">${opt}</label>
+                        </div>
+                          </div>`).join(`\n`)}
+                        `;
                     }
                 }
             }
