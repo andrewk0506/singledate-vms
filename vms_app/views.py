@@ -2,27 +2,42 @@ from django.shortcuts import render
 from vms_app.models import Staff
 
 from .models import Dose
+from .models.user import PatientForm
 
 
 def index(request):
     return render(request, "index.html", {})
 
 
+# Patient registration
 def preregister(request):
     return render(request, "preregister.html", {})
-
 
 def check(request):
 	return render(request, "search.html", {})
 
 def signup(request):
-    return render(request, "signup.html", {})
-
+    context ={}
+  
+    # create object of form
+    form = PatientForm(request.POST or None)
+      
+    # check if form data is valid
+    if form.is_valid():
+        # save the form data to model
+        print(f"FORM IS VALID\n\n{form.data}")
+        form.save()
+    else:
+        print(f"FORM IS NOT VALID\n\n{form.data}")
+  
+    context['form']= form
+    return render(request, "signup.html", context)
 
 def verify(request):
     return render(request, "verify.html", {})
 
 
+# Admin
 def admin_login(request):
     return render(request, "admin-login.html")
 
