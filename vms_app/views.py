@@ -34,9 +34,18 @@ def role_select(request):
 
 
 def staff_select(request):
-    context = {"staff": Staff.objects.all()}
+    if request.method == "GET":
+        context = {"staff": Staff.objects.all()}
+    
     # print("staff is", Staff.objects.first().surName)
-    return render(request, "select-staff.html", context)
+        return render(request, "select-staff.html", context)
+
+    elif request.method == "POST":
+        print("post request is", request.POST)
+        print("redirecting...")
+        # request.session["station_management"]
+        # return redirect("/vms/stations/appointments")
+        return redirect("/vms/stations/appointments")
 
 
 def appointments(request):
@@ -58,7 +67,10 @@ def patient_info(request):
 
         # Obtain the patient object
         patient = Patient.objects.filter(person=patient_id).first
-        context = {"patient": patient}
+
+        if patient != None:
+            context = {"patient": patient}
+
         return render(request, "patient-info.html", context)
     elif request.method == "POST":
         # set whatever is required into session
@@ -109,6 +121,7 @@ def vaccine_info(request):
         return render(request, "vaccine-information.html", context)
     elif request.method == "POST":
         # Update the session object by filling in the page's data
+        print("the form request is", request.POST)
         vaccine_info_page_data = {
             "method": request.POST["page-form-administration-method"],
             "location": request.POST["page-form-administration-area"],
