@@ -38,7 +38,13 @@
             <h2>Patient Information</h2>
         </div>
         <div class="row text-center mt-4">
-            <h4>Person Name</h4>
+            <h4>
+                {% if patient %}
+                    {{ patient.given_name }} {{ patient.surname }}
+                {% else %}
+                    [Patient Name]
+                {% endif %}
+            </h4>
         </div>
         <div class="row mx-auto mt-3">
             <div class="col-centered">
@@ -46,7 +52,13 @@
                 <tbody>
                     <tr>
                         <th scope="row">Date of Birth</th>
-                        <td>10/06/1989</td>
+                        <td>
+                            {% if patient %}
+                                {{ patient.dob }}
+                            {% else %}
+                                10/06/1989
+                            {% endif %}
+                        </td>
                         <td>
                             <button type="button" class="btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" fill="#14213D" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -58,7 +70,13 @@
                     </tr>
                     <tr>
                         <th scope="row">Gender</th>
-                        <td>Female</td>
+                        <td>
+                            {% if patient %}
+                                {{ patient.gender }}
+                            {% else %}
+                                F
+                            {% endif %}
+                        </td>
                         <td>
                             <button type="button" class="btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" fill="#14213D" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -70,7 +88,13 @@
                     </tr>
                     <tr>
                         <th scope="row">Email</th>
-                        <td>person10@email.com</td>
+                        <td>
+                            {% if patient %}
+                                {{ patient.email }}
+                            {% else %}
+                                person10@email.com
+                            {% endif %}
+                        </td>
                         <td>
                             <button type="button" class="btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" fill="#14213D" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -81,8 +105,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Phone</th>
-                        <td>000-000-0000 (Mobile)</td>
+                        <th scope="row">Zip Code</th>
+                        <td>
+                            {% if patient %}
+                                {{ patient.zip_code }}
+                            {% else %}
+                                00000
+                            {% endif %}
+                        </td>
                         <td>
                             <button type="button" class="btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" fill="#14213D" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -97,7 +127,11 @@
             </div>
         </div>
         <div class="d-flex justify-content-center mt-3">
-            <a href = "/vms/stations/medical_questions" type="button" class="btn btn-primary btn-lg position-relative" style="background-color: #14213D">Confirm</a>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn mb-3 form-button btn-lg position-relative">Confirm</button>
+            </form>
+            <!-- <a href = "/vms/stations/medical_questions" type="button" class="btn btn-primary btn-lg position-relative" style="background-color: #14213D">Confirm</a> -->
         </div>
     </div>
 
