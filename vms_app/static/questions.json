@@ -1,0 +1,43 @@
+{
+    "pages": [
+        {
+            "questions": [
+                {
+                    "prompt": "First Name",
+                    "type": "text",
+                    "maxLength": 50,
+                    "id": "first_name"
+                },
+
+                {
+                    "prompt": "Last Name",
+                    "type": "text",
+                    "maxLength": 50,
+                    "id": "last_name"
+                },
+
+                {
+                    "prompt": "Select an Age Range",
+                    "type": "select",
+                    "options": ["16-25", "26-40", "40-64", "65+"]
+                },
+
+                {
+                    "prompt": "Select your Gender",
+                    "type": "radio",
+                    "options": ["Male", "Female", "Other"]
+                },
+
+                {
+                    "util": "divider"
+                },
+
+                {
+                    "prompt": "By checking this box I certify that I have read and agree to the Terms.",
+                    "type": "agree",
+                    "mandatory": "true"
+                }
+            ]
+        }
+    ]
+}

@@ -21,7 +21,9 @@
             <!-- Main Form -->
             <div id="pageBox">
                 <form id="pageForm" action="/register">
-                    <div class="formSection"> 
+                    <div id="contentHolder" class="formSection"> 
+
+                        <!--
                       
                         <h1 class="prompt">Please enter your full legal name: </h1>
                         <div class="formRow">
@@ -80,7 +82,7 @@
 
                         <div style="background-color: rgba(45, 122, 247, 0.3); margin-top: 50px; margin-bottom: -10px; width: 85%; height: 2px;"></div>
                           
-                        <!-- Terms and Conditions -->
+                        
                         <div class="termbox"> 
                         <div class="pl pretty p-svg p-curve">
                             <input type="checkbox" />
@@ -93,6 +95,8 @@
                         </div>
                         <p class="termlabel">By checking this box I certify that I have read and agree to the Terms.</p>
                         </div>
+
+                        -->
 
                     </div>
         
@@ -115,8 +119,8 @@
 
     <script>
 
-     
         
+             
         var page = 0;
         function pageRender(){
             
@@ -131,6 +135,33 @@
         $('#cont').click( () => {
             page++;
             pageRender();
+        })
+
+
+        /* Load questions from database */
+        var QUESTIONS_ENDPOINT = `/static/questions.json`;
+        fetch(QUESTIONS_ENDPOINT).then(response => response.json()).then(questionData => {
+            for (let page of questionData.pages){
+                for (let question of page.questions){
+                    if (question.type === `text`){
+                        document.getElementById("contentHolder").innerHTML += `
+                        <h1 class="prompt">${question.prompt}</h1>
+                        <div class="formRow">
+                            <input maxlength="${question.maxLength}" class="textInput" type="text" id="${question.id}" name="${question.id}"/>
+                        </div>`;
+                    } else if (question.type === `select`) {
+                        document.getElementById("contentHolder").innerHTML += `     
+                        <h1 class="prompt pl">${question.prompt}</h1>
+                        <div class="formRow">
+                            <select class="selectInput">
+                                <option data-display="Select">Select</option>
+                                ${question.options.map(opt=>`<option>${opt}</option>`).join(`\n`)}
+                              </select>
+                        </div>`;
+                        $('select').niceSelect();
+                    }
+                }
+            }
         })
     </script>
 
