@@ -79,10 +79,16 @@ def medical_questions(request):
     if request.method == "GET":
         # if session is not set, redirect to the
         # appointments page, as directly landing here is not allowed.
-        rs = request.session
-        if not rs or not rs.get("station_management", None):
-            return redirect("/vms/stations/appointments")
-        return render(request, "medical-questions.html")
+        #rs = request.session
+        #if not rs or not rs.get("station_management", None):
+        #    return redirect("/vms/stations/appointments")
+        
+        # Note that I temporarily commented the above lines (82-84) out
+        # so that it is possible to directly access and test this single
+        # page without being redirected to /vms/stations/appointments.
+
+        context = {"medical": MedicalEligibilityQuestion.objects.all()}
+        return render(request, "medical-questions.html", context)
     elif request.method == "POST":
         return redirect("/vms/stations/next_appt")
 
