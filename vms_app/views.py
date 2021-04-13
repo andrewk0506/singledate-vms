@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+import allauth
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
-from vms_app.models import Dose, Role, Staff
+from vms_app.models import Dose, Role, Staff, Site
 from vms_app.forms import CreateStaffForm
 from vms_app.decorators import admin_login_required, has_group
 
@@ -43,12 +45,13 @@ def admin_login(request):
             has_group(request.user, "ADMIN"):
         print("user is authenticated currently")
 
+
         if request.session.has_key("role") and request.session["role"] != "ADMIN":
             context = { "message": "You need to login again to see this page" }
             return render(request, "admin-login.html", context)
         else:
             request.session["role"] = "ADMIN"
-            return render(request, "role-select.html", {})
+            return render(request, "role-selection.html", {})
 
     if request.method == "POST":
         print("request.POST is: ", request.POST)
@@ -115,30 +118,70 @@ def vaccine_info_submit(request):
     print(request.POST)
     return vaccine_info(request)
 
+
+def register_as_admin(form):
+    email = form.cleaned_data.get('email')
+    password = form.cleaned_data.get('password')
+    if not email or not password:
+        raise ValueError("Email and Password should be set")
+
+    if not form.is_valid():
+        raise ValueError(form.errors)
+
+    user = User.objects.create(username=email, email=email, password=password)
+    admin_group = Group.objects.get(name='ADMIN')
+    admin_group.user_set.add(user)
+
+def register_as_nonadmin(form):
+    if form.is_valid():
+        form.save()
+
+
+
 @admin_login_required
 def register_new_staff(request):
     if request.method == "POST":
         print("POST Data is: ", request.POST)
         form = CreateStaffForm(request.POST)
-        if form.is_valid():
-            print("cleaned data is: ", form.cleaned_data)
-            form.save()
-            fname = form.cleaned_data.get('first_name')
-            lname = form.cleaned_data.get('last_name')
-            roleLabel = form.cleaned_data.get('role')
+        roleLabel = form.cleaned_data.get('role')
+
+        try:
+            if roleLabel == 'ADMIN':
+                register_as_admin(form)
+            elif roleLabel == 'SUPPORT STAFF' or roleLabel == "VACCINATOR":
+                register_as_nonadmin(form)
+            else:
+                raise ValueError("Unknown role: {role}".format(role=roleLabel))
+
             messages.success(request,
-                    "{fname} {lname} has been added as a new {role}".format(
-                    fname=fname, lname=lname, role=roleLabel
-                    )
+                "{email} has been added as a new {role}".format(
+                    email=email, role=roleLabel
+                )
             )
 
-        else:
-            print("Form errors are ", form.errors)
+        except Exception as e:
+            print(e)
 
-    roles = reversed(list(map(lambda x: x[1], Role.ROLES)))
-    context = {"roles": roles}
-    print("roles are: ", roles)
-    print("Context is ", context)
+
+    roleIdNameMap = {}
+    for rId, rLabel in Role.ROLES:
+        roleIdNameMap[rId] = rLabel
+
+    roles = Role.objects.all()
+    rolesContext = []
+    for role in roles:
+        site = role.site
+        siteName = "{street}, {city}, {state} - {zipcode}".format(
+            street=site.street, city=site.city, state=site.state, zipcode=site.zipCode
+        )
+        rolesContext.append({
+            "roleId": role.id,
+            "siteName": siteName,
+            "roleType": roleIdNameMap[role.role],
+        })
+
+
+    context = {"roles": rolesContext}
 
     return render(request, "staff-register.html", context)
 

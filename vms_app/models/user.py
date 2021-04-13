@@ -43,7 +43,6 @@ class Staff(models.Model):
     first_name = models.CharField(max_length=100)
     phone_number = PhoneField(null=True, blank=True)
     email = models.CharField(max_length=60)
-    password = models.CharField(max_length=60, null=True, blank=True) # Password not required for non-admins
     HIPAACert = models.DateTimeField(null=True, blank=True)
     medical_id = models.IntegerField(null=True, blank=True)
     role = models.CharField(max_length=60)

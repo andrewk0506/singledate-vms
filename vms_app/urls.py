@@ -26,7 +26,7 @@ urlpatterns = [
     path("preregister/verify", views.verify),
     path("stations/admin_login", views.admin_login, name="admin-login"),
     path("stations/logout", views.admin_logout, name="admin-logout"),
-    path("stations/register_staff", views.register_new_staff, name="staff-register-new"),
+    path("stations/register_staff", views.register_new_staff, name="staff-register"),
     path("stations/role_select", views.role_select, name="role-select"),
     path("stations/staff_select", views.staff_select, name="staff-select"),
     path("stations/appointments", views.appointments),

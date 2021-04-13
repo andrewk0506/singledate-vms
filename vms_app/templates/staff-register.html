@@ -18,6 +18,14 @@
 
 <body>
 	<div class="container" id="page-form-container">
+		<nav>
+			<ul class="nav nav-pills">
+				<li class="nav-item" role="presentation"><a class="nav-link active" href="#">Register Staff </a><li>
+				<li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'role-select' %}">Role Selection</a></li>
+				<li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'staff-select' %}">Staff Selection</a></li>
+				<li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'admin-logout' %}">Logout</a></li>
+			</ul>
+		</nav>
 		<div id="messages">
 			{% include 'partials/messages.html' %}
 		</div>
@@ -75,11 +83,12 @@
 								placeholder="Medical Id" >
 						</div>
 
+
 						<div class="form-group pad-bottom">
 							<label for="new-staff-role-select" class="description pad-bottom">Select Role for New Staff</label>
 							<select id="new-staff-role-select" name="role" class="form-select">
 								{% for role in roles %}
-								<option>{{ role }}</option>
+								<option value="{{ role.id }}">Role: ({{ role.roleType }}) -- Site: ({{ role.siteName }})</option>
 								{% endfor %}
 							</select>
 						</div>
