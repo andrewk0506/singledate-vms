@@ -83,7 +83,13 @@ def role_select(request):
 @login_required(login_url='admin-login')
 def staff_select(request):
     request.session['role'] = 'VACCINATOR'
-    context = {"staff": Staff.objects.all()}
+    allStaff = Staff.objects.all()
+    context = {"staff": allStaff}
+    for field in allStaff[0]._meta.fields:
+        print("staff field", field.name)
+
+    print("staff[0]", allStaff[0].role)
+    print("staff[0].role.role", allStaff[0].role.role)
     return render(request, "select-staff.html", context)
 
 

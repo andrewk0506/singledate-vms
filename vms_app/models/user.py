@@ -1,7 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from phone_field import PhoneField
 from .utils import Gender, Race, Ethnicity, AddressType, States
+from .role import Role
 
 class NoCommaField(models.CharField):
     """
@@ -39,10 +41,11 @@ class Patient(models.Model):
                                     default=AddressType.H)
 
 class Staff(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     last_name = models.CharField(max_length=100, default="")
     first_name = models.CharField(max_length=100)
     phone_number = PhoneField(null=True, blank=True)
     email = models.CharField(max_length=60)
     HIPAACert = models.DateTimeField(null=True, blank=True)
     medical_id = models.IntegerField(null=True, blank=True)
-    role = models.CharField(max_length=60)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, null=True)
