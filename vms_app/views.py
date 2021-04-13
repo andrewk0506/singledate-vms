@@ -3,6 +3,18 @@ from vms_app.models import Staff
 
 from .models import Dose
 from .models.user import Patient as Patient
+from django.db import models
+from vms_app.models.user import Patient
+from .models import Slot
+from vms_app.models.scheduling import Site
+from vms_app.models.utils import Gender
+from .models import MedicalEligibilityQuestion
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+import datetime
+
+
+
 
 
 def index(request):
@@ -34,6 +46,7 @@ def role_select(request):
 
 def staff_select(request):
     if request.method == "GET":
+        # print("staff is", Staff.objects.first())
         context = {"staff": Staff.objects.all()}
     
     # print("staff is", Staff.objects.first().surName)
@@ -42,13 +55,31 @@ def staff_select(request):
     elif request.method == "POST":
         print("post request is", request.POST)
         print("redirecting...")
-        # request.session["station_management"]
+        post_request = request.POST
+        vaccinator = post_request["vaccinator"]
+        support = post_request["staff-member"]
+        request.session["vaccinator"] = vaccinator
+        request.session["staff-member"] = support
+        return HttpResponseRedirect('appointments')
+        #return render(request, "todays-appts.html")
         # return redirect("/vms/stations/appointments")
-        return redirect("/vms/stations/appointments")
 
 
 def appointments(request):
-    return render(request, "todays-appts.html")
+    if request.method == "GET":
+        print("current session is", request.session.items())
+        now = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+        print("now is ", now)
+        #ask matt about this django code relating to his team's section
+        slots = Slot.objects.filter(startTime__lte=now)
+        # dose = Dose.objects.filter(slot__in=slots)
+        # dose_ids = dose.patient_id
+        # patients = Patient.objects.filter(person__in=dose)
+        # print("slots are", slots[0].capacity)
+        # print("doses are", dose[0].location)
+        # print("patients are", patients[0].first_name)
+        context = {"appointments": slots}
+        return render(request, "todays-appts.html", context)
 
 
 def patient_info(request):

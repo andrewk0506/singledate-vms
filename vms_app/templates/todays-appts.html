@@ -77,25 +77,14 @@
 						</tr>
 					</thead>
 					<tbody>
-							<tr onclick="window.location='/vms/stations/patient_info';" class = "green-background appt-row">
-							<td class = "info-row">One, Person</td>
+						{% for slot in appointments %}
+						<tr onclick="window.location='/vms/stations/patient_info';" class = "green-background appt-row">
+							<td class = "info-row">{{slot.capacity}}</td>
 							<td class = "info-row">10:00am</td>
 							<td class = "info-row">First</td>
 							<td class = "info-row">Y</td>
 						</tr>
-					
-						<tr onclick="window.location='/vms/stations/patient_info';" class = "red-background">
-							<td class = "info-row">Two, Person</td>
-							<td class = "info-row">11:00am</td>
-							<td class = "info-row">First</td>
-							<td class = "info-row">N</td>
-						</tr>
-						<tr onclick="window.location='/vms/stations/patient_info';" class = "red-background">
-							<td class = "info-row">Three, Person</td>
-							<td class = "info-row">1:00pm</td>
-							<td class = "info-row">First</td>
-							<td class = "info-row">N</td>
-						</tr>
+						{% endfor %}
 					</tbody>
 				</table>
 			</div>

@@ -29,7 +29,7 @@
 		</div>
 
 
-		<form id = "page-form">
+		<form action="/vms/stations/staff_select" method="post" id = "page-form">
 			{% csrf_token %}
 		<div class="row text-center">
 			<div class="col-4">
@@ -63,7 +63,7 @@
 							<select name = "vaccinator" id="vaccinator-select" name = "vaccinator" class="form-select">
 								{% for person in staff %}
 								
-								<option>{{person.surName}} {{person.givenName}}</option>
+								<option>{{person.first_name}} {{person.last_name}}</option>
 							
 								{% endfor %}
 								
@@ -81,12 +81,13 @@
 					<div class="row m-3">
 						<div class="col-md-12">
 							<!--Source: https://www.cdc.gov/vaccines/hcp/admin/administer-vaccines.html-->
-							<select id="staff-select" class="form-select">
+							<select name = "staff-member" id="staff-select" class="form-select">
 								{% for person in staff %}
-								<!-- {% if person.role_id == 0 %} -->
-								<option>{{person.firstName}} {{person.surName}}</option>
-								<!-- {% endif %} -->
+								
+								<option>{{person.first_name}} {{person.last_name}}</option>
+							
 								{% endfor %}
+								
 							</select>
 						</div>
 					</div>
@@ -94,7 +95,7 @@
 					<br />		
 			</div>
 		</div>
-		</form>
+	
 
 		<div class = "row" id = "continue-main">
 			<div class="col-12 text-center">
@@ -102,51 +103,52 @@
 					<div class="col-md-6 align-self-center">
 
 						
-						
-						<button  type="button" id="continue-button" class="button-decoration btn mb-3 form-button"
-							onclick="posted()">Continue</button>
+						<!-- note: v. important that button is INSIDE the form -->
+						<button  type="submit" id="continue-button" class="button-decoration btn mb-3 form-button"
+							onclick="">Continue</button>
+							<!-- <input type="submit" value="OK"> -->
 						
 					</div>
 				</div>
 			</div>
 		</div>
-
+	</form>
 	</div>
 	<script>
-								function posted(){
+							// 	function posted(){
 							
-		            const form = document.getElementById("page-form");
+		          //   const form = document.getElementById("page-form");
 								
-                const XHR = new XMLHttpRequest();
-                const formData = new FormData(form);
+              //   const XHR = new XMLHttpRequest();
+              //   const formData = new FormData(form);
 
-								console.log("form being submited is", form)
+							// 	console.log("form being submited is", form)
 
-								form.attributes = "asdf"
+							// 	form.attributes = "asdf"
 
-                // verify visually if form has everything
-                // for(const pair of formData.entries()) {
-                //     console.log(pair[0], pair[1]);
-                // }
+              //   // verify visually if form has everything
+              //   // for(const pair of formData.entries()) {
+              //   //     console.log(pair[0], pair[1]);
+              //   // }
 
-                // define on success
-                // XHR.addEventListener( "load", function(event) {
-                //     loaderButtonRow.style.display = "none";
-                //     successButtonRow.style.display = "flex";
-                // });
+              //   // define on success
+              //   // XHR.addEventListener( "load", function(event) {
+              //   //     loaderButtonRow.style.display = "none";
+              //   //     successButtonRow.style.display = "flex";
+              //   // });
 
-                // // define on error
-                // XHR.addEventListener( "error", function(event) {
-                //     loaderButtonRow.style.display = "none";
-                //     failedButtonRow.style.display = "flex";
-                // });
+              //   // // define on error
+              //   // XHR.addEventListener( "error", function(event) {
+              //   //     loaderButtonRow.style.display = "none";
+              //   //     failedButtonRow.style.display = "flex";
+              //   // });
 
-                //sent the post request
-                XHR.open("POST", "/vms/stations/staff_select");
-                XHR.send(formData);
+              //   //sent the post request
+              //   XHR.open("POST", "/vms/stations/staff_select");
+              //   XHR.send(formData);
 								
-                return true;
-							}
+              //   return true;
+							// }
 	</script>
 
 </body>
