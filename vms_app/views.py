@@ -70,11 +70,15 @@ def appointments(request):
         print("current session is", request.session.items())
         now = datetime.datetime.utcnow().strftime("%Y-%m-%d")
         print("now is ", now)
-        #ask matt about this django code relating to his team's section
+        
+        #get all slots within a few hours 
         slots = Slot.objects.filter(startTime__lte=now)
-        # dose = Dose.objects.filter(slot__in=slots)
+
+        #get all doses 
+        dose = Dose.objects.filter(slot__in=slots)
         # dose_ids = dose.patient_id
-        # patients = Patient.objects.filter(person__in=dose)
+        
+        patients = Patient.objects.filter(person__in=dose)
         # print("slots are", slots[0].capacity)
         # print("doses are", dose[0].location)
         # print("patients are", patients[0].first_name)
