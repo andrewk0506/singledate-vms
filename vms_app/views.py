@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 import allauth
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
 from vms_app.models import Dose, Role, Staff, Site
@@ -120,6 +121,7 @@ def vaccine_info(request):
 
 
 @login_required(login_url='admin-login')
+@staff_member_required
 def vaccine_info_submit(request):
     print(request.POST)
     return vaccine_info(request)
