@@ -5,11 +5,10 @@ from .models import Dose
 
 
 def index(request):
-    return render(request, "index.html", {})
-
-
-def preregister(request):
     return render(request, "preregister.html", {})
+
+# def preregister(request):
+#     return render(request, "preregister.html", {})
 
 
 def check(request):
