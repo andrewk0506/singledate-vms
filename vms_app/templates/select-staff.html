@@ -62,8 +62,9 @@
 							<!--Source: https://www.cdc.gov/vaccines/hcp/admin/administer-vaccines.html-->
 							<select name = "vaccinator" id="vaccinator-select" name = "vaccinator" class="form-select">
 								{% for person in staff %}
-								{% if person.role.role == "V" %}
-								<option>{{person.first_name}} {{person.last_name}}</option>
+									{% if person.role.role == "V" %}
+										<option>{{person.first_name}} {{person.last_name}}</option>
+									{% endif %}
 								{% endfor %}
 							</select>
 						</div>
