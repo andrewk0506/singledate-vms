@@ -26,17 +26,10 @@ class Patient(models.Model):
     given_name = models.CharField(max_length=100) # Not null by default.
     surname = models.CharField(max_length=100) # Not null by default.
     dob = models.DateField() # Not null by default.
-<<<<<<< HEAD
-    gender = models.CharField(max_length=1, choices=Gender.choices(), default=Gender.F)
-    race = models.CharField(max_length=1, choices=Race.choices(), default=Race.X)
-    ethnicity = models.CharField(max_length=1, choices=Ethnicity.choices(), default=Ethnicity.X)
-
-=======
     gender = models.CharField(max_length=1, choices=Gender.choices, default=Gender.F)
     race = models.CharField(max_length=1, choices=Race.choices, default=Race.X)
     ethnicity = models.CharField(max_length=1, choices=Ethnicity.choices, default=Ethnicity.X)
-    
->>>>>>> main
+
     ### Contact Info
     # phone = PhoneField(blank=True)
     email = models.EmailField(validators=[validate_email]) # Not null by default.
