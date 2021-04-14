@@ -15,12 +15,17 @@ def preregister(request):
 def check(request):
 	return render(request, "search.html", {})
 
+
 def signup(request):
     return render(request, "signup.html", {})
 
 
 def verify(request):
     return render(request, "verify.html", {})
+
+
+def registered(request):
+    return render(request, "registered.html", {})
 
 
 def admin_login(request):

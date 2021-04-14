@@ -24,6 +24,7 @@ urlpatterns = [
     path("preregister/check", views.check),
     path("preregister/signup", views.signup),
     path("preregister/verify", views.verify),
+    path("preregister/registered", views.registered),
     path("stations/admin_login", views.admin_login),
     path("stations/role_select", views.role_select),
     path("stations/staff_select", views.staff_select),
