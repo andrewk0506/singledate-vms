@@ -21,13 +21,20 @@ def getRoleChoices():
         )
         roleChoices.append((role.id, rollName))
 
+
     return roleChoices
 
 
 class CreateStaffForm(forms.ModelForm):
 	class Meta:
 		model = Staff
-		fields = '__all__'
+		fields = ["first_name", "last_name",  "email", "phone_number", "HIPAACert", "medical_id"]
+
+class LoginForm(forms.Form):
+
+    def login(self, request, user):
+        request.session['role'] = 'ADMIN'
+
 
 class SignupForm(forms.Form):
     last_name = forms.CharField(max_length=100, label='Last Name')
@@ -35,7 +42,7 @@ class SignupForm(forms.Form):
     phone_number = forms.CharField(max_length=12, required=False)
     HIPAACert = forms.DateField(label="HIPAACert", widget=forms.SelectDateWidget)
     medical_id = forms.IntegerField(label='Medical ID')
-    roleId = forms.ChoiceField(choices=getRoleChoices())
+    roleId = forms.ChoiceField(choices=getRoleChoices(), label='Role')
 
 
     def signup(self, request, user):

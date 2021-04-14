@@ -49,3 +49,6 @@ class Staff(models.Model):
     HIPAACert = models.DateTimeField(null=True, blank=True)
     medical_id = models.IntegerField(null=True, blank=True)
     role = models.ForeignKey(Role, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.email

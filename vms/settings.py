@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
+    # phone_field
+    'phone_field',
 ]
 
 MIDDLEWARE = [
@@ -94,7 +97,6 @@ DATABASES = {
         # },
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -141,9 +143,14 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
+ACCOUNT_ADAPTER = 'vms_app.adapter.NoNewUsersAccountAdapter'
+
 
 ########## django-allauth settings ############
-ACCOUNT_SIGNUP_FORM_CLASS = 'vms_app.forms.SignupForm'
+ACCOUNT_SIGNUP_FORM_CLASS = "vms_app.forms.SignupForm"
+ACCOUNT_LOGIN_FORM_CLASS = "vms_app.forms.LoginForm"
+LOGIN_REDIRECT_URL = "/vms/stations/role_select"
+LOGOUT_REDIRECT_URL = "/accounts/login"
 
 SITE_ID = 1
 ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
@@ -152,9 +159,9 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_VERIFICATION = True
 
-#EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.mailgun.org'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.mailgun.org'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = os.getenv("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")

@@ -11,6 +11,16 @@ class Site(models.Model):
     state = models.CharField(max_length=2, choices=States.choices(), default=States.NJ)
     comments = models.TextField()
 
+    def __str__(self):
+        stringFormat = "{street}, {city}, {state}, {zipCode}".format(
+            street=self.street,
+            city=self.city,
+            state=self.state,
+            zipCode=self.zipCode,
+        )
+        return stringFormat
+
+
 class Station(models.Model):
     class Meta:
         app_label = "vms_app"
@@ -27,7 +37,7 @@ class Slot(models.Model):
 	startTime = models.DateTimeField()
 	duration = models.SmallIntegerField(3)
 	capacity = models.IntegerField()
-    
+
     # to avoid circular import  used string
 	vaccineType = models.ForeignKey(
         'vms_app.VaccineType',
