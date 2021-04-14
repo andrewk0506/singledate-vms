@@ -32,5 +32,4 @@ urlpatterns = [
     path("stations/medical_questions", views.medical_questions),
     path("stations/next_appt", views.next_appt),
     path("stations/vaccine_info", views.vaccine_info),
-    path("stations/vaccine_info_submit", views.vaccine_info_submit),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -62,8 +62,17 @@ your immune system?
                             </div>
                             <div class="col-md-2">
                                 <select>
-                                    <option>No</option>
-                                    <option>Yes</option>
+                                    {% for opt in medical %}
+                                        {% if opt.question == 'Do you you have a bleeding disorder or are you on medications that affects your immune system?' %}
+                                            {% if opt.bool == 1 %}
+                                                <option selected > Yes </option>
+                                                <option> No </option>
+                                            {% else %}
+                                                <option selected> No </option>
+                                                <option> Yes </option>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -74,8 +83,17 @@ your immune system?
                             </div>
                             <div class="col-md-2">
                                 <select>
-                                    <option>No</option>
-                                    <option>Yes</option>
+                                    {% for opt in medical %}
+                                        {% if opt.question == 'Do you have any allergies to medications, and/or have you ever had an adverse reaction to a vaccine?' %}
+                                            {% if opt.bool == 1 %}
+                                                <option selected > Yes </option>
+                                                <option> No </option>
+                                            {% else %}
+                                                <option selected> No </option>
+                                                <option> Yes </option>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -85,8 +103,17 @@ your immune system?
                             </div>
                             <div class="col-md-2">
                                 <select>
-                                    <option>No</option>
-                                    <option>Yes</option>
+                                    {% for opt in medical %}
+                                        {% if opt.question == 'Do you have a fever?' %}
+                                            {% if opt.bool == 1 %}
+                                                <option selected > Yes </option>
+                                                <option> No </option>
+                                            {% else %}
+                                                <option selected> No </option>
+                                                <option> Yes </option>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -96,8 +123,17 @@ your immune system?
                             </div>
                             <div class="col-md-2">
                                 <select>
-                                    <option>No</option>
-                                    <option>Yes</option>
+                                    {% for opt in medical %}
+                                        {% if opt.question == 'Are you pregnant or do you plan to become pregnant soon?' %}
+                                            {% if opt.bool == 1 %}
+                                                <option selected > Yes </option>
+                                                <option> No </option>
+                                            {% else %}
+                                                <option selected> No </option>
+                                                <option> Yes </option>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -107,8 +143,17 @@ your immune system?
                             </div>
                             <div class="col-md-2">
                                 <select>
-                                    <option>No</option>
-                                    <option>Yes</option>
+                                    {% for opt in medical %}
+                                        {% if opt.question == 'Are you currently breastfeeding?' %}
+                                            {% if opt.bool == 1 %}
+                                                <option selected > Yes </option>
+                                                <option> No </option>
+                                            {% else %}
+                                                <option selected> No </option>
+                                                <option> Yes </option>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -118,8 +163,17 @@ your immune system?
                             </div>
                             <div class="col-md-2">
                                 <select>
-                                    <option>No</option>
-                                    <option>Yes</option>
+                                    {% for opt in medical %}
+                                        {% if opt.question == 'Have you received another CV-19 vaccine?' %}
+                                            {% if opt.bool == 1 %}
+                                                <option selected > Yes </option>
+                                                <option> No </option>
+                                            {% else %}
+                                                <option selected> No </option>
+                                                <option> Yes </option>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -129,8 +183,17 @@ your immune system?
                             </div>
                             <div class="col-md-2">
                                 <select>
-                                    <option>No</option>
-                                    <option>Yes</option>
+                                    {% for opt in medical %}
+                                        {% if opt.question == 'Have you had any OTHER vaccine in the last 14 days?' %}
+                                            {% if opt.bool == 1 %}
+                                                <option selected > Yes </option>
+                                                <option> No </option>
+                                            {% else %}
+                                                <option selected> No </option>
+                                                <option> Yes </option>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -140,8 +203,17 @@ your immune system?
                             </div>
                             <div class="col-md-2">
                                 <select>
-                                    <option>No</option>
-                                    <option>Yes</option>
+                                    {% for opt in medical %}
+                                        {% if opt.question == 'Will you be available for your second dose in approximately 4 weeks?' %}
+                                            {% if opt.bool == 1 %}
+                                                <option selected > Yes </option>
+                                                <option> No </option>
+                                            {% else %}
+                                                <option selected> No </option>
+                                                <option> Yes </option>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -155,7 +227,11 @@ your immune system?
                             <div class="col-md-12">
                                 Comments
                             </div>
-                            <div class = "col-md-12"> Patient Comment goes here
+                            {% for opt in medical %}
+                                {% if opt.question == 'Comments' %}
+                                    {{ opt.explanation }}
+                                {% endif %}
+                            {% endfor %}
                             </div>
                          </div>
                          
@@ -164,7 +240,11 @@ your immune system?
                             <div class = "col-12 text-center">
                                 <div class="row justify-content-center m-3 p-3">
                                     <div class="col-md-3 align-self-center">
-                                        <a href = "/vms/stations/next_appt" type="button" class="btn mb-3 form-button" onclick="setUpLoaderUntilSuccess()">Confirm</a>
+                                        <!-- <a href = "/vms/stations/next_appt" type="button" class="btn mb-3 form-button" onclick="setUpLoaderUntilSuccess()">Confirm</a> -->
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn mb-3 form-button btn-lg position-relative">Confirm</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

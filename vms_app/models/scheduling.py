@@ -8,7 +8,7 @@ class Site(models.Model):
     street = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     zipCode = models.CharField(max_length=5)
-    state = models.CharField(max_length=2, choices=States.choices(), default=States.NJ)
+    state = models.CharField(max_length=2, choices=States.choices, default=States.NJ)
     comments = models.TextField()
 
 class Station(models.Model):
