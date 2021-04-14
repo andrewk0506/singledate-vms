@@ -7,7 +7,6 @@ def admin_role_required(view_func):
         role = request.session.get("role")
         if role != "ADMIN":
             logout(request.user)
-            print("role is currently:!!!!!!!!!! ", role)
             context = {"message": "You need to login to access this page"}
             return redirect("account_login")
 
