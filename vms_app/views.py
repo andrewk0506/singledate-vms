@@ -1,14 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
-from vms_app.models import Dose, Role, Staff, Site
 from vms_app.forms import CreateStaffForm
-from vms_app.decorators import admin_role_required
+from vms_app.models import Staff, Slot, Dose
 
-
+from .models.user import Patient as Patient
+from django.db import models
+from vms_app.models.user import Patient
+from vms_app.models.scheduling import Site
+from vms_app.models.utils import Gender
+from .models import MedicalEligibilityQuestion
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+import datetime
 
 def index(request):
     return render(request, "index.html", {})
@@ -58,28 +62,98 @@ def export_data(request):
 
 @login_required(login_url='account_login')
 def staff_select(request):
-    request.session['role'] = 'VACCINATOR'
-    allStaff = Staff.objects.all()
-    context = {"staff": allStaff}
-    for field in allStaff[0]._meta.fields:
-        print("staff field", field.name)
+    if request.method == "GET":
+        # print("staff is", Staff.objects.first())
+        context = {"staff": Staff.objects.all()}
 
-    return render(request, "select-staff.html", context)
+    # print("staff is", Staff.objects.first().surName)
+        return render(request, "select-staff.html", context)
+
+    elif request.method == "POST":
+        print("post request is", request.POST)
+        print("redirecting...")
+        post_request = request.POST
+        vaccinator = post_request["vaccinator"]
+        support = post_request["staff-member"]
+        request.session["vaccinator"] = vaccinator
+        request.session["staff-member"] = support
+        return HttpResponseRedirect('appointments')
+        #return render(request, "todays-appts.html")
+        # return redirect("/vms/stations/appointments")
 
 
 @login_required(login_url='account_login')
 def appointments(request):
-    return render(request, "todays-appts.html")
+    if request.method == "GET":
+        print("current session is", request.session.items())
+        now = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+        print("now is ", now)
+        #ask matt about this django code relating to his team's section
+        slots = Slot.objects.filter(startTime__lte=now)
+        # dose = Dose.objects.filter(slot__in=slots)
+        # dose_ids = dose.patient_id
+        # patients = Patient.objects.filter(person__in=dose)
+        # print("slots are", slots[0].capacity)
+        # print("doses are", dose[0].location)
+        # print("patients are", patients[0].first_name)
+        context = {"appointments": slots}
+        return render(request, "todays-appts.html", context)
 
 
 @login_required(login_url='account_login')
 def patient_info(request):
-    return render(request, "patient-info.html")
+    if request.method == "GET":
+        # Get the patient ID from the form
+        patient_id = Patient.objects.first().person
+        if request.POST and request.POST["patient_id"]:
+            patient_id = request.POST["patient_id"]
+
+        # Populate the session
+        print("Session: ", request.session.items())
+        if not request.session.get("station_management", None):
+            request.session["station_management"] = {}
+        request.session["station_management"]["patient_id"] = patient_id
+
+        # Obtain the patient object
+        patient = Patient.objects.filter(person=patient_id).first
+
+        if patient != None:
+            context = {"patient": patient}
+
+        return render(request, "patient-info.html", context)
+    elif request.method == "POST":
+        # set whatever is required into session
+        # then redirect to the next page
+        return redirect("/vms/stations/medical_questions")
 
 
 @login_required(login_url='account_login')
 def medical_questions(request):
-    return render(request, "medical-questions.html")
+    # This is a redirect from patient_info.
+    #
+    # Session should contain patient_id, which can be used
+    # to fetch and display the medical-questions & answers.
+    #
+    # On button submission, we catch the POST request here
+    # and either we update the DB right away, or we set the
+    # questions and answers in the session again and
+    # redirect it to the next page (just like patient_info).
+
+    if request.method == "GET":
+        # if session is not set, redirect to the
+        # appointments page, as directly landing here is not allowed.
+        #rs = request.session
+        #if not rs or not rs.get("station_management", None):
+        #    return redirect("/vms/stations/appointments")
+
+        # Note that I temporarily commented the above lines (82-84) out
+        # so that it is possible to directly access and test this single
+        # page without being redirected to /vms/stations/appointments.
+
+        context = {"medical": MedicalEligibilityQuestion.objects.all()}
+        return render(request, "medical-questions.html", context)
+    elif request.method == "POST":
+        return redirect("/vms/stations/next_appt")
 
 
 @login_required(login_url='account_login')
@@ -89,15 +163,68 @@ def next_appt(request):
 
 @login_required(login_url='account_login')
 def vaccine_info(request):
-    context = {"locations": Dose.LOCATIONS}
-    return render(request, "vaccine-information.html", context)
+    if request.method == "GET":
+        # if session is not set, redirect to the
+        # appointments page, as directly landing here is not allowed.
+        rs = request.session
+        if not rs or not rs.get("station_management", None):
+            return redirect("/vms/stations/appointments")
+        context = {"locations": Dose.LOCATIONS}
+        return render(request, "vaccine-information.html", context)
+    elif request.method == "POST":
+        # Update the session object by filling in the page's data
+        print("the form request is", request.POST)
+        vaccine_info_page_data = {
+            "method": request.POST["page-form-administration-method"],
+            "location": request.POST["page-form-administration-area"],
+            "notes": request.POST["page-form-notes"],
+        }
+        request.session["station_management"][
+            "page-vaccine-info"
+        ] = vaccine_info_page_data
+
+        # Send the entire session object for updating the DB
+        process_request(dict(request.session["station_management"]))
+
+        # If processing is successful, reset the session
+        del request.session["station_management"]
+
+        # Then redirect
+        # Note, the UI currently ignores this redirect and
+        # lets the station staff choose to redirect or not
+        # from the UI.
+        return redirect("/vms/stations/appointments")
 
 
-@login_required(login_url='account_login')
-def vaccine_info_submit(request):
-    print(request.POST)
-    return vaccine_info(request)
+# Maybe all these processing methods
+# below can be moves somewhere else.
 
+# Method to update all the tables
+# for each page data inside the
+# session data.
+#
+# session_data = {
+#   "page-medical-questions": {...},
+#   "page-next-appts": {...},
+#   "page-vaccine-info": {...}
+# }
+def process_request(session_data):
+    # print("Session data: ", session_data)
+    patient_id = session_data.get("patient_id", 0)
+    page_vaccine_info = session_data.get("page-vaccine-info", None)
+    process_vaccine_info_data(patient_id, page_vaccine_info)
+
+
+def process_vaccine_info_data(patient_id, data):
+    if data is None:
+        return
+
+    # Update vaccine info
+    dose = Dose.objects.filter(patient_id=patient_id).first()
+    if dose is not None:
+        dose.notes = data.get("notes", None)
+        dose.location = data.get("location", None)
+        dose.save()
 
 def register_new_staff(request):
     if request.method == "POST":

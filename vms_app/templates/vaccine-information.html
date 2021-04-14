@@ -113,15 +113,15 @@
 
                     <!--Submitted (display is toggled after successful submit)-->
                     <div class="row justify-content-center m-3 p-3" id="successfullySubmittedButtonRow" style="display: none;">
-                        <div class="col-md-2 align-self-center">
-                            <button class="btn btn-success" type="button">Successfully submitted!</button>
+                        <div class="col-md-4 align-self-center">
+                            <button class="btn btn-success" type="button" onclick="window.location='/vms/stations/appointments'">Successfully submitted! <br />Proceed to home.</button>
                         </div>
                     </div>
 
                     <!--Submitted (display is toggled after failure submit)-->
                     <div class="row justify-content-center m-3 p-3" id="failedSubmittedButtonRow" style="display: none;">
                         <div class="col-md-2 align-self-center">
-                            <button class="btn btn-success" type="button">Submission Failed. Try again.</button>
+                            <button class="btn btn-success" type="button" onclick="setUpLoaderUntilSuccess()">Submission Failed. Submit again.</button>
                         </div>
                     </div>
                 </div>
@@ -142,8 +142,10 @@
                 const successButtonRow = document.getElementById("successfullySubmittedButtonRow");
                 const failedButtonRow = document.getElementById("failedSubmittedButtonRow");
 
-                // make the spinning appear now
+                // disable all others and make the spinning one appear now
                 submitButtonRow.style.display = "none";
+                failedButtonRow.style.display = "none";
+                successButtonRow.style.display = "none";
                 loaderButtonRow.style.display = "flex";
 
                 // being prep for sending the POST request
@@ -169,15 +171,8 @@
                 });
 
                 // sent the post request
-                XHR.open("POST", "/vms/stations/vaccine_info_submit");
+                XHR.open("POST", "/vms/stations/vaccine_info");
                 XHR.send(formData);
-                
-                setTimeout(() => {
-                    loaderButtonRow.style.display = "none";
-                    successButtonRow.style.display = "flex";
-                }, 2000);
-
-                // document.getElementById("page-form").submit();
                 return true;
             }
         </script>

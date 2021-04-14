@@ -128,7 +128,7 @@
 
 .info-row{
 	color: black;
-  text-align: center;
+  text-align: left;
   font-family: Roboto;
   font-weight: Regular;
   font-size: 20px;
@@ -200,16 +200,21 @@
 	border-color: #484e53;
 }
 
-div.scrollmenu {
+.appt {
+    flex: 0 0 auto;
+}
+
+.scrollmenu {
   background-color: rgba(122,216,107,1);
-  overflow: auto;
-  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 
 div.scrollmenu a {
   display: inline-block;
   color: black;
-  text-align: center;
+  /* text-align: center; */
   font-family: Roboto;
   font-weight: Regular;
   font-size: 20px;
@@ -223,16 +228,16 @@ div.scrollmenu a:hover, div.scrollmenu:focus  {
 
 div.scrollmenu a:active, div.scrollmenu.active div.scrollmenu.active, .open > .dropdown-toggle.div.scrollmenu{
     background: #b0e8a8;
-    box-shadow: #00000;
+    box-shadow: #000000;
 }
 .row_scroll {
-  width: 85%;
+  /* width: 85%; */
   height: 80px;
   background: rgba(110,63,63,0);
   opacity: 1;
   position: relative;
-  top: 0;
-  right: 0;
+  /* top: 0;
+  right: 0; */
   border: 1px solid rgba(0,0,0,1);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -273,9 +278,9 @@ div.scrollmenu a:active, div.scrollmenu.active div.scrollmenu.active, .open > .d
 			</div>
 		</div>
 		<div class = "row text-center">
-			<div class = "col-12 description">
-                <div class="table-responsive">
-                    <table class="table blue">
+			<div class = "col description">
+                <!-- <div class="table"> -->
+                    <table class="table">
                         <!-- need to change accent so it's navy here, also need to add some more padding / not quite done yet -->
                         <thead class="table-blue">
                             <tr class = "table-title">
@@ -284,79 +289,79 @@ div.scrollmenu a:active, div.scrollmenu.active div.scrollmenu.active, .open > .d
                             </tr>
                         </thead>
                         <tbody>
-                            <tr onclick="window.location='/vms/stations/patient_info';" class = "grey-background appt-row">
+                            <tr onclick="window.location='/vms/stations/vaccine_info';" class = "grey-background appt-row">
                                 <td class = "info-row">03/29/2021</td>
                                 <td class = "info-row">
                                     <div class="row_scroll">
                                         <div class="scrollmenu">
-                                            <a href="#10:00am">10:00 am</a>
-                                            <a href="#10:30am">10:30 am</a>
-                                            <a href="#11:00am">11:00 am</a>
-                                            <a href="#11:30am">11:30 am</a>
-                                            <a href="#12:00pm">12:00 pm</a>
-                                            <a href="#12:30pm">12:30 pm</a>
-                                            <a href="#1:00pm">1:00 pm</a>
-                                            <a href="#1:30pm">1:30 pm</a>
-                                            <a href="#2:00pm">2:00 pm</a>
-                                            <a href="#2:30pm">2:30 pm</a>
+                                            <a href="#10:00am" class="appt">10:00 am</a>
+                                            <a href="#10:30am" class="appt">10:30 am</a>
+                                            <a href="#11:00am" class="appt">11:00 am</a>
+                                            <a href="#11:30am" class="appt">11:30 am</a>
+                                            <a href="#12:00pm" class="appt">12:00 pm</a>
+                                            <a href="#12:30pm" class="appt">12:30 pm</a>
+                                            <a href="#1:00pm" class="appt">1:00 pm</a>
+                                            <a href="#1:30pm" class="appt">1:30 pm</a>
+                                            <a href="#2:00pm" class="appt">2:00 pm</a>
+                                            <a href="#2:30pm" class="appt">2:30 pm</a>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
 
-                            <tr onclick="window.location='/vms/stations/patient_info';" class = "white-background">
+                            <tr onclick="window.location='/vms/stations/vaccine_info';" class = "white-background">
                                 <td class = "info-row">03/30/2021</td>
                                 <td class = "info-row">
                                     <div class="row_scroll">
                                         <div class="scrollmenu">
-                                            <a href="#10:00am">10:00 am</a>
-                                            <a href="#10:30am">10:30 am</a>
-                                            <a href="#11:00am">11:00 am</a>
-                                            <a href="#11:30am">11:30 am</a>
-                                            <a href="#12:00pm">12:00 pm</a>
-                                            <a href="#12:30pm">12:30 pm</a>
-                                            <a href="#1:00pm">1:00 pm</a>
-                                            <a href="#1:30pm">1:30 pm</a>
-                                            <a href="#2:00pm">2:00 pm</a>
-                                            <a href="#2:30pm">2:30 pm</a>
+                                            <a href="#10:00am" class="appt">10:00 am</a>
+                                            <a href="#10:30am" class="appt">10:30 am</a>
+                                            <a href="#11:00am" class="appt">11:00 am</a>
+                                            <a href="#11:30am" class="appt">11:30 am</a>
+                                            <a href="#12:00pm" class="appt">12:00 pm</a>
+                                            <a href="#12:30pm" class="appt">12:30 pm</a>
+                                            <a href="#1:00pm" class="appt">1:00 pm</a>
+                                            <a href="#1:30pm" class="appt">1:30 pm</a>
+                                            <a href="#2:00pm" class="appt">2:00 pm</a>
+                                            <a href="#2:30pm" class="appt">2:30 pm</a>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-                            <tr onclick="window.location='/vms/stations/patient_info';" class = "grey-background">
+                            <tr onclick="window.location='/vms/stations/vaccine_info';" class = "grey-background">
                                 <td class = "info-row">03/31/2021</td>
                                 <td class = "info-row">
                                     <div class="row_scroll">
                                         <div class="scrollmenu">
-                                            <a href="#10:00am">10:00 am</a>
-                                            <a href="#10:30am">10:30 am</a>
-                                            <a href="#11:00am">11:00 am</a>
-                                            <a href="#11:30am">11:30 am</a>
-                                            <a href="#12:00pm">12:00 pm</a>
-                                            <a href="#12:30pm">12:30 pm</a>
-                                            <a href="#1:00pm">1:00 pm</a>
-                                            <a href="#1:30pm">1:30 pm</a>
-                                            <a href="#2:00pm">2:00 pm</a>
-                                            <a href="#2:30pm">2:30 pm</a>
+                                            <a href="#10:00am" class="appt">10:00 am</a>
+                                            <a href="#10:30am" class="appt">10:30 am</a>
+                                            <a href="#11:00am" class="appt">11:00 am</a>
+                                            <a href="#11:30am" class="appt">11:30 am</a>
+                                            <a href="#12:00pm" class="appt">12:00 pm</a>
+                                            <a href="#12:30pm" class="appt">12:30 pm</a>
+                                            <a href="#1:00pm" class="appt">1:00 pm</a>
+                                            <a href="#1:30pm" class="appt">1:30 pm</a>
+                                            <a href="#2:00pm" class="appt">2:00 pm</a>
+                                            <a href="#2:30pm" class="appt">2:30 pm</a>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-                            <tr onclick="window.location='/vms/stations/patient_info';" class = "white-background">
+                            <tr onclick="window.location='/vms/stations/vaccine_info';" class = "white-background">
                                 <td class = "info-row">04/01/2021</td>
                                 <td class = "info-row">
                                     <div class="row_scroll">
                                         <div class="scrollmenu">
-                                            <a href="#10:00am">10:00 am</a>
-                                            <a href="#10:30am">10:30 am</a>
-                                            <a href="#11:00am">11:00 am</a>
-                                            <a href="#11:30am">11:30 am</a>
-                                            <a href="#12:00pm">12:00 pm</a>
-                                            <a href="#12:30pm">12:30 pm</a>
-                                            <a href="#1:00pm">1:00 pm</a>
-                                            <a href="#1:30pm">1:30 pm</a>
-                                            <a href="#2:00pm">2:00 pm</a>
-                                            <a href="#2:30pm">2:30 pm</a>
+                                            <a href="#10:00am" class="appt">10:00 am</a>
+                                            <a href="#10:30am" class="appt">10:30 am</a>
+                                            <a href="#11:00am" class="appt">11:00 am</a>
+                                            <a href="#11:30am" class="appt">11:30 am</a>
+                                            <a href="#12:00pm" class="appt">12:00 pm</a>
+                                            <a href="#12:30pm" class="appt">12:30 pm</a>
+                                            <a href="#1:00pm" class="appt">1:00 pm</a>
+                                            <a href="#1:30pm" class="appt">1:30 pm</a>
+                                            <a href="#2:00pm" class="appt">2:00 pm</a>
+                                            <a href="#2:30pm" class="appt">2:30 pm</a>
                                         </div>
                                     </div>
                                 </td>
