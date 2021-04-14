@@ -14,7 +14,7 @@ class MedicalEligibilityQuestion(models.Model):
     language = models.CharField(max_length=20)
     question = models.CharField(max_length=255)
     explanation = models.TextField()
-    gender = models.CharField(max_length=1, choices=Gender.choices(), default=Gender.F)
+    gender = models.CharField(max_length=1, choices=Gender.choices, default=Gender.F)
     bool = models.BooleanField(default=True)
 
 class MedicalEligibilityAnswer(models.Model):
