@@ -30,7 +30,7 @@ class Patient(models.Model):
     ethnicity = models.CharField(max_length=1, choices=Ethnicity.choices, default=Ethnicity.X)
     
     ### Contact Info
-    phone = PhoneField(blank=True)
+    # phone = PhoneField(blank=True)
     email = models.EmailField(validators=[validate_email]) # Not null by default.
     street = NoCommaField(max_length=100) # Not null by default.
     city = models.CharField(max_length=100) # Not null by default.
