@@ -34,3 +34,4 @@ class MedicalEligibility(models.Model):
     type = CleanCharField(max_length=1, choices=MedicalQuestionType.choices)
     start_date = models.DateField()
     end_date = models.DateField()
+
