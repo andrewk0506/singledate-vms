@@ -24,6 +24,7 @@ urlpatterns = [
     path("check/", views.check),
     path("signup/", views.signup),
     path("verify/", views.verify),
+    path("registered/", views.registered),
     path("stations/admin_login", views.admin_login),
     path("stations/role_select", views.role_select),
     path("stations/staff_select", views.staff_select),

@@ -32,6 +32,7 @@ def preregister(request):
 def check(request):
 	return render(request, "search.html", {})
 
+
 def signup(request):
     """
         TODO: 
@@ -98,6 +99,10 @@ def verify(request):
 
 
 # Admin
+def registered(request):
+    return render(request, "registered.html", {})
+
+
 def admin_login(request):
     return render(request, "admin-login.html")
 
