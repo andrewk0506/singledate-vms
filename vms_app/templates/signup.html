@@ -20,11 +20,9 @@
 
             <!-- Main Form -->
             <div id="pageBox">
-                <form id="pageForm" action="/register">
-                    <div id="contentHolder" class="formSection"> 
-
-                    </div>
-        
+                <form method="POST" id="pageForm" action="/register">
+                {% csrf_token %}
+                    
                  
                  </form>
            
@@ -32,7 +30,7 @@
 
               
             <div id="navigation">
-                <button class="navBtn navLeft">
+                <button id="back" class="navBtn navLeft">
                 Back
                 </button>
                 <button id="cont" class="navBtn navRight">
@@ -45,33 +43,86 @@
     <script>
 
         
-             
+        let TOTAL_PAGES;
         var page = 0;
         function pageRender(){
-            
+            for (let element of document.getElementsByClassName("formSection")){
+                if (element.id.includes(page)) { 
+                    element.style.display = `inline-block`;
+                } else {
+                    element.style.display = `none`;
+                }
+
+                console.log(page);
+                console.log(TOTAL_PAGES);
+
+                if (page === TOTAL_PAGES-1){
+                    document.getElementById("cont").innerText = "Submit";
+                } else {
+                    document.getElementById("cont").innerText = "Next »";
+                }
+
+                if (page === 0) {
+                    document.getElementById("back").style.cursor = "not-allowed";
+                    document.getElementById("back").style.opacity = 0.2;
+                } else {
+                    document.getElementById("back").style.cursor = "pointer";
+                    // document.getElementById("back").style.opacity = 1;
+                    // document.getElementById("back").style.color = "white";
+                }
+            }
         }
 
         /* Multi page system */
         $('#cont').click( () => {
-            page++;
-            pageRender();
+            
+            if (page === TOTAL_PAGES-1){
+                // window.location.href = "/vms/preregister";
+                document.getElementById("pageForm").submit();
+            } else {
+                page++;
+                pageRender();
+            }
+
         })
+
+        $('#back').click(() => {
+            if (page === 0){
+                return;
+            } else {
+                page--;
+                pageRender();
+            }
+
+        });
+
 
 
         /* Load questions from database */
         var QUESTIONS_ENDPOINT = `/static/questions.json`;
         fetch(QUESTIONS_ENDPOINT).then(response => response.json()).then(questionData => {
+            TOTAL_PAGES = questionData.pages.length;
+            var i = 0;
             for (let page of questionData.pages){
+
+                // Create container
+                var currContainer = document.createElement("div");
+                // Assign ID & set default styling
+                currContainer.id = `content-holder-${i}`;
+                currContainer.className = `formSection`;
+                if (i !== 0 ) currContainer.style.display = `none`;
+                // Append to DOM
+                document.getElementById("pageForm").appendChild(currContainer);
+
                 for (let question of page.questions){
-                    console.log(question.util);
                     if (question.type === `text`){
-                        document.getElementById("contentHolder").innerHTML += `
+                        currContainer.innerHTML += `
                         <h1 class="prompt pl">${question.prompt}</h1>
                         <div class="formRow">
                             <input maxlength="${question.maxLength}" class="textInput" type="text" id="${question.id}" name="${question.id}"/>
                         </div>`;
                     } else if (question.type === `select`) {
-                        document.getElementById("contentHolder").innerHTML += `     
+                        currContainer.innerHTML += `     
                         <h1 class="prompt pl">${question.prompt}</h1>
                         <div class="formRow">
                             <select class="selectInput">
@@ -80,22 +131,22 @@
                               </select>
                         </div>`;
                         $('select').niceSelect();
-                    } else if (question.type === `radio`){
-                        document.getElementById("contentHolder").innerHTML += `
+                    } else if (question.type === `radio`) {
+                        currContainer.innerHTML += `
                         <h1 class="prompt pl">${question.prompt}</h1>
                         ${question.options.map(opt =>`<div class="sltem pretty p-default p-pulse p-round">
                         <input type="radio" id="huey" name="drone" value="huey">
                         <div class="state p-primary"> 
-                            <label class="lbf" for="huey">${opt}</label>
+                           <label class="lbf" for="huey">${opt}</label>
                         </div>
                           </div>`).join(`\n`)}
                         `;
-                    } else if (question.util === `divider`){
-                        document.getElementById("contentHolder").innerHTML += `
+                    } else if (question.util === `divider`) {
+                        currContainer.innerHTML += `
                         <div style="background-color: rgba(45, 122, 247, 0.3); margin-top: 50px; margin-bottom: -10px; width: 85%; height: 2px;"></div>
                         `;
-                    } else if (question.type === `agree`){
-                        document.getElementById("contentHolder").innerHTML += `   <div class="termbox"> 
+                    } else if (question.type === `agree`) {
+                        currContainer.innerHTML += `<div class="termbox"> 
                         <div class="pl pretty p-svg p-curve">
                             <input type="checkbox" />
                             <div class="state p-success">
@@ -109,8 +160,14 @@
                         </div>`;
                     }
                 }
+                
+                i++;
             }
+
+            pageRender();
         })
+
+
     </script>
 
 </html>
