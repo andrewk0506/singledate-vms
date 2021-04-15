@@ -65,3 +65,5 @@ class PatientForm(ModelForm):
 #         return render(self.request, 'done.html', {
 #             'form_data': [form.cleaned_data for form in form_list],
 #         })
+
+

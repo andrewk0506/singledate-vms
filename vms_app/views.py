@@ -35,7 +35,6 @@ def check(request):
 def signup(request):
     """
         TODO: 
-            4. New page 
             5. Populate Question with db
             6. Populate Answer with answer from table 
 
@@ -43,10 +42,12 @@ def signup(request):
             1. Reconnect basic info name, etc...
             2. Connect contact info/address etc...
             3. Submit those to db
+            4. New page 
+
 
     """
     context ={}
-    questionData = json.loads(open("vms_app/templates/json/questions.json", "r").read())
+    # questionData = json.loads(open("vms_app/templates/json/questions.json", "r").read())
 
 
   
@@ -64,23 +65,28 @@ def signup(request):
         print(f"FORM IS NOT VALID\n\n{patient_form.data}")
         # return HttpResponseRedirect("/vms/signup")
 
-    # if request.method == "GET":
-    #     medQuestions = MedicalEligibilityQuestion.objects.all()
-    #     medPage = {"questions": []}
-    #     for medQ in medQuestions:
-    #         if medQ.bool:
-    #             newQuestion =  { "prompt": medQ.question, "type": "select", "options": ["No", "Yes"], "id": f"medical-{medQ.id}"}
-    #             medPage["questions"].append(newQuestion)
-    #         else: 
-    #             newQuestion =  { "prompt": medQ.question, "type": "text",  "maxLength": 100, "id": f"medical-{medQ.id}"}
-    #             medPage["questions"].append(newQuestion)
+    if request.method == "GET":
+        medQuestions = MedicalEligibilityQuestion.objects.all()
+        medPage = {"questions": []}
+        for medQ in medQuestions:
+            print(medQ.question)
+            newQuestion = {
+                "prompt": medQ.question,
+                "id": medQ.id,
+                "explanation": medQ.explanation,
+                "gender": medQ.gender
+            }
+            if medQ.bool:
+                additional =  { "type": "select", "options": ["No", "Yes"]}
+            else: 
+                additional =  { "prompt": medQ.question, "type": "text",  "maxLength": 100, "id": f"{medQ.id}"}
+            
+            medPage["questions"].append(dict(newQuestion,**additional))
         
-    #     questionData["pages"].append(medPage)
-
-
+        # questionData["pages"] = medPage
 
     #     # context['form']= form
-    #     context['questionData'] = json.dumps(questionData)
+        # context[] = 
     #     return render(request, "signup.html", context)
     
     # elif request.method == "POST":
@@ -88,8 +94,10 @@ def signup(request):
     #     return HttpResponseRedirect("/vms/")
     context = {
         'patient_form': patient_form,
-        'answer_form': answer_form
+        'answer_form': answer_form,
+        'questionData': medPage
     }
+    print(context['questionData'])
     return render(request, "signup.html", context)
 
 def verify(request):
