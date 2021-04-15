@@ -79,7 +79,7 @@ def signup(request):
             if medQ.bool:
                 additional =  { "type": "select", "options": ["No", "Yes"]}
             else: 
-                additional =  { "prompt": medQ.question, "type": "text",  "maxLength": 100, "id": f"{medQ.id}"}
+                additional =  { "prompt": medQ.question, "maxLength": 100, "id": f"{medQ.id}", 'type': 'select' if medQ.bool else 'text'}
             
             medPage["questions"].append(dict(newQuestion,**additional))
         
