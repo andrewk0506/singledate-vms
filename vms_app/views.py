@@ -79,19 +79,10 @@ def signup(request):
             if medQ.bool:
                 additional =  { "type": "select", "options": ["No", "Yes"]}
             else: 
-                additional =  { "prompt": medQ.question, "type": "text",  "maxLength": 100, "id": f"{medQ.id}"}
+                additional =  { "type": "text",  "options": 100}
             
             medPage["questions"].append(dict(newQuestion,**additional))
         
-        # questionData["pages"] = medPage
-
-    #     # context['form']= form
-        # context[] = 
-    #     return render(request, "signup.html", context)
-    
-    # elif request.method == "POST":
-    #     print(request.POST)
-    #     return HttpResponseRedirect("/vms/")
     context = {
         'patient_form': patient_form,
         'answer_form': answer_form,
