@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from vms_app.models import Staff
 
 from .models import Dose
-from .models import Patient as Patient
 from django.db import models
 from vms_app.models import Patient
 from vms_app.models import MedicalEligibilityAnswer, MedicalEligibilityQuestion
@@ -14,7 +13,7 @@ from django.urls import reverse
 import datetime
 import json
 
-from .models.user import PatientForm
+from .forms import PatientForm, MedicalEligibilityAnswerForm
 
 
 
@@ -53,7 +52,7 @@ def signup(request):
   
     # create object of form
     patient_form = PatientForm(request.POST or None)
-    answer_form = MedicalEligibilityAnswer(request.POST or None)
+    answer_form = MedicalEligibilityAnswerForm(request.POST or None)
     
     # check if form data is valid
     if patient_form.is_valid():
@@ -87,7 +86,10 @@ def signup(request):
     # elif request.method == "POST":
     #     print(request.POST)
     #     return HttpResponseRedirect("/vms/")
-    context['patient_form']= patient_form
+    context = {
+        'patient_form': patient_form,
+        'answer_form': answer_form
+    }
     return render(request, "signup.html", context)
 
 def verify(request):

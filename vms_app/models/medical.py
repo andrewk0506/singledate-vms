@@ -1,5 +1,4 @@
 from django.db import models
-from django.forms import ModelForm
 from .user import Patient
 from .scheduling import Site
 from .utils import Gender
@@ -41,8 +40,3 @@ class MedicalEligibility(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
 
-
-class MedicalEligibilityAnswerForm(ModelForm):
-    class Meta:
-        model = MedicalEligibilityAnswer
-        fields = '__all__'
