@@ -22,15 +22,16 @@ class Patient(models.Model):
     """
     ### Personal Data
     person = models.AutoField(primary_key=True)
-    given_name = models.CharField(max_length=100) # Not null by default.
-    surname = models.CharField(max_length=100) # Not null by default.
+    first_name = models.CharField(max_length=100) # Not null by default.
+    last_name = models.CharField(max_length=100)  # Not null by default.
+    middle_initial = models.CharField(max_length=1)
     dob = models.DateField() # Not null by default.
     gender = models.CharField(max_length=1, choices=Gender.choices, default=Gender.F)
     race = models.CharField(max_length=1, choices=Race.choices, default=Race.X)
     ethnicity = models.CharField(max_length=1, choices=Ethnicity.choices, default=Ethnicity.X)
     
     ### Contact Info
-    # phone = PhoneField(blank=True)
+    phone = PhoneField(blank=True)
     email = models.EmailField(validators=[validate_email]) # Not null by default.
     street = NoCommaField(max_length=100) # Not null by default.
     city = models.CharField(max_length=100) # Not null by default.
@@ -53,7 +54,7 @@ class Staff(models.Model):
 class PatientForm(ModelForm):
     class Meta:
         model = Patient
-        fields = ['given_name', 'gender', 'dob']
+        fields = ['first_name', 'gender', 'dob']
 
     gender = ChoiceField(choices=Gender.choices, widget=RadioSelect())
     # gender = ModelChoiceField(queryset=Gender.choices,to_field_name="name")
