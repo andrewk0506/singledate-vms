@@ -126,9 +126,9 @@
                         currContainer.innerHTML += `     
                         <h1 class="prompt pl">${question.prompt}</h1>
                         <div class="formRow">
-                            <select class="selectInput">
-                                <option data-display="Select">Select</option>
-                                ${question.options.map(opt=>`<option>${opt}</option>`).join(`\n`)}
+                            <select name=${question.id} class="selectInput">
+                                <option value="select" data-display="Select">Select</option>
+                                ${question.options.map(opt=>`<option value="${opt}">${opt}</option>`).join(`\n`)}
                               </select>
                         </div>`;
                         $('select').niceSelect();
@@ -136,7 +136,7 @@
                         currContainer.innerHTML += `
                         <h1 class="prompt pl">${question.prompt}</h1>
                         ${question.options.map(opt =>`<div class="sltem pretty p-default p-pulse p-round">
-                        <input type="radio" id="huey" name="drone" value="huey">
+                        <input type="radio" name="${question.id}" value="${opt}">
                         <div class="state p-primary"> 
                            <label class="lbf" for="huey">${opt}</label>
                         </div>

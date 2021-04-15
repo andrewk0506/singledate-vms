@@ -28,7 +28,8 @@
                 {
                     "prompt": "Select your Gender",
                     "type": "radio",
-                    "options": ["Male", "Female", "Other"]
+                    "options": ["Male", "Female", "Other"],
+                    "id": "gender_select"
                 },
 
                 {

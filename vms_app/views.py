@@ -56,10 +56,10 @@ def signup(request):
         medPage = {"questions": []}
         for medQ in medQuestions:
             if medQ.bool:
-                newQuestion =  { "prompt": medQ.question, "type": "select", "options": ["No", "Yes"]}
+                newQuestion =  { "prompt": medQ.question, "type": "select", "options": ["No", "Yes"], "id": f"medical-{medQ.id}"}
                 medPage["questions"].append(newQuestion)
             else: 
-                newQuestion =  { "prompt": medQ.question, "type": "text",  "maxLength": 100, "id": "null"}
+                newQuestion =  { "prompt": medQ.question, "type": "text",  "maxLength": 100, "id": f"medical-{medQ.id}"}
                 medPage["questions"].append(newQuestion)
         
         questionData["pages"].append(medPage)
