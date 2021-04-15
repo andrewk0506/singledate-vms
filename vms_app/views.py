@@ -35,7 +35,6 @@ def check(request):
 def signup(request):
     """
         TODO: 
-            5. Populate Question with db
             6. Populate Answer with answer from table 
 
         DONE: 
@@ -43,6 +42,8 @@ def signup(request):
             2. Connect contact info/address etc...
             3. Submit those to db
             4. New page 
+            5. Populate Question with db
+
 
 
     """
