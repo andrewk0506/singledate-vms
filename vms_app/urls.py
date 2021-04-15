@@ -20,10 +20,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("", views.index),
-    path("preregister/", views.preregister),
-    path("preregister/check", views.check),
-    path("preregister/signup", views.signup),
-    path("preregister/verify", views.verify),
+    # path("preregister/", views.preregister),
+    path("check/", views.check),
+    path("signup/", views.signup),
+    path("verify/", views.verify),
     path("stations/admin_login", views.admin_login),
     path("stations/role_select", views.role_select),
     path("stations/staff_select", views.staff_select),
@@ -32,5 +32,4 @@ urlpatterns = [
     path("stations/medical_questions", views.medical_questions),
     path("stations/next_appt", views.next_appt),
     path("stations/vaccine_info", views.vaccine_info),
-    path("stations/vaccine_info_submit", views.vaccine_info_submit),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

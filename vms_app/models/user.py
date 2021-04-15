@@ -1,6 +1,7 @@
 from django.db import models
+from django.forms import ModelForm, ModelChoiceField, ChoiceField, RadioSelect
 from django.core.validators import validate_email
-# from phone_field import PhoneField
+from phone_field import PhoneField
 from .utils import Gender, Race, Ethnicity, AddressType, States
 
 class NoCommaField(models.CharField):
@@ -47,3 +48,13 @@ class Staff(models.Model):
     HIPAACert = models.DateTimeField(null=True, blank=True)
     medical_id = models.IntegerField(null=True, blank=True)
     role = models.CharField(max_length=60)
+
+
+class PatientForm(ModelForm):
+    class Meta:
+        model = Patient
+        fields = ['given_name', 'gender', 'dob']
+
+    gender = ChoiceField(choices=Gender.choices, widget=RadioSelect())
+    # gender = ModelChoiceField(queryset=Gender.choices,to_field_name="name")
+    # field2 = forms.ModelChoiceField(queryset=..., )

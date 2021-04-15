@@ -9,12 +9,7 @@
                     "id": "first_name"
                 },
 
-                {
-                    "prompt": "Select an Age Range",
-                    "type": "select",
-                    "options": ["16-25", "26-40", "40-64", "65+"]
-                },
-
+        
                 {
                     "prompt": "Last Name",
                     "type": "text",
@@ -22,6 +17,12 @@
                     "id": "last_name"
                 },
 
+                {
+                    "prompt": "Enter your Birthdate",
+                    "type": "text",
+                    "maxLength": 20,
+                    "id": "birthday"
+                },
             
 
                 {
@@ -34,16 +35,6 @@
                     "util": "divider"
                 },
 
-                {
-                    "prompt": "By checking this box I certify that I have read and agree to the Terms.",
-                    "type": "agree",
-                    "mandatory": "true"
-                }
-            ]
-        },
-
-        {
-            "questions": [
                 {
                     "prompt": "By checking this box I certify that I have read and agree to the Terms.",
                     "type": "agree",

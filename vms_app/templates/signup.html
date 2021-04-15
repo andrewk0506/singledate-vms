@@ -20,7 +20,7 @@
 
             <!-- Main Form -->
             <div id="pageBox">
-                <form method="POST" id="pageForm" action="/register">
+                <form method="POST" id="pageForm">
                 {% csrf_token %}
                     
                  
@@ -100,7 +100,8 @@
 
         /* Load questions from database */
         var QUESTIONS_ENDPOINT = `/static/questions.json`;
-        fetch(QUESTIONS_ENDPOINT).then(response => response.json()).then(questionData => {
+        // fetch(QUESTIONS_ENDPOINT).then(response => response.json()).then(questionData => {
+        let questionData = {{ questionData | safe }}
             TOTAL_PAGES = questionData.pages.length;
             var i = 0;
             for (let page of questionData.pages){
@@ -165,7 +166,7 @@
             }
 
             pageRender();
-        })
+        // })
 
 
     </script>
