@@ -64,7 +64,6 @@ def signup(request):
         return HttpResponseRedirect("/vms/")
     else:
         print(f"FORM IS NOT VALID\n\n{patient_form.data}")
-        # return HttpResponseRedirect("/vms/signup")
 
     if request.method == "GET":
         medQuestions = MedicalEligibilityQuestion.objects.all()
@@ -89,7 +88,9 @@ def signup(request):
         'answer_form': answer_form,
         'questionData': medPage
     }
+
     print(context['questionData'])
+    
     return render(request, "signup.html", context)
 
 def verify(request):
