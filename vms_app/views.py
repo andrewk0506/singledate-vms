@@ -34,45 +34,56 @@ def check(request):
 	return render(request, "search.html", {})
 
 def signup(request):
+    """
+        TODO: 
+            1. Reconnect basic info name, etc...
+            2. Connect contact info/address etc...
+            3. Submit those to db
+            4. Populate Question with db
+            5. Populate Answer with answer from table 
+    """
     context ={}
     questionData = json.loads(open("vms_app/templates/json/questions.json", "r").read())
 
 
   
     # create object of form
-    # form = PatientForm(request.POST or None)
-
+    form = PatientForm(request.POST or None)
     
     # check if form data is valid
-    # if form.is_valid():
-    #     # save the form data to model
-    #     print(f"FORM IS VALID\n\n{form.data}")
-    #     form.save()
-    # else:
-    #     print(f"FORM IS NOT VALID\n\n{form.data}")
-
-    if request.method == "GET":
-        medQuestions = MedicalEligibilityQuestion.objects.all()
-        medPage = {"questions": []}
-        for medQ in medQuestions:
-            if medQ.bool:
-                newQuestion =  { "prompt": medQ.question, "type": "select", "options": ["No", "Yes"], "id": f"medical-{medQ.id}"}
-                medPage["questions"].append(newQuestion)
-            else: 
-                newQuestion =  { "prompt": medQ.question, "type": "text",  "maxLength": 100, "id": f"medical-{medQ.id}"}
-                medPage["questions"].append(newQuestion)
-        
-        questionData["pages"].append(medPage)
-
-
-
-        # context['form']= form
-        context['questionData'] = json.dumps(questionData)
-        return render(request, "signup.html", context)
-    
-    elif request.method == "POST":
-        print(request.POST)
+    if form.is_valid():
+        # save the form data to model
+        print(f"FORM IS VALID\n\n{form.data}")
+        form.save()
         return HttpResponseRedirect("/vms/")
+    else:
+        print(f"FORM IS NOT VALID\n\n{form.data}")
+        # return HttpResponseRedirect("/vms/signup")
+
+    # if request.method == "GET":
+    #     medQuestions = MedicalEligibilityQuestion.objects.all()
+    #     medPage = {"questions": []}
+    #     for medQ in medQuestions:
+    #         if medQ.bool:
+    #             newQuestion =  { "prompt": medQ.question, "type": "select", "options": ["No", "Yes"], "id": f"medical-{medQ.id}"}
+    #             medPage["questions"].append(newQuestion)
+    #         else: 
+    #             newQuestion =  { "prompt": medQ.question, "type": "text",  "maxLength": 100, "id": f"medical-{medQ.id}"}
+    #             medPage["questions"].append(newQuestion)
+        
+    #     questionData["pages"].append(medPage)
+
+
+
+    #     # context['form']= form
+    #     context['questionData'] = json.dumps(questionData)
+    #     return render(request, "signup.html", context)
+    
+    # elif request.method == "POST":
+    #     print(request.POST)
+    #     return HttpResponseRedirect("/vms/")
+    context['form']= form
+    return render(request, "signup.html", context)
 
 def verify(request):
     return render(request, "verify.html", {})
