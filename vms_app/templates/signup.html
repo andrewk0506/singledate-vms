@@ -35,26 +35,27 @@
 
                 <h2 class="prompt">Please enter your first name: </h2>
                 <div class="formRow">
-                    <input class="textInput" type="text" id="{{ form.first_name.id_for_label }}"
-                        name="{{ form.first_name.name }}" />
+                    <input class="textInput" type="text" id="{{ patient_form.first_name.id_for_label }}"
+                        name="{{ patient_form.first_name.name }}" />
                 </div>
 
                 <h2 class="prompt">Please enter your last name: </h2>
                 <div class="formRow">
-                    <input class="textInput" type="text" id="{{ form.last_name.id_for_label }}"
-                        name="{{ form.last_name.name }}" />
+                    <input class="textInput" type="text" id="{{ patient_form.last_name.id_for_label }}"
+                        name="{{ patient_form.last_name.name }}" />
                 </div>
 
                 <h2 class="prompt pl">Please enter your date of birth: </h2>
                 <div class="formRow">
-                    <!-- {{form.dob}} -->
-                    <input class="textInput" type="date" id="{{ form.dob.id_for_label }}" name="{{ form.dob.name }}" />
+                    <!-- {{patient_form.dob}} -->
+                    <input class="textInput" type="date" id="{{ patient_form.dob.id_for_label }}"
+                        name="{{ patient_form.dob.name }}" />
                 </div>
 
 
                 <h2 class="prompt pl">Select your gender: </h2>
 
-                {% for radio in form.gender %}
+                {% for radio in patient_form.gender %}
                 <div class="sltem p-default p-pulse p-round">
                     <div class="custom-control custom-radio state p-primary">
                         {{ radio.tag }}
@@ -63,20 +64,9 @@
                     </div>
                 </div>
                 {% endfor %}
-                <!-- 
-                <h2 class="prompt pl">Select your race: </h2>
-                {% for radio in form.race %}
-                <div class="sltem p-default p-pulse p-round">
-                    <div class="custom-control state p-primary">
-                        {{ radio.tag }}
-                        <label class="custom-control-label lbf"
-                            for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
-                    </div>
-                </div>
-                {% endfor %} -->
 
                 <h2 class="prompt pl">Select your ethnicity: </h2>
-                {% for radio in form.ethnicity %}
+                {% for radio in patient_form.ethnicity %}
                 <div class="sltem p-default p-pulse p-round">
                     <div class="custom-control custom-radio state p-primary">
                         {{ radio.tag }}
@@ -89,37 +79,37 @@
                 <h1 class="pl">Contact Information: </h1>
                 <h2 class="prompt pl">Please enter your email: </h2>
                 <div class="formRow">
-                    <input class="textInput" type="email" id="{{ form.email.id_for_label }}"
-                        name="{{ form.email.name }}" />
+                    <input class="textInput" type="email" id="{{ patient_form.email.id_for_label }}"
+                        name="{{ patient_form.email.name }}" />
                 </div>
 
                 <h2 class="prompt pl">Please enter your phone number: </h2>
                 <div class="formRow">
-                    <input class="textInput" type="tel" id="{{ form.phone.id_for_label }}"
-                        name="{{ form.phone.name }}" />
+                    <input class="textInput" type="tel" id="{{ patient_form.phone.id_for_label }}"
+                        name="{{ patient_form.phone.name }}" />
                 </div>
 
                 <h2 class="prompt pl">Please enter your address: </h2>
 
-                <label for="{{ form.street.id_for_label }}">Address line 1</label>
+                <label for="{{ patient_form.street.id_for_label }}">Address line 1</label>
                 <div class="formRow">
-                    <input class="textInput" type="text" id="{{ form.street.id_for_label }}"
-                        name="{{ form.street.name }}" />
+                    <input class="textInput" type="text" id="{{ patient_form.street.id_for_label }}"
+                        name="{{ patient_form.street.name }}" />
                 </div>
 
-                <label for="{{ form.zip_code.id_for_label }}">Zip Code</label>
-                <label for="{{ form.city.id_for_label }}">City</label>
-                <label for="{{ form.state.id_for_label }}">State</label>
+                <label for="{{ patient_form.zip_code.id_for_label }}">Zip Code</label>
+                <label for="{{ patient_form.city.id_for_label }}">City</label>
+                <label for="{{ patient_form.state.id_for_label }}">State</label>
                 <div class="formRow">
-                    <input class="textInput" type="text" id="{{ form.zip_code.id_for_label }}"
-                        name="{{ form.zip_code.name }}" />
-                    <input class="textInput" type="text" id="{{ form.city.id_for_label }}"
-                        name="{{ form.city.name }}" />
-                    <input class="textInput" type="text" id="{{ form.state.id_for_label }}"
-                        name="{{ form.state.name }}" />
+                    <input class="textInput" type="text" id="{{ patient_form.zip_code.id_for_label }}"
+                        name="{{ patient_form.zip_code.name }}" />
+                    <input class="textInput" type="text" id="{{ patient_form.city.id_for_label }}"
+                        name="{{ patient_form.city.name }}" />
+                    <input class="textInput" type="text" id="{{ patient_form.state.id_for_label }}"
+                        name="{{ patient_form.state.name }}" />
                 </div>
                 <div class="formRow">
-                    {% for radio in form.address_type %}
+                    {% for radio in patient_form.address_type %}
                     <div class="sltem p-default p-pulse p-round">
                         <div class="custom-control custom-radio state p-primary">
                             {{ radio.tag }}
@@ -130,12 +120,9 @@
                     {% endfor %}
                 </div>
 
-
-
                 <div
                     style="background-color: rgba(45, 122, 247, 0.3); margin-top: 50px; margin-bottom: -10px; width: 85%; height: 2px;">
                 </div>
-
 
                 <!-- Terms and Conditions -->
                 <div class="termbox">
@@ -153,9 +140,7 @@
                     <p class="termlabel">By checking this box I certify that I have read and agree to the Terms.
                     </p>
                 </div>
-
             </div>
-
         </form>
     </div>
 

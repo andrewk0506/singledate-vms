@@ -2,13 +2,13 @@ from django.shortcuts import render, redirect
 from vms_app.models import Staff
 
 from .models import Dose
-from .models.user import Patient as Patient
+from .models import Patient as Patient
 from django.db import models
-from vms_app.models.user import Patient
+from vms_app.models import Patient
+from vms_app.models import MedicalEligibilityAnswer, MedicalEligibilityQuestion
 from .models import Slot
 from vms_app.models.scheduling import Site
 from vms_app.models.utils import Gender
-from .models import MedicalEligibilityQuestion
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 import datetime
@@ -36,11 +36,15 @@ def check(request):
 def signup(request):
     """
         TODO: 
+            4. New page 
+            5. Populate Question with db
+            6. Populate Answer with answer from table 
+
+        DONE: 
             1. Reconnect basic info name, etc...
             2. Connect contact info/address etc...
             3. Submit those to db
-            4. Populate Question with db
-            5. Populate Answer with answer from table 
+
     """
     context ={}
     questionData = json.loads(open("vms_app/templates/json/questions.json", "r").read())
@@ -48,16 +52,17 @@ def signup(request):
 
   
     # create object of form
-    form = PatientForm(request.POST or None)
+    patient_form = PatientForm(request.POST or None)
+    answer_form = MedicalEligibilityAnswer(request.POST or None)
     
     # check if form data is valid
-    if form.is_valid():
+    if patient_form.is_valid():
         # save the form data to model
-        print(f"FORM IS VALID\n\n{form.data}")
-        form.save()
+        print(f"FORM IS VALID\n\n{patient_form.data}")
+        patient_form.save()
         return HttpResponseRedirect("/vms/")
     else:
-        print(f"FORM IS NOT VALID\n\n{form.data}")
+        print(f"FORM IS NOT VALID\n\n{patient_form.data}")
         # return HttpResponseRedirect("/vms/signup")
 
     # if request.method == "GET":
@@ -82,7 +87,7 @@ def signup(request):
     # elif request.method == "POST":
     #     print(request.POST)
     #     return HttpResponseRedirect("/vms/")
-    context['form']= form
+    context['patient_form']= patient_form
     return render(request, "signup.html", context)
 
 def verify(request):
