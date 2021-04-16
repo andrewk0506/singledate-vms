@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import ModelForm, ModelChoiceField, ChoiceField, RadioSelect, MultipleChoiceField, CheckboxSelectMultiple, Select
 from django.core.validators import validate_email
 from phone_field import PhoneField
 from .utils import Gender, Race, Ethnicity, AddressType, States
@@ -23,15 +24,16 @@ class Patient(models.Model):
     """
     ### Personal Data
     person = models.AutoField(primary_key=True)
-    given_name = models.CharField(max_length=100) # Not null by default.
-    surname = models.CharField(max_length=100) # Not null by default.
+    first_name = models.CharField(max_length=100) # Not null by default.
+    last_name = models.CharField(max_length=100)  # Not null by default.
+    middle_initial = models.CharField(max_length=1)
     dob = models.DateField() # Not null by default.
     gender = models.CharField(max_length=1, choices=Gender.choices, default=Gender.F)
-    race = models.CharField(max_length=1, choices=Race.choices, default=Race.X)
+    race = models.CharField(max_length=8, choices=Race.choices, default=Race.X)
     ethnicity = models.CharField(max_length=1, choices=Ethnicity.choices, default=Ethnicity.X)
 
     ### Contact Info
-    # phone = PhoneField(blank=True)
+    phone = PhoneField(blank=True)
     email = models.EmailField(validators=[validate_email]) # Not null by default.
     street = NoCommaField(max_length=100) # Not null by default.
     city = models.CharField(max_length=100) # Not null by default.
@@ -52,3 +54,30 @@ class Staff(models.Model):
 
     def __str__(self):
         return self.email
+
+
+# class PatientForm(ModelForm):
+#     class Meta:
+#         model = Patient
+#         # exclude = ['race']
+#         fields = ['first_name',
+#                   'last_name',
+#                   'gender',
+#                   'dob',
+#                   'ethnicity',
+#                   'email',
+#                   'phone',
+#                   'address_type',
+#                   'street',
+#                   'zip_code',
+#                   'city',
+#                   'state']
+
+#     # TODO: Add race as a question
+#     #       Probably involves changing the model type
+
+#     gender = ChoiceField(choices=Gender.choices, widget=RadioSelect())
+#     # race = MultipleChoiceField(choices=Race.choices, widget=CheckboxSelectMultiple())
+#     ethnicity = ChoiceField(choices=Ethnicity.choices, widget=RadioSelect())
+#     # state = ChoiceField(choices=States.choices, widget=Select())
+#     address_type = ChoiceField(choices=AddressType.choices, widget=RadioSelect())

@@ -27,7 +27,7 @@ SECRET_KEY = "dev"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','localhost']
+ALLOWED_HOSTS = ['0.0.0.0','localhost', 'ec2-35-168-7-160.compute-1.amazonaws.com', 'www.getvaccinatednow.org']
 
 STATIC_URL = '/static/'
 
@@ -48,8 +48,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
 
-    # phone_field
-    'phone_field',
+    "phone_field",
+    "formtools",
 ]
 
 MIDDLEWARE = [

@@ -1,137 +1,277 @@
 <html>
-    <head>
-        <title>Appointment Signup Page</title>
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;500;600;900&display=swap" rel="stylesheet">    
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.js" integrity="sha512-GkPcugMfi6qlxrYTRUH4EwK4aFTB35tnKLhUXGLBc3x4jcch2bcS7NHb9IxyM0HYykF6rJpGaIJh8yifTe1Ctw==" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.css" integrity="sha512-uHuCigcmv3ByTqBQQEwngXWk7E/NaPYP+CFglpkXPnRQbSubJmEENgh+itRDYbWV0fUZmUz7fD/+JDdeQFD5+A==" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css"/>
-        
-        {% load static %}
-        <link rel="stylesheet" href="{% static 'main.css' %}" />
-    
-    </head>
 
-    <body>
-            <!-- Top Loading Bars -->
-            <div id="defaultprog"></div>
-            <div id="progress"></div>
+<head>
+    <title>Appointment Signup Page</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;500;600;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.js"
+        integrity="sha512-GkPcugMfi6qlxrYTRUH4EwK4aFTB35tnKLhUXGLBc3x4jcch2bcS7NHb9IxyM0HYykF6rJpGaIJh8yifTe1Ctw=="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.css"
+        integrity="sha512-uHuCigcmv3ByTqBQQEwngXWk7E/NaPYP+CFglpkXPnRQbSubJmEENgh+itRDYbWV0fUZmUz7fD/+JDdeQFD5+A=="
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
 
-            <!-- Main Form -->
-            <div id="pageBox">
-                <form id="pageForm" action="/register">
-                    <div class="formSection"> 
-                      
-                        <h1 class="prompt">Please enter your full legal name: </h1>
-                        <div class="formRow">
-                            <input class="textInput" type="text" id="firstname" name="first_name"/>
-                        </div>
-
-                        
-                        <h1 class="prompt pl">Select an age range: </h1>
-                        <div class="formRow">
-                            <select class="selectInput">
-                                <option data-display="Select">Select</option>
-                                <option>16-25</option>
-                                <option value="1">26-40</option>
-                                <option value="2">40-64</option>
-                                <option value="3">65+</option>
-                              </select>
-                        </div>
-
-
-                        
-                        <h1 class="prompt pl">Select your gender: </h1>
-                        
-                        <div class="slitem">
-                        <div class="sltem pretty p-default p-pulse p-round">
-                        <input type="radio" id="huey" name="drone" value="huey">
-                        <div class="state p-primary"> 
-                            <label class="lbf" for="huey">Male</label>
-                        </div>
-                          </div>
-                        </div>
-
-                        <div class="sltem pretty p-default p-pulse p-round">
-                        <input type="radio" id="huey" name="drone" value="huey">
-                        <div class="state p-primary"> 
-                            <label class="lbf" for="huey">Female</label>
-                        </div>
-                            </div>
-                        
-                            
-                        <div class="sltem pretty p-default p-pulse p-round">
-                        <input type="radio" id="huey" name="drone" value="huey">
-                        <div class="state p-primary"> 
-                            <label class="lbf" for="huey">Other</label>
-                        </div>
-                            </div>
-                    
-                            
-                        <div class="sltem pretty p-default p-pulse p-round">
-                        <input type="radio" id="huey" name="drone" value="huey">
-                        <div class="state p-primary"> 
-                            <label class="lbf" for="huey">Prefer not To Say</label>
-                        </div>
-                            </div>
-
-                        
-
-                        <div style="background-color: rgba(45, 122, 247, 0.3); margin-top: 50px; margin-bottom: -10px; width: 85%; height: 2px;"></div>
-                          
-                        <!-- Terms and Conditions -->
-                        <div class="termbox"> 
-                        <div class="pl pretty p-svg p-curve">
-                            <input type="checkbox" />
-                            <div class="state p-success">
-                                <svg class="svg svg-icon" viewBox="0 0 20 20">
-                                    <path d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z" style="stroke: white;fill:white;"></path>
-                                </svg>
-                                <label style="color: white;">.</label>
-                            </div>
-                        </div>
-                        <p class="termlabel">By checking this box I certify that I have read and agree to the Terms.</p>
-                        </div>
-
-                    </div>
-        
-                 
-                 </form>
-           
-            </div>
-
-              
-            <div id="navigation">
-                <button class="navBtn navLeft">
-                Back
-                </button>
-                <button id="cont" class="navBtn navRight">
-                Next »
-                </button>
-            </div>
-
-    </body>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main.css' %}" />
 
     <script>
+        function renderQuestion(question) {
+            if (question.type === `text`) {
+                return `
+        <h1 class="prompt pl">${question.prompt}</h1>
+        <div class="formRow">
+            <input maxlength="${question.maxLength}" class="textInput" type="text" id="${question.id}"
+                name="${question.id}" />
+        </div>`;
+            } else if (question.type === `select`) {
+                return `
+        <h1 class="prompt pl">${question.prompt}</h1>
+        <div class="formRow">
+            <select name=${question.id} class="selectInput">
+                <option value="select" data-display="Select">Select</option>
+                ${question.options.map(opt=>`<option value="${opt}">${opt}</option>`).join(`\n`)}
+            </select>
+        </div>`;
+                $('select').niceSelect();
+            } else if (question.type === `radio`) {
+                return `
+        <h1 class="prompt pl">${question.prompt}</h1>
+        ${question.options.map(opt =>`<div class="sltem pretty p-default p-pulse p-round">
+            <input type="radio" name="${question.id}" value="${opt}">
+            <div class="state p-primary">
+                <label class="lbf" for="huey">${opt}</label>
+            </div>
+        </div>`).join(`\n`)}
+        `;
+            } else if (question.util === `divider`) {
+                return `
+        <div
+            style="background-color: rgba(45, 122, 247, 0.3); margin-top: 50px; margin-bottom: -10px; width: 85%; height: 2px;">
+        </div>
+        `;
+            } else if (question.type === `agree`) {
+                return `<div class="termbox">
+            <div class="pl pretty p-svg p-curve">
+                <input type="checkbox" />
+                <div class="state p-success">
+                    <svg class="svg svg-icon" viewBox="0 0 20 20">
+                        <path
+                            d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z"
+                            style="stroke: white;fill:white;"></path>
+                    </svg>
+                    <label style="color: white;">.</label>
+                </div>
+            </div>
+            <p class="termlabel">${question.prompt}</p>
+        </div>`;
+            }
+        }
+    </script>
 
-     
-        
-        var page = 0;
-        function pageRender(){
-            
+</head>
+
+<body>
+    <style type="text/css">
+        .hidden {
+            display: none;
         }
 
-        /* Selection styling */
-        $(document).ready(function() {
-            $('select').niceSelect();
-        });
+        .shown {
+            display: inline;
+        }
+    </style>
+    <!-- <fieldset class=hidden> -->
+    <!-- Top Loading Bars -->
+    <div id="defaultprog"></div>
+    <div id="progress"></div>
 
-        /* Multi page system */
-        $('#cont').click( () => {
-            page++;
-            pageRender();
-        })
-    </script>
+    <!-- Main Form -->
+    <div id="pageBox">
+        <form method="POST" id="pageForm" class="post-form">
+            {% csrf_token %}
+            <!-- {{patient_form.as_table}} -->
+
+            <fieldset class="personal-details">
+                <div class="formSection">
+                    <h1 class="pl">Personal Details: </h1>
+
+                    <h2 class="prompt">Please enter your first name: </h2>
+                    <div class="formRow">
+                        <input class="textInput" type="text" id="{{ patient_form.first_name.id_for_label }}"
+                            name="{{ patient_form.first_name.name }}" />
+                    </div>
+
+                    <h2 class="prompt">Please enter your last name: </h2>
+                    <div class="formRow">
+                        <input class="textInput" type="text" id="{{ patient_form.last_name.id_for_label }}"
+                            name="{{ patient_form.last_name.name }}" />
+                    </div>
+
+                    <h2 class="prompt pl">Please enter your date of birth: </h2>
+                    <div class="formRow">
+                        <!-- {{patient_form.dob}} -->
+                        <input class="textInput" type="date" id="{{ patient_form.dob.id_for_label }}"
+                            name="{{ patient_form.dob.name }}" />
+                    </div>
+
+
+                    <h2 class="prompt pl">Select your gender: </h2>
+
+                    {% for radio in patient_form.gender %}
+                    <div class="sltem p-default p-pulse p-round">
+                        <div class="custom-control custom-radio state p-primary">
+                            {{ radio.tag }}
+                            <label class="custom-control-label lbf"
+                                for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <h2 class="prompt pl">Select your ethnicity: </h2>
+                    {% for radio in patient_form.ethnicity %}
+                    <div class="sltem p-default p-pulse p-round">
+                        <div class="custom-control custom-radio state p-primary">
+                            {{ radio.tag }}
+                            <label class="custom-control-label lbf"
+                                for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <input type="button" name="next" class="next action-button" value="Next" />
+            </fieldset>
+            <fieldset class="contact-information hidden">
+
+                <h1 class="pl">Contact Information: </h1>
+                <h2 class="prompt pl">Please enter your email: </h2>
+                <div class="formRow">
+                    <input class="textInput" type="email" id="{{ patient_form.email.id_for_label }}"
+                        name="{{ patient_form.email.name }}" />
+                </div>
+
+                <h2 class="prompt pl">Please enter your phone number: </h2>
+                <div class="formRow">
+                    <input class="textInput" type="tel" id="{{ patient_form.phone.id_for_label }}"
+                        name="{{ patient_form.phone.name }}" />
+                </div>
+
+                <h2 class="prompt pl">Please enter your address: </h2>
+
+                <label for="{{ patient_form.street.id_for_label }}">Address line 1</label>
+                <div class="formRow">
+                    <input class="textInput" type="text" id="{{ patient_form.street.id_for_label }}"
+                        name="{{ patient_form.street.name }}" />
+                </div>
+
+                <label for="{{ patient_form.zip_code.id_for_label }}">Zip Code</label>
+                <label for="{{ patient_form.city.id_for_label }}">City</label>
+                <label for="{{ patient_form.state.id_for_label }}">State</label>
+                <div class="formRow">
+                    <input class="textInput" type="text" id="{{ patient_form.zip_code.id_for_label }}"
+                        name="{{ patient_form.zip_code.name }}" />
+                    <input class="textInput" type="text" id="{{ patient_form.city.id_for_label }}"
+                        name="{{ patient_form.city.name }}" />
+                    <input class="textInput" type="text" id="{{ patient_form.state.id_for_label }}"
+                        name="{{ patient_form.state.name }}" />
+                </div>
+                <div class="formRow">
+                    {% for radio in patient_form.address_type %}
+                    <div class="sltem p-default p-pulse p-round">
+                        <div class="custom-control custom-radio state p-primary">
+                            {{ radio.tag }}
+                            <label class="custom-control-label lbf"
+                                for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                <input type="button" name="next" class="next action-button" value="Next" />
+            </fieldset>
+            <fieldset class="medical-information hidden" id="medical-information-field">
+                <h1 class="pl">Medical Information: </h1>
+                <!-- customerTag = request.POST.get('gender') -->
+
+                <!-- <h2 class="pl">{{patient_form.gender}}</h2> -->
+                <!-- Pull from db -->
+                {% for question in questionData.questions %}
+                <div id="question-{{question.id}}"></div>
+                <script>
+                    $('#question-{{question.id}}').html(renderQuestion({{ question | safe}}));
+                    $('select').niceSelect();
+                </script>
+                
+                {% endfor %}
+                <div></div>
+
+
+                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                <button type="submit" class="save btn btn-default">Submit</button>
+            </fieldset>
+
+            <div
+                style="background-color: rgba(45, 122, 247, 0.3); margin-top: 50px; margin-bottom: -10px; width: 85%; height: 2px;">
+            </div>
+
+            <!-- Terms and Conditions -->
+            <div class="termbox">
+                <div class="pl pretty p-svg p-curve">
+                    <input type="checkbox" />
+                    <div class="state p-success">
+                        <svg class="svg svg-icon" viewBox="0 0 20 20">
+                            <path
+                                d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z"
+                                style="stroke: white;fill:white;"></path>
+                        </svg>
+                        <label style="color: white;">.</label>
+                    </div>
+                </div>
+                <p class="termlabel">By checking this box I certify that I have read and agree to the Terms.
+                </p>
+            </div>
+    </div>
+    </form>
+    </div>
+
+<!-- 
+    <div id="navigation">
+        <button id="back" class="navBtn navLeft">
+            Back
+        </button>
+        <button id="cont" class="navBtn navRight">
+            Next »
+        </button>
+    </div> -->
+
+</body>
+
+<script>
+    //jQuery time
+    var current_fs, next_fs, previous_fs; //fieldsets
+    var left, opacity, scale; //fieldset properties which we will animate
+    var animating; //flag to prevent quick multi-click glitches
+
+    $(".next").click(function () {
+        current_fs = $(this).parent();
+        next_fs = $(this).parent().next();
+        current_fs.hide()
+        next_fs.show()
+
+    })
+    $(".previous").click(function () {
+        current_fs = $(this).parent();
+        previous_fs = $(this).parent().prev();
+
+        $('fieldset.personal-details').show();
+        $('fieldset.contact-information').hide();
+
+        current_fs.hide()
+        previous_fs.show()
+    })
+
+</script>
 
 </html>
