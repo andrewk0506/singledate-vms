@@ -129,6 +129,17 @@
                         </div>
                     </div>
                     {% endfor %}
+                    
+                    <h2 class="prompt pl">Select all that apply: </h2>
+                    {% for select in patient_form.race %}
+                    <div class="sltem p-default p-pulse p-round">
+                        <div class="custom-control custom-radio state p-primary">
+                            {{select.tag}}
+                            <label class="custom-control-label lbf"
+                                for="{{ select.id_for_label }}">{{ select.choice_label }}</label>
+                        </div>
+                    </div>
+                    {% endfor %}
 
                     <h2 class="prompt pl">Select your ethnicity: </h2>
                     {% for radio in patient_form.ethnicity %}

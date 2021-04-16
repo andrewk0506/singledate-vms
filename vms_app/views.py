@@ -17,7 +17,6 @@ from .forms import PatientForm, MedicalEligibilityAnswerForm
 
 
 
-
 def index(request):
     return render(request, "preregister.html", {})
 
