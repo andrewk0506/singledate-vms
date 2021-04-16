@@ -63,13 +63,6 @@ def signup(request):
         # save the form data to model
         print(f"FORM IS VALID\n\n{patient_form.data}")
 
-        '''
-        <QueryDict: {'csrfmiddlewaretoken': ['57LppFl4GFkMv2HdkqtAFtcaq9HtqIJ8WjSXFoJgrU3AIrBC7bl3e3UvzTW6jtMZ'], 'first_name': ['Samuel'], 'last_name': ['Miserendino'], 'dob': ['03/19/2001'], 
-        'gender': ['M'], 'ethnicity': ['N'], 'email': ['sgm2156@columbia.edu'], 'phone': ['716-563-8661'], 'street': ['5010 Lake Shore Road'], 'zip_code': ['14075'], 'city': 
-        ['Hamburg'], 'state': ['NY'], 'address_type': ['H'], '1': ['No'], '2': ['No'], '3': ['select'], '4': ['select'], '5': ['select'], '6': ['select'], '7': 
-        ['select'], '8': ['select'], '9': ['']}>
-        '''
-
         patient_form.save()
         return HttpResponseRedirect("/vms/registered")
     else:
