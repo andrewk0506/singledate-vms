@@ -22,7 +22,7 @@ def index(request):
     # TODO: figure out what site we're at, eg; leonia.getvaccinatednow.org 
     site = Site.objects.first()
     context["siteDescription"] = site.comments
-    return render(request, "preregister.html", {})
+    return render(request, "preregister.html", context)
 
 # def preregister(request):
 #     return render(request, "preregister.html", {})
