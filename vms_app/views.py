@@ -16,10 +16,9 @@ import json
 from .forms import PatientForm, MedicalEligibilityAnswerForm
 
 
-
-
 def index(request):
     return render(request, "preregister.html", {})
+
 
 # def preregister(request):
 #     return render(request, "preregister.html", {})
@@ -29,8 +28,9 @@ def index(request):
 def preregister(request):
     return render(request, "preregister.html", {})
 
+
 def check(request):
-	return render(request, "search.html", {})
+    return render(request, "search.html", {})
 
 
 def signup(request):
@@ -48,15 +48,13 @@ def signup(request):
 
 
     """
-    context ={}
+    context = {}
     # questionData = json.loads(open("vms_app/templates/json/questions.json", "r").read())
 
-
-  
     # create object of form
     patient_form = PatientForm(request.POST or None)
     answer_form = MedicalEligibilityAnswerForm(request.POST or None)
-    
+
     # check if form data is valid
     if patient_form.is_valid():
         # save the form data to model
@@ -78,12 +76,12 @@ def signup(request):
                 "gender": medQ.gender
             }
             if medQ.bool:
-                additional =  { "type": "select", "options": ["No", "Yes"]}
-            else: 
-                additional =  { "type": "text",  "options": 100}
-            
-            medPage["questions"].append(dict(newQuestion,**additional))
-        
+                additional = {"type": "select", "options": ["No", "Yes"]}
+            else:
+                additional = {"type": "text", "options": 100}
+
+            medPage["questions"].append(dict(newQuestion, **additional))
+
     context = {
         'patient_form': patient_form,
         'answer_form': answer_form,
@@ -91,8 +89,9 @@ def signup(request):
     }
 
     print(context['questionData'])
-    
+
     return render(request, "signup.html", context)
+
 
 def verify(request):
     return render(request, "verify.html", {})
@@ -115,8 +114,8 @@ def staff_select(request):
     if request.method == "GET":
         # print("staff is", Staff.objects.first())
         context = {"staff": Staff.objects.all()}
-    
-    # print("staff is", Staff.objects.first().surName)
+
+        # print("staff is", Staff.objects.first().surName)
         return render(request, "select-staff.html", context)
 
     elif request.method == "POST":
@@ -128,7 +127,7 @@ def staff_select(request):
         request.session["vaccinator"] = vaccinator
         request.session["staff-member"] = support
         return HttpResponseRedirect('appointments')
-        #return render(request, "todays-appts.html")
+        # return render(request, "todays-appts.html")
         # return redirect("/vms/stations/appointments")
 
 
@@ -137,14 +136,14 @@ def appointments(request):
         print("current session is", request.session.items())
         now = datetime.datetime.utcnow().strftime("%Y-%m-%d")
         print("now is ", now)
-        
-        #get all slots within a few hours 
+
+        # get all slots within a few hours
         slots = Slot.objects.filter(startTime__lte=now)
 
-        #get all doses 
+        # get all doses
         dose = Dose.objects.filter(slot__in=slots)
         # dose_ids = dose.patient_id
-        
+
         patients = Patient.objects.filter(person__in=dose)
         # print("slots are", slots[0].capacity)
         # print("doses are", dose[0].location)
@@ -193,10 +192,10 @@ def medical_questions(request):
     if request.method == "GET":
         # if session is not set, redirect to the
         # appointments page, as directly landing here is not allowed.
-        #rs = request.session
-        #if not rs or not rs.get("station_management", None):
+        # rs = request.session
+        # if not rs or not rs.get("station_management", None):
         #    return redirect("/vms/stations/appointments")
-        
+
         # Note that I temporarily commented the above lines (82-84) out
         # so that it is possible to directly access and test this single
         # page without being redirected to /vms/stations/appointments.
@@ -274,3 +273,15 @@ def process_vaccine_info_data(patient_id, data):
         dose.notes = data.get("notes", None)
         dose.location = data.get("location", None)
         dose.save()
+
+
+def patient_matching():
+    # first we need to figure out how many doses there are
+    num_doses = 0
+    # we are retrieving the set where it is a first dose and the patient id is null
+    q = Dose.objects.filter(secondDose=0, patient_id=None)
+    num_doses = q.count()
+
+    # retrieves a queryset of patients of the size of the num_doses available
+    patients = Patient.objects.all()[:num_doses]
+    return patients
