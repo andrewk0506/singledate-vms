@@ -21,7 +21,7 @@
         function renderQuestion(question) {
             if (question.type === `text`) {
                 return `
-        <h1 class="prompt pl">${question.prompt}</h1>
+        <h1  class="prompt pl">${question.prompt}</h1>
         <div class="formRow">
             <input maxlength="${question.maxLength}" class="textInput" type="text" id="${question.id}"
                 name="${question.id}" />
@@ -198,7 +198,7 @@
                 <!-- <h2 class="pl">{{patient_form.gender}}</h2> -->
                 <!-- Pull from db -->
                 {% for question in questionData.questions %}
-                <div id="question-{{question.id}}"></div>
+                <div id="question-{{question.id}}" class="gender-q {{question.gender}}"></div>
                 <script>
                     $('#question-{{question.id}}').html(renderQuestion({{ question | safe}}));
                     $('select').niceSelect();
@@ -249,6 +249,7 @@
 </body>
 
 <script>
+
     //jQuery time
     var current_fs, next_fs, previous_fs; //fieldsets
     var left, opacity, scale; //fieldset properties which we will animate
@@ -259,6 +260,15 @@
         next_fs = $(this).parent().next();
         current_fs.hide()
         next_fs.show()
+        
+        let gender = $('input[name="gender"]:checked').val();
+
+        // CSS adjustments
+        $(`.gender-q`).css({display: "block"});
+        $(`.gender-q:not(".${gender}")`).css({display: "none"});
+        $(`div[class="gender-q "]`).css({display: "block"});
+
+
 
     })
     $(".previous").click(function () {

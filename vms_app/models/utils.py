@@ -38,7 +38,7 @@ class Ethnicity(models.TextChoices):
 class AddressType(models.TextChoices):
     H = 'H', _('Home')
     C = 'C', _('Current/Temporary')
-    P = 'P', _('Permanet')
+    P = 'P', _('Permanent')
     M = 'M', _('Mailing')
 
 class States(models.TextChoices):
