@@ -174,8 +174,15 @@
                         name="{{ patient_form.zip_code.name }}" />
                     <input class="textInput" type="text" id="{{ patient_form.city.id_for_label }}"
                         name="{{ patient_form.city.name }}" />
-                    <input class="textInput" type="text" id="{{ patient_form.state.id_for_label }}"
-                        name="{{ patient_form.state.name }}" />
+                    <select class="textInput" type="text" id="{{ patient_form.state.id_for_label }}"
+                        name="{{ patient_form.state.name }}">
+
+                        {% for select in patient_form.state %}
+                            {{ select.tag }}
+                        {% endfor %}
+
+
+                    </select>
                 </div>
                 <div class="formRow">
                     {% for radio in patient_form.address_type %}
