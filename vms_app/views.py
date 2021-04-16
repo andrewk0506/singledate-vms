@@ -2,37 +2,104 @@ from django.shortcuts import render, redirect
 from vms_app.models import Staff
 
 from .models import Dose
-from .models.user import Patient as Patient
 from django.db import models
-from vms_app.models.user import Patient
+from vms_app.models import Patient
+from vms_app.models import MedicalEligibilityAnswer, MedicalEligibilityQuestion
 from .models import Slot
 from vms_app.models.scheduling import Site
 from vms_app.models.utils import Gender
-from .models import MedicalEligibilityQuestion
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 import datetime
+import json
 
-
-
+from .forms import PatientForm, MedicalEligibilityAnswerForm
 
 
 def index(request):
     return render(request, "preregister.html", {})
 
+
 # def preregister(request):
 #     return render(request, "preregister.html", {})
 
 
+# Patient registration
+def preregister(request):
+    return render(request, "preregister.html", {})
+
+
 def check(request):
-	return render(request, "search.html", {})
+    return render(request, "search.html", {})
+
 
 def signup(request):
-    return render(request, "signup.html", {})
+    """
+        TODO: 
+            6. Populate Answer with answer from table 
+
+        DONE: 
+            1. Reconnect basic info name, etc...
+            2. Connect contact info/address etc...
+            3. Submit those to db
+            4. New page 
+            5. Populate Question with db
+
+
+
+    """
+    context = {}
+    # questionData = json.loads(open("vms_app/templates/json/questions.json", "r").read())
+
+    # create object of form
+    patient_form = PatientForm(request.POST or None)
+    answer_form = MedicalEligibilityAnswerForm(request.POST or None)
+
+    # check if form data is valid
+    if patient_form.is_valid():
+        # save the form data to model
+        print(f"FORM IS VALID\n\n{patient_form.data}")
+        patient_form.save()
+        return HttpResponseRedirect("/vms/")
+    else:
+        print(f"FORM IS NOT VALID\n\n{patient_form.data}")
+
+    if request.method == "GET":
+        medQuestions = MedicalEligibilityQuestion.objects.all()
+        medPage = {"questions": []}
+        for medQ in medQuestions:
+            print(medQ.question)
+            newQuestion = {
+                "prompt": medQ.question,
+                "id": medQ.id,
+                "explanation": medQ.explanation,
+                "gender": medQ.gender
+            }
+            if medQ.bool:
+                additional = {"type": "select", "options": ["No", "Yes"]}
+            else:
+                additional = {"type": "text", "options": 100}
+
+            medPage["questions"].append(dict(newQuestion, **additional))
+
+    context = {
+        'patient_form': patient_form,
+        'answer_form': answer_form,
+        'questionData': medPage
+    }
+
+    print(context['questionData'])
+
+    return render(request, "signup.html", context)
 
 
 def verify(request):
     return render(request, "verify.html", {})
+
+
+# Admin
+def registered(request):
+    return render(request, "registered.html", {})
 
 
 def admin_login(request):
@@ -47,8 +114,8 @@ def staff_select(request):
     if request.method == "GET":
         # print("staff is", Staff.objects.first())
         context = {"staff": Staff.objects.all()}
-    
-    # print("staff is", Staff.objects.first().surName)
+
+        # print("staff is", Staff.objects.first().surName)
         return render(request, "select-staff.html", context)
 
     elif request.method == "POST":
@@ -60,7 +127,7 @@ def staff_select(request):
         request.session["vaccinator"] = vaccinator
         request.session["staff-member"] = support
         return HttpResponseRedirect('appointments')
-        #return render(request, "todays-appts.html")
+        # return render(request, "todays-appts.html")
         # return redirect("/vms/stations/appointments")
 
 
@@ -69,14 +136,14 @@ def appointments(request):
         print("current session is", request.session.items())
         now = datetime.datetime.utcnow().strftime("%Y-%m-%d")
         print("now is ", now)
-        
-        #get all slots within a few hours 
+
+        # get all slots within a few hours
         slots = Slot.objects.filter(startTime__lte=now)
 
-        #get all doses 
+        # get all doses
         dose = Dose.objects.filter(slot__in=slots)
         # dose_ids = dose.patient_id
-        
+
         patients = Patient.objects.filter(person__in=dose)
         # print("slots are", slots[0].capacity)
         # print("doses are", dose[0].location)
@@ -125,10 +192,10 @@ def medical_questions(request):
     if request.method == "GET":
         # if session is not set, redirect to the
         # appointments page, as directly landing here is not allowed.
-        #rs = request.session
-        #if not rs or not rs.get("station_management", None):
+        # rs = request.session
+        # if not rs or not rs.get("station_management", None):
         #    return redirect("/vms/stations/appointments")
-        
+
         # Note that I temporarily commented the above lines (82-84) out
         # so that it is possible to directly access and test this single
         # page without being redirected to /vms/stations/appointments.
@@ -206,3 +273,15 @@ def process_vaccine_info_data(patient_id, data):
         dose.notes = data.get("notes", None)
         dose.location = data.get("location", None)
         dose.save()
+
+
+def patient_matching():
+    # first we need to figure out how many doses there are
+    num_doses = 0
+    # we are retrieving the set where it is a first dose and the patient id is null
+    q = Dose.objects.filter(secondDose=0, patient_id=None)
+    num_doses = q.count()
+
+    # retrieves a queryset of patients of the size of the num_doses available
+    patients = Patient.objects.all()[:num_doses]
+    return patients
