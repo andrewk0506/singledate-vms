@@ -60,7 +60,7 @@ def signup(request):
         # save the form data to model
         print(f"FORM IS VALID\n\n{patient_form.data}")
         patient_form.save()
-        return HttpResponseRedirect("/vms/")
+        return HttpResponseRedirect("/vms/registered")
     else:
         print(f"FORM IS NOT VALID\n\n{patient_form.data}")
 
