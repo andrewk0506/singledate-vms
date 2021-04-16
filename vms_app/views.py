@@ -56,13 +56,11 @@ def signup(request):
     # create object of form
     patient_form = PatientForm(request.POST or None)
     answer_form = MedicalEligibilityAnswerForm(request.POST or None)
-
     
     # check if form data is valid
     if patient_form.is_valid():
         # save the form data to model
         print(f"FORM IS VALID\n\n{patient_form.data}")
-
         patient_form.save()
         return HttpResponseRedirect("/vms/registered")
     else:
