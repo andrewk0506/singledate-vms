@@ -174,7 +174,7 @@
                         name="{{ patient_form.zip_code.name }}" />
                     <input class="textInput" type="text" id="{{ patient_form.city.id_for_label }}"
                         name="{{ patient_form.city.name }}" />
-                    <select class="textInput" type="text" id="{{ patient_form.state.id_for_label }}"
+                    <select class="textInput" id="{{ patient_form.state.id_for_label }}"
                         name="{{ patient_form.state.name }}">
 
                         {% for select in patient_form.state %}
