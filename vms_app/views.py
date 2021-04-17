@@ -17,9 +17,13 @@ from .forms import PatientForm, MedicalEligibilityAnswerForm
 
 
 
-
 def index(request):
-    return render(request, "preregister.html", {})
+    # TODO: figure out what site we're at, eg; leonia.getvaccinatednow.org 
+    context={}
+    site = Site.objects.first() # TODO: Eventually won't be based on first but on actual clinic
+
+    context["siteDescription"] = site.comments
+    return render(request, "preregister.html", context)
 
 # def preregister(request):
 #     return render(request, "preregister.html", {})
