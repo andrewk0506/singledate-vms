@@ -2,10 +2,10 @@ from django.db import models
 from django.forms import ModelForm, ModelChoiceField, ChoiceField, RadioSelect, MultipleChoiceField, CheckboxSelectMultiple, Select
 from django.core.validators import validate_email
 from phone_field import PhoneField
-from .utils import Gender, Race, Ethnicity, AddressType, States
+from .utils import Gender, Race, Ethnicity, AddressType, States, CleanCharField
 from multiselectfield import MultiSelectField
 
-class NoCommaField(models.CharField):
+class NoCommaField(CleanCharField):
     """
     Helper CharField but with commas replaced by spaces.
     """
@@ -23,9 +23,9 @@ class Patient(models.Model):
     """
     ### Personal Data
     person = models.AutoField(primary_key=True)
-    first_name = models.CharField(max_length=100) # Not null by default.
-    last_name = models.CharField(max_length=100)  # Not null by default.
-    middle_initial = models.CharField(max_length=1)
+    first_name = CleanCharField(max_length=100) # Not null by default.
+    last_name = CleanCharField(max_length=100)  # Not null by default.
+    middle_initial = CleanCharField(max_length=1)
     dob = models.DateField() # Not null by default.
     gender = models.CharField(max_length=1, choices=Gender.choices, default=Gender.F)
     race = MultiSelectField(choices=Race.choices, default=Race.X) # django-multiselectfield calculates the max length automatically 
@@ -35,45 +35,18 @@ class Patient(models.Model):
     phone = PhoneField(blank=True)
     email = models.EmailField(validators=[validate_email]) # Not null by default.
     street = NoCommaField(max_length=100) # Not null by default.
-    city = models.CharField(max_length=100) # Not null by default.
-    zip_code = models.CharField(max_length=5) # Not null by default.
+    city = CleanCharField(max_length=100) # Not null by default.
+    zip_code = CleanCharField(max_length=5) # Not null by default.
     state = models.CharField(max_length=2, choices=States.choices, default=States.NJ)
     address_type = models.CharField(max_length=1, choices=AddressType.choices,
                                     default=AddressType.H)
 
 class Staff(models.Model):
-    last_name = models.CharField(max_length=100)
-    first_name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=40, null=True)
-    email = models.CharField(max_length=60)
+    last_name = CleanCharField(max_length=100)
+    first_name = CleanCharField(max_length=100)
+    phone_number = CleanCharField(max_length=40, null=True)
+    email = CleanCharField(max_length=60)
     password = models.CharField(max_length=60, null=True)
     HIPAACert = models.DateTimeField(null=True, blank=True)
     medical_id = models.IntegerField(null=True, blank=True)
-    role = models.CharField(max_length=60)
-
-
-# class PatientForm(ModelForm):
-#     class Meta:
-#         model = Patient
-#         # exclude = ['race']
-#         fields = ['first_name',
-#                   'last_name',
-#                   'gender',
-#                   'dob',
-#                   'ethnicity',
-#                   'email',
-#                   'phone',
-#                   'address_type',
-#                   'street',
-#                   'zip_code',
-#                   'city',
-#                   'state']
-
-#     # TODO: Add race as a question
-#     #       Probably involves changing the model type
-
-#     gender = ChoiceField(choices=Gender.choices, widget=RadioSelect())
-#     # race = MultipleChoiceField(choices=Race.choices, widget=CheckboxSelectMultiple())
-#     ethnicity = ChoiceField(choices=Ethnicity.choices, widget=RadioSelect())
-#     # state = ChoiceField(choices=States.choices, widget=Select())
-#     address_type = ChoiceField(choices=AddressType.choices, widget=RadioSelect())
+    role = CleanCharField(max_length=60)
