@@ -19,9 +19,12 @@
 
     <script>
         function renderQuestion(question) {
+            console.log(question.type)
             if (question.type === `text`) {
+                console.log('HERE')
+                // console.log(question.prompt)
                 return `
-        <h1 class="prompt pl">${question.prompt}</h1>
+        <h1  class="prompt pl">${question.prompt}</h1>
         <div class="formRow">
             <input maxlength="${question.maxLength}" class="textInput" type="text" id="${question.id}"
                 name="${question.id}" />
@@ -30,7 +33,7 @@
                 return `
         <h1 class="prompt pl">${question.prompt}</h1>
         <div class="formRow">
-            <select name=${question.id} class="selectInput">
+            <select name=${question.id} class="selectInput pselect">
                 <option value="select" data-display="Select">Select</option>
                 ${question.options.map(opt=>`<option value="${opt}">${opt}</option>`).join(`\n`)}
             </select>
@@ -130,6 +133,17 @@
                     </div>
                     {% endfor %}
 
+                    <h2 class="prompt pl">Select all that apply: </h2>
+                    {% for select in patient_form.race %}
+                    <div class="sltem p-default p-pulse p-round">
+                        <div class="custom-control custom-radio state p-primary">
+                            {{select.tag}}
+                            <label class="custom-control-label lbf"
+                                for="{{ select.id_for_label }}">{{ select.choice_label }}</label>
+                        </div>
+                    </div>
+                    {% endfor %}
+
                     <h2 class="prompt pl">Select your ethnicity: </h2>
                     {% for radio in patient_form.ethnicity %}
                     <div class="sltem p-default p-pulse p-round">
@@ -174,8 +188,16 @@
                         name="{{ patient_form.zip_code.name }}" />
                     <input class="textInput" type="text" id="{{ patient_form.city.id_for_label }}"
                         name="{{ patient_form.city.name }}" />
-                    <input class="textInput" type="text" id="{{ patient_form.state.id_for_label }}"
-                        name="{{ patient_form.state.name }}" />
+                    <select class="textInputsl" id="{{ patient_form.state.id_for_label }}"
+                        name="{{ patient_form.state.name }}" onfocus='this.size=1;' onblur='this.size=1;'
+                        onchange='this.size=1; this.blur();'>
+
+                        {% for select in patient_form.state %}
+                        {{ select.tag }}
+                        {% endfor %}
+
+
+                    </select>
                 </div>
                 <div class="formRow">
                     {% for radio in patient_form.address_type %}
@@ -198,12 +220,13 @@
                 <!-- <h2 class="pl">{{patient_form.gender}}</h2> -->
                 <!-- Pull from db -->
                 {% for question in questionData.questions %}
-                <div id="question-{{question.id}}"></div>
+                <div id="question-{{question.id}}" class="gender-q {{question.gender}}"></div>
                 <script>
-                    $('#question-{{question.id}}').html(renderQuestion({{ question | safe}}));
-                    $('select').niceSelect();
+                    $('#question-{{question.id}}').html(renderQuestion({{ question | safe }}));
+                    // $('select.niceSelect();
+                    // console.log("{{question.prompt}}")
                 </script>
-                
+
                 {% endfor %}
                 <div></div>
 
@@ -236,7 +259,7 @@
     </form>
     </div>
 
-<!-- 
+    <!-- 
     <div id="navigation">
         <button id="back" class="navBtn navLeft">
             Back
@@ -260,6 +283,21 @@
         current_fs.hide()
         next_fs.show()
 
+        let gender = $('input[name="gender"]:checked').val();
+
+        // CSS adjustments
+        $(`.gender-q`).css({
+            display: "block"
+        });
+        $(`.gender-q:not(".${gender}")`).css({
+            display: "none"
+        });
+        $(`div[class="gender-q "]`).css({
+            display: "block"
+        });
+
+
+
     })
     $(".previous").click(function () {
         current_fs = $(this).parent();
@@ -271,7 +309,6 @@
         current_fs.hide()
         previous_fs.show()
     })
-
 </script>
 
 </html>
