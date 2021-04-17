@@ -17,9 +17,13 @@ from .forms import PatientForm, MedicalEligibilityAnswerForm
 
 
 
-
 def index(request):
-    return render(request, "preregister.html", {})
+    # TODO: figure out what site we're at, eg; leonia.getvaccinatednow.org 
+    context={}
+    site = Site.objects.first() # TODO: Eventually won't be based on first but on actual clinic
+
+    context["siteDescription"] = site.comments
+    return render(request, "preregister.html", context)
 
 # def preregister(request):
 #     return render(request, "preregister.html", {})
@@ -62,7 +66,7 @@ def signup(request):
         # save the form data to model
         print(f"FORM IS VALID\n\n{patient_form.data}")
         patient_form.save()
-        return HttpResponseRedirect("/vms/")
+        return HttpResponseRedirect("/vms/registered")
     else:
         print(f"FORM IS NOT VALID\n\n{patient_form.data}")
 
