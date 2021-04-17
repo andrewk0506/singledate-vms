@@ -1,6 +1,8 @@
 from django.forms import ModelForm, ModelChoiceField, ChoiceField, RadioSelect, MultipleChoiceField, CheckboxSelectMultiple, Select
 from .models import MedicalEligibilityAnswer, Patient
 from .models.utils import Gender, Ethnicity, AddressType, States, Race
+from phone_field.forms import PhoneFormField
+
 
 # from formtools.wizard.views import SessionWizardView
 # from django.shortcuts import render
@@ -56,7 +58,7 @@ class PatientForm(ModelForm):
     ethnicity = ChoiceField(choices=Ethnicity.choices, widget=RadioSelect())
     state = ChoiceField(choices=States.choices, widget=Select())
     address_type = ChoiceField(choices=AddressType.choices, widget=RadioSelect())
-
+    phone = PhoneFormField(required=False)
 
 
 # class FormWizardView(SessionWizardView):

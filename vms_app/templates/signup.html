@@ -167,10 +167,7 @@
                 </div>
 
                 <h2 class="prompt pl">Please enter your phone number: </h2>
-                <div class="formRow">
-                    <input class="textInput" type="tel" id="{{ patient_form.phone.id_for_label }}"
-                        name="{{ patient_form.phone.name }}" />
-                </div>
+                {{ patient_form.phone }}
 
                 <h2 class="prompt pl">Please enter your address: </h2>
 
