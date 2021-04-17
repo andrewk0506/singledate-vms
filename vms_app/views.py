@@ -59,40 +59,53 @@ def signup(request):
     patient_form = PatientForm(request.POST or None)
     answer_form = MedicalEligibilityAnswerForm(request.POST or None)
 
+    # 
+    medical_question = MedicalEligibilityQuestion.objects.all()
+    questions = []
+    for q in medical_question:
+        new_question = {
+                "prompt": q.question,
+                "id": q.id,
+                "explanation": q.explanation,
+                "gender": q.gender
+            }
+        if q.bool:
+            additional = {"type": "select", "options": ["No", "Yes"]}
+        else:
+            additional = {"type": "text", "options": 100}
+
+        questions.append(dict(new_question, **additional))
+    
     # check if form data is valid
     if patient_form.is_valid():
         # save the form data to model
-        print(f"FORM IS VALID\n\n{patient_form.data}")
-        patient_form.save()
+        patient = patient_form.save()
+        now = datetime.datetime.now()
+        print(f"FORM IS VALID {patient.pk} {now}\n\n{patient_form.data}")
+        ## Extract the questions and answer
+        for q in medical_question:
+            answer = MedicalEligibilityAnswer()
+            answer.patient = patient
+            answer.question = q
+            answer.answered = now
+
+            if q.bool:
+                answer.answer_bool = True if patient_form.data[f'{q.id}'] == 'Yes' else False
+            else:
+                answer.answer_text = patient_form.data[f'{q.id}']
+            
+            answer.save()
         return HttpResponseRedirect("/registered")
     else:
         print(f"FORM IS NOT VALID\n\n{patient_form.data}")
 
-    if request.method == "GET":
-        medQuestions = MedicalEligibilityQuestion.objects.all()
-        medPage = {"questions": []}
-        for medQ in medQuestions:
-            print(medQ.question)
-            newQuestion = {
-                "prompt": medQ.question,
-                "id": medQ.id,
-                "explanation": medQ.explanation,
-                "gender": medQ.gender
-            }
-            if medQ.bool:
-                additional = {"type": "select", "options": ["No", "Yes"]}
-            else:
-                additional = {"type": "text", "options": 100}
-
-            medPage["questions"].append(dict(newQuestion, **additional))
-
     context = {
         'patient_form': patient_form,
         'answer_form': answer_form,
-        'questionData': medPage
+        'medical_question': questions
     }
 
-    print(context['questionData'])
+    print(context['medical_question'])
 
     return render(request, "signup.html", context)
 
