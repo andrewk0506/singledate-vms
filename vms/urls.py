@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('vms/', include('vms_app.urls')),
+    path('', include('vms_app.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls'))
 
