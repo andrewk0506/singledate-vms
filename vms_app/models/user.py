@@ -2,7 +2,7 @@ from django.db import models
 from django.forms import ModelForm, ModelChoiceField, ChoiceField, RadioSelect, MultipleChoiceField, CheckboxSelectMultiple, Select
 from django.core.validators import validate_email
 from phone_field import PhoneField
-from .utils import Gender, Race, Ethnicity, AddressType, States
+from .utils import Gender, Race, Ethnicity, AddressType, States, GenerateDBID
 
 class NoCommaField(models.CharField):
     """
@@ -20,6 +20,10 @@ class Patient(models.Model):
     """
     Table of patient's personal and contact information.
     """
+ 
+    ### Database Identifier
+    dbid = models.CharField(max_length=11, default=GenerateDBID, unique=True)
+
     ### Personal Data
     person = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=100) # Not null by default.

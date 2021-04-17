@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+import string, secrets
 
 class CleanCharField(models.CharField):
     """
@@ -102,3 +103,9 @@ class States(models.TextChoices):
 class MedicalQuestionType(models.TextChoices):
     S = 'S', _('Screening')
     E = 'E', _('Eligibility')
+
+def GenerateDBID():
+    excluded = ["I", "O", "0", "1"]
+    alphabet = [*filter(lambda x: x not in excluded, string.ascii_uppercase + string.digits )]
+    dbid = '-'.join(''.join(secrets.choice(alphabet) for i in range(3)) for i in range(3))
+    return dbid
