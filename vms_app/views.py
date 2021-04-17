@@ -53,11 +53,9 @@ def signup(request):
 
     """
     context = {}
-    # questionData = json.loads(open("vms_app/templates/json/questions.json", "r").read())
 
     # create object of form
     patient_form = PatientForm(request.POST or None)
-    answer_form = MedicalEligibilityAnswerForm(request.POST or None)
 
     # 
     medical_question = MedicalEligibilityQuestion.objects.all()
@@ -81,7 +79,7 @@ def signup(request):
         # save the form data to model
         patient = patient_form.save()
         now = datetime.datetime.now()
-        print(f"FORM IS VALID {patient.pk} {now}\n\n{patient_form.data}")
+        print(f"FORM IS VALID\n\n{patient_form.data}")
         ## Extract the questions and answer
         for q in medical_question:
             answer = MedicalEligibilityAnswer()
@@ -101,11 +99,8 @@ def signup(request):
 
     context = {
         'patient_form': patient_form,
-        'answer_form': answer_form,
         'medical_question': questions
     }
-
-    print(context['medical_question'])
 
     return render(request, "signup.html", context)
 
