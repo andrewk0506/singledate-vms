@@ -129,7 +129,7 @@
                         </div>
                     </div>
                     {% endfor %}
-                    
+
                     <h2 class="prompt pl">Select all that apply: </h2>
                     {% for select in patient_form.race %}
                     <div class="sltem p-default p-pulse p-round">
@@ -185,11 +185,12 @@
                         name="{{ patient_form.zip_code.name }}" />
                     <input class="textInput" type="text" id="{{ patient_form.city.id_for_label }}"
                         name="{{ patient_form.city.name }}" />
-                    <select id="tipSL" class="textInputsl" id="{{ patient_form.state.id_for_label }}"
-                        name="{{ patient_form.state.name }}" onfocus='this.size=7;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                    <select class="textInputsl" id="{{ patient_form.state.id_for_label }}"
+                        name="{{ patient_form.state.name }}" onfocus='this.size=1;' onblur='this.size=1;'
+                        onchange='this.size=1; this.blur();'>
 
                         {% for select in patient_form.state %}
-                            {{ select.tag }}
+                        {{ select.tag }}
                         {% endfor %}
 
 
@@ -218,10 +219,14 @@
                 {% for question in questionData.questions %}
                 <div id="question-{{question.id}}" class="gender-q {{question.gender}}"></div>
                 <script>
-                    $('#question-{{question.id}}').html(renderQuestion({{ question | safe}}));
-                    $('select:not("#tipSL")').niceSelect();
+                    $('#question-{{question.id}}').html(renderQuestion({
+                        {
+                            question | safe
+                        }
+                    }));
+                    $('select.niceSelect();
                 </script>
-                
+
                 {% endfor %}
                 <div></div>
 
@@ -254,7 +259,7 @@
     </form>
     </div>
 
-<!-- 
+    <!-- 
     <div id="navigation">
         <button id="back" class="navBtn navLeft">
             Back
@@ -267,7 +272,6 @@
 </body>
 
 <script>
-
     //jQuery time
     var current_fs, next_fs, previous_fs; //fieldsets
     var left, opacity, scale; //fieldset properties which we will animate
@@ -278,13 +282,19 @@
         next_fs = $(this).parent().next();
         current_fs.hide()
         next_fs.show()
-        
+
         let gender = $('input[name="gender"]:checked').val();
 
         // CSS adjustments
-        $(`.gender-q`).css({display: "block"});
-        $(`.gender-q:not(".${gender}")`).css({display: "none"});
-        $(`div[class="gender-q "]`).css({display: "block"});
+        $(`.gender-q`).css({
+            display: "block"
+        });
+        $(`.gender-q:not(".${gender}")`).css({
+            display: "none"
+        });
+        $(`div[class="gender-q "]`).css({
+            display: "block"
+        });
 
 
 
@@ -299,7 +309,6 @@
         current_fs.hide()
         previous_fs.show()
     })
-
 </script>
 
 </html>
