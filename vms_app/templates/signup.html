@@ -19,7 +19,10 @@
 
     <script>
         function renderQuestion(question) {
+            console.log(question.type)
             if (question.type === `text`) {
+                console.log('HERE')
+                // console.log(question.prompt)
                 return `
         <h1  class="prompt pl">${question.prompt}</h1>
         <div class="formRow">
@@ -35,7 +38,7 @@
                 ${question.options.map(opt=>`<option value="${opt}">${opt}</option>`).join(`\n`)}
             </select>
         </div>`;
-                $('select:not("#tipSL")').niceSelect();
+                $('select').niceSelect();
             } else if (question.type === `radio`) {
                 return `
         <h1 class="prompt pl">${question.prompt}</h1>
@@ -219,12 +222,9 @@
                 {% for question in questionData.questions %}
                 <div id="question-{{question.id}}" class="gender-q {{question.gender}}"></div>
                 <script>
-                    $('#question-{{question.id}}').html(renderQuestion({
-                        {
-                            question | safe
-                        }
-                    }));
-                    $('select.niceSelect();
+                    $('#question-{{question.id}}').html(renderQuestion({{ question | safe }}));
+                    // $('select.niceSelect();
+                    // console.log("{{question.prompt}}")
                 </script>
 
                 {% endfor %}
