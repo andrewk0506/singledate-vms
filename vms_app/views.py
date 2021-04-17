@@ -19,6 +19,9 @@ from .forms import PatientForm, MedicalEligibilityAnswerForm
 
 
 def index(request):
+    # TODO: figure out what site we're at, eg; leonia.getvaccinatednow.org 
+    site = Site.objects.first()
+    context["siteDescription"] = site.comments
     return render(request, "preregister.html", {})
 
 # def preregister(request):
