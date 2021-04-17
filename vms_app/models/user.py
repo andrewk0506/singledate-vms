@@ -3,6 +3,7 @@ from django.forms import ModelForm, ModelChoiceField, ChoiceField, RadioSelect, 
 from django.core.validators import validate_email
 from phone_field import PhoneField
 from .utils import Gender, Race, Ethnicity, AddressType, States
+from multiselectfield import MultiSelectField
 
 class NoCommaField(models.CharField):
     """
@@ -27,7 +28,7 @@ class Patient(models.Model):
     middle_initial = models.CharField(max_length=1)
     dob = models.DateField() # Not null by default.
     gender = models.CharField(max_length=1, choices=Gender.choices, default=Gender.F)
-    race = models.CharField(max_length=8, choices=Race.choices, default=Race.X)
+    race = MultiSelectField(choices=Race.choices, default=Race.X) # django-multiselectfield calculates the max length automatically 
     ethnicity = models.CharField(max_length=1, choices=Ethnicity.choices, default=Ethnicity.X)
     
     ### Contact Info

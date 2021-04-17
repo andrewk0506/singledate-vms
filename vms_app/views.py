@@ -17,7 +17,6 @@ from .forms import PatientForm, MedicalEligibilityAnswerForm
 
 
 
-
 def index(request):
     # TODO: figure out what site we're at, eg; leonia.getvaccinatednow.org 
     context={}
