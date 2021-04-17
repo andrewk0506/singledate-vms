@@ -219,7 +219,7 @@
 
                 <!-- <h2 class="pl">{{patient_form.gender}}</h2> -->
                 <!-- Pull from db -->
-                {% for question in questionData.questions %}
+                {% for question in medical_question %}
                 <div id="question-{{question.id}}" class="gender-q {{question.gender}}"></div>
                 <script>
                     $('#question-{{question.id}}').html(renderQuestion({{ question | safe }}));
