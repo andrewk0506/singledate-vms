@@ -6,8 +6,7 @@ This system manages all stages of the vaccination process, from registration to 
 
 ## Requirements
 
-`pip install PyMySQL`
-`pip install django-phone-field`
+`pip install PyMySQL django-phone-field django-phone-field`
 
 ## Environment setup instructions
 
