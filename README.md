@@ -4,6 +4,10 @@ Vaccine management system
 
 This system manages all stages of the vaccination process, from registration to recording doses.
 
+## Requirements
+
+`pip install PyMySQL`
+
 ## Environment setup instructions
 
 To set up the database connection:
