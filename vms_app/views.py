@@ -76,39 +76,24 @@ def signup(request):
     
     # check if form data is valid
     if patient_form.is_valid():
+        # save the form data to model
+        patient = patient_form.save()
+        now = datetime.datetime.now()
+        print(f"FORM IS VALID\n\n{patient_form.data}")
+        ## Extract the questions and answer
+        for q in medical_question:
+            answer = MedicalEligibilityAnswer()
+            answer.patient = patient
+            answer.question = q
+            answer.answered = now
 
-        # Ensure there are no duplicates
-        # Birthdate + phone && birthdate + email must be unique
-        print("dob")
-        new_patient_dob = patient_form.cleaned_data['dob']
-        new_patient_email = patient_form.cleaned_data['email']
-        new_patient_phone = patient_form.cleaned_data['phone']
-
-        # Check 1 
-        c1 = Patient.objects.filter(dob=new_patient_dob).filter(email=new_patient_email).exists()
-        # Check 2 
-        c2 = Patient.objects.filter(dob=new_patient_dob).filter(phone=new_patient_phone).exists()
-        print(f"Check results: {c1} / {c2}")
-
-        if not c1 and not c2:
-            # save the form data to model
-            patient = patient_form.save()
-            now = datetime.datetime.now()
-            print(f"FORM IS VALID\n\n{patient_form.data}")
-            ## Extract the questions and answer
-            for q in medical_question:
-                answer = MedicalEligibilityAnswer()
-                answer.patient = patient
-                answer.question = q
-                answer.answered = now
-
-                if q.bool:
-                    answer.answer_bool = True if patient_form.data[f'{q.id}'] == 'Yes' else False
-                else:
-                    answer.answer_text = patient_form.data[f'{q.id}']
-                
-                answer.save()
-            return HttpResponseRedirect("/registered")
+            if q.bool:
+                answer.answer_bool = True if patient_form.data[f'{q.id}'] == 'Yes' else False
+            else:
+                answer.answer_text = patient_form.data[f'{q.id}']
+            
+            answer.save()
+        return HttpResponseRedirect("/registered")
     else:
         print(f"FORM IS NOT VALID\n\n{patient_form.data}")
 

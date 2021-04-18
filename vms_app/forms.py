@@ -1,4 +1,4 @@
-from django.forms import ModelForm, ModelChoiceField, ChoiceField, RadioSelect, MultipleChoiceField, CheckboxSelectMultiple, Select
+from django.forms import ModelForm, ModelChoiceField, ChoiceField, RadioSelect, MultipleChoiceField, CheckboxSelectMultiple, Select, ValidationError
 from .models import MedicalEligibilityAnswer, Patient
 from .models.utils import Gender, Ethnicity, AddressType, States, Race
 from phone_field.forms import PhoneFormField
@@ -59,6 +59,22 @@ class PatientForm(ModelForm):
     state = ChoiceField(choices=States.choices, widget=Select())
     address_type = ChoiceField(choices=AddressType.choices, widget=RadioSelect())
     phone = PhoneFormField(required=False)
+
+
+    def clean(self):
+        cleaned_data = super(PatientForm, self).clean()
+        new_patient_dob = cleaned_data.get("dob")
+        new_patient_email = cleaned_data.get("email")
+        new_patient_phone = cleaned_data.get("phone")
+
+        # Check 1 
+        c1 = Patient.objects.filter(dob=new_patient_dob).filter(email=new_patient_email).exists()
+        # Check 2 
+        c2 = Patient.objects.filter(dob=new_patient_dob).filter(phone=new_patient_phone).exists()
+        print(f"Check results: {c1} / {c2}")
+
+        if c1 or c2:
+            raise ValidationError("This appears to be a duplicate registration!")
 
 
 # class FormWizardView(SessionWizardView):
