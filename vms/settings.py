@@ -147,7 +147,7 @@ ACCOUNT_ADAPTER = 'vms_app.adapter.NoNewUsersAccountAdapter'
 ########## django-allauth settings ############
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = "/vms/stations/role_select"
+LOGIN_REDIRECT_URL = "/stations/role_select"
 LOGOUT_REDIRECT_URL = "/accounts/login"
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
