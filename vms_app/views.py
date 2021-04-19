@@ -105,6 +105,80 @@ def signup(request):
     return render(request, "signup.html", context)
 
 
+
+
+# TESTER 
+
+def signup2(request):
+    """
+        TODO: 
+            6. Populate Answer with answer from table 
+
+        DONE: 
+            1. Reconnect basic info name, etc...
+            2. Connect contact info/address etc...
+            3. Submit those to db
+            4. New page 
+            5. Populate Question with db
+
+
+
+    """
+    context = {}
+
+    # create object of form
+    patient_form = PatientForm(request.POST or None)
+
+    # 
+    medical_question = MedicalEligibilityQuestion.objects.all()
+    questions = []
+    for q in medical_question:
+        new_question = {
+                "prompt": q.question,
+                "id": q.id,
+                "explanation": q.explanation,
+                "gender": q.gender
+            }
+        if q.bool:
+            additional = {"type": "select", "options": ["No", "Yes"]}
+        else:
+            additional = {"type": "text", "options": 100}
+
+        questions.append(dict(new_question, **additional))
+    
+    # check if form data is valid
+    if patient_form.is_valid():
+        # save the form data to model
+        patient = patient_form.save()
+        now = datetime.datetime.now()
+        print(f"FORM IS VALID\n\n{patient_form.data}")
+        ## Extract the questions and answer
+        for q in medical_question:
+            answer = MedicalEligibilityAnswer()
+            answer.patient = patient
+            answer.question = q
+            answer.answered = now
+
+            if q.bool:
+                answer.answer_bool = True if patient_form.data[f'{q.id}'] == 'Yes' else False
+            else:
+                answer.answer_text = patient_form.data[f'{q.id}']
+            
+            answer.save()
+        return HttpResponseRedirect("/registered")
+    else:
+        print(f"FORM IS NOT VALID\n\n{patient_form.data}")
+
+    context = {
+        'patient_form': patient_form,
+        'medical_question': questions
+    }
+
+    return render(request, "signup2.html", context)
+
+# END TESTER
+
+
 def verify(request):
     return render(request, "verify.html", {})
 

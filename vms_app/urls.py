@@ -23,6 +23,7 @@ urlpatterns = [
     # path("preregister/", views.preregister),
     path("check/", views.check),
     path("signup/", views.signup),
+    path("signup2/", views.signup2),
     path("verify/", views.verify),
     path("registered/", views.registered),
     path("stations/admin_login", views.admin_login),
