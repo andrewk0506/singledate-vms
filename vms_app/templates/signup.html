@@ -189,7 +189,7 @@
                     <input class="textInput" type="text" id="{{ patient_form.city.id_for_label }}"
                         name="{{ patient_form.city.name }}" />
                     <select class="textInputsl" id="{{ patient_form.state.id_for_label }}"
-                        name="{{ patient_form.state.name }}" onfocus='this.size=1;' onblur='this.size=1;'
+                        name="{{ patient_form.state.name }}" onfocus='this.size=3;' onblur='this.size=1;'
                         onchange='this.size=1; this.blur();'>
 
                         {% for select in patient_form.state %}
