@@ -1,11 +1,10 @@
 from django.forms import ModelForm, ModelChoiceField, ChoiceField, RadioSelect, MultipleChoiceField, CheckboxSelectMultiple, Select
-from django import forms
 from .models.user import Staff
 from .models import MedicalEligibilityAnswer, Patient, Role
-from .models.utils import Gender, Ethnicity, AddressType
+from .models.utils import Gender, Ethnicity, AddressType, States, Race
 from phone_field import PhoneField
 
-class CreateStaffForm(forms.ModelForm):
+class CreateStaffForm(ModelForm):
 	class Meta:
 		model = Staff
 		fields = ["first_name", "last_name",  "email", "phone_number", "HIPAACert", "medical_id"]
@@ -23,6 +22,7 @@ class PatientForm(ModelForm):
                   'last_name',
                   'gender',
                   'dob',
+                  'race',
                   'ethnicity',
                   'email',
                   'phone',
@@ -38,6 +38,7 @@ class PatientForm(ModelForm):
                   'last_name',
                   'gender',
                   'dob',
+                  'race',
                   'ethnicity')
             }),
             ('Contact Information', {
@@ -55,9 +56,9 @@ class PatientForm(ModelForm):
     #       Probably involves changing the model type
 
     gender = ChoiceField(choices=Gender.choices, widget=RadioSelect())
-    # race = MultipleChoiceField(choices=Race.choices, widget=CheckboxSelectMultiple())
+    race = MultipleChoiceField(choices=Race.choices, widget=CheckboxSelectMultiple())
     ethnicity = ChoiceField(choices=Ethnicity.choices, widget=RadioSelect())
-    # state = ChoiceField(choices=States.choices, widget=Select())
+    state = ChoiceField(choices=States.choices, widget=Select())
     address_type = ChoiceField(choices=AddressType.choices, widget=RadioSelect())
 
 

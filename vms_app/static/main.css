@@ -17,6 +17,29 @@
     width: 85%;
 }
 
+.textInputsl {
+    /* Override defaults */
+    height: 45px;
+    outline: none;
+    border: none;
+
+    /* Form styling */
+    border: 1px solid rgba(0,0,0,0.35);
+    font-size: 16px;
+    color: rgba(0,0,0,0.8);
+    font-weight: 100;
+    font-family: sans-serif;
+    border-radius: 5px;
+    text-indent: 10px;
+
+    /* Spacing */
+    width: 85%;
+}
+
+.textInputsl:focus {
+    height: 90px;
+}
+
 .prompt {
     font-size: 20px;
     color: rgba(0,0,0,0.75);
