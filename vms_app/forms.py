@@ -29,7 +29,6 @@ class PatientForm(ModelForm):
                   'zip_code',
                   'city',
                   'state']
-                # exclude = ['race']
         fieldsets = (
             ('Personal Details', {
                 'fields': ('first_name',
@@ -49,9 +48,6 @@ class PatientForm(ModelForm):
                   'state')
             })
         )
-
-    # TODO: Add race as a question
-    #       Probably involves changing the model type
 
     gender = ChoiceField(choices=Gender.choices, widget=RadioSelect())
     race = MultipleChoiceField(choices=Race.choices, widget=CheckboxSelectMultiple())
