@@ -180,7 +180,40 @@ def signup2(request):
 
 
 def verify(request):
-    return render(request, "verify.html", {})
+    """
+    Handle request from the verify page: Query the database for the user submitted information
+    and inform whether the user has been registered. If registered, say so; if not registered,
+    point the user to the register page.
+    """
+    patients = Patient.objects.all()
+    form = request.GET
+    if (len(form) == 0):
+        # First time visiting the verify page.
+        return  render(request, "verify.html", {})
+    registered = False
+    if "searchBy" in form:
+        # Verify by email or phone.
+        for p in patients:
+            if form["searchBy"] == "email":
+                if p.first_name == form["firstName"] and \
+                    p.last_name == form["lastName"] and \
+                    p.email == form["searchByOption"]:
+                    registered = True
+                    break
+            else:
+                if p.first_name == form["firstName"] and \
+                    p.last_name == form["lastName"] and \
+                    p.phone == form["searchByOption"]:
+                    registered = True
+                    break
+    else:
+        # Verify by reference code.
+        for p in patients:
+            if str(p.person) == form["referenceCode"]:
+                registered = True
+                break
+    context = {"registered": registered, "show_verify_result": True}
+    return render(request, "verify.html", context)
 
 
 # Admin
