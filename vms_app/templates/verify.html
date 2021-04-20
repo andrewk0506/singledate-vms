@@ -8,6 +8,7 @@
   <title>Verify</title>
 </head>
 
+{% load static %}
 <body>
   <div class="container py-5">
     <h1 class="pb-2 border-bottom text-center">Verify and Update Record</h1>
@@ -20,7 +21,7 @@
 
             <div class="col-sm-6">
               <label for="firstName" class="form-label">First Name</label>
-              <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+              <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Not valid.
               </div>
@@ -28,7 +29,7 @@
 
             <div class="col-sm-6">
               <label for="lastName" class="form-label">Last Name</label>
-              <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+              <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Not valid.
               </div>
@@ -36,7 +37,7 @@
 
             <div class="col-sm-6">
               <label for="searchBy" class="form-label">Search By</label>
-              <select class="form-select" id="searchBy" onchange='on_change(this)' required>
+              <select class="form-select" id="searchBy" name="searchBy" onchange='on_change(this)' required>
                 <option value="email">Email</option>
                 <option value="phone">Phone</option>
               </select>
@@ -47,7 +48,7 @@
 
             <div class="col-sm-6">
               <label for="searchByOption" class="form-label" id="method">Email</label>
-              <input type="text" class="form-control" id="searchByOption" placeholder="" required>
+              <input type="text" class="form-control" id="searchByOption" name="searchByOption" placeholder="" required>
               <div class="invalid-feedback">
                 Not valid.
               </div>
@@ -70,7 +71,7 @@
           <div class="form-group row g-3">
             <label for="referenceCode" class="col-sm-2 col-form-label">Reference Code</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="referenceCode" placeholder="" required>
+              <input type="text" class="form-control" id="referenceCode" name="referenceCode" placeholder="" required>
               <small class="text-muted">Reference code must contain only numbers and lowercase letters.</small>
               <div class="invalid-feedback">
                 Not Valid
@@ -83,6 +84,19 @@
           </div>
         </form>
       </div>
+    </div>
+
+    <!-- Show registration status after verifying form submission info. -->
+    <div>
+      {% if show_verify_result == 1 %}
+        {% if registered == 1 %}
+          <h2 class="py-3">You are registered!</h2>
+        {% else %}
+          <h2 class="py-3">You have not registered.
+            You can <a href="../signup" class="btn btn-primary "><h2 class="py-3">register here</h2></a>.
+          </h2>
+        {% endif %}
+      {% endif %}
     </div>
 
   </div>

@@ -22,7 +22,7 @@ class MedicalEligibilityAnswer(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     question = models.ForeignKey(MedicalEligibilityQuestion, on_delete=models.CASCADE)
     answered = models.DateTimeField()
-    answer_bool = models.BooleanField(default=True)
+    answer_bool = models.BooleanField(null=True)
     answer_text = models.TextField()
 
 class MedicalEligibility(models.Model):
