@@ -70,5 +70,5 @@ class PatientForm(ModelForm):
         print(f"Check results: {c1} / {c2}")
 
         if c1 or c2:
-            raise ValidationError("This appears to be a duplicate registration!")
+            raise ValidationError(f"This appears to be a duplicate registration! {c1} {c2}")
 
