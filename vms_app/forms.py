@@ -4,15 +4,17 @@ from .models.utils import Gender, Ethnicity, AddressType, States, Race
 from phone_field.forms import PhoneFormField
 
 
-# from formtools.wizard.views import SessionWizardView
-# from django.shortcuts import render
+class CreateStaffForm(ModelForm):
+	class Meta:
+		model = Staff
+		fields = ["first_name", "last_name",  "email", "phone_number", "HIPAACert", "medical_id"]
 
 
 class MedicalEligibilityAnswerForm(ModelForm):
     class Meta:
         model = MedicalEligibilityAnswer
         fields = '__all__'
-    
+
 class PatientForm(ModelForm):
     class Meta:
         model = Patient
@@ -29,25 +31,6 @@ class PatientForm(ModelForm):
                   'zip_code',
                   'city',
                   'state']
-        fieldsets = (
-            ('Personal Details', {
-                'fields': ('first_name',
-                  'last_name',
-                  'gender',
-                  'dob',
-                  'race',
-                  'ethnicity')
-            }),
-            ('Contact Information', {
-                'fields': ('email',
-                  'phone',
-                  'address_type',
-                  'street',
-                  'zip_code',
-                  'city',
-                  'state')
-            })
-        )
 
     gender = ChoiceField(choices=Gender.choices, widget=RadioSelect())
     race = MultipleChoiceField(choices=Race.choices, widget=CheckboxSelectMultiple())

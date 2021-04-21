@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
-from vms_app.models import Staff
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from vms_app.forms import CreateStaffForm
+from vms_app.models import Staff, Slot, Dose
 
 from .models import Dose
 from django.db import models
@@ -16,7 +19,7 @@ import json
 from .forms import PatientForm, MedicalEligibilityAnswerForm
 
 def index(request):
-    # TODO: figure out what site we're at, eg; leonia.getvaccinatednow.org 
+    # TODO: figure out what site we're at, eg; leonia.getvaccinatednow.org
     context={}
     site = Site.objects.first() # TODO: Eventually won't be based on first but on actual clinic
 
@@ -39,14 +42,14 @@ def check(request):
 
 def signup(request):
     """
-        TODO: 
-            6. Populate Answer with answer from table 
+        TODO:
+            6. Populate Answer with answer from table
 
-        DONE: 
+        DONE:
             1. Reconnect basic info name, etc...
             2. Connect contact info/address etc...
             3. Submit those to db
-            4. New page 
+            4. New page
             5. Populate Question with db
 
 
@@ -148,20 +151,34 @@ def registered(request):
     return render(request, "registered.html", {})
 
 
-def admin_login(request):
-    return render(request, "admin-login.html")
 
-
+@login_required(login_url="account_login")
 def role_select(request):
     return render(request, "role-selection.html")
 
+@login_required(login_url="account_login")
+def export_data(request):
+    email = request.user.email
+    adminStaffAccounts = Staff.objects.filter(email=email)
+    adminRoles = []
+    for acct in adminStaffAccounts:
+        adminRoles.append(acct.role)
 
+
+    allowedSites = []
+    for role in adminRoles:
+        if role.role == "A":
+            allowedSites.append((role.site, str(role.site)))
+
+    context = {"allowedSites": allowedSites}
+
+    return render(request, "export-data.html", context=context)
+
+
+@login_required(login_url='account_login')
 def staff_select(request):
     if request.method == "GET":
-        # print("staff is", Staff.objects.first())
         context = {"staff": Staff.objects.all()}
-
-        # print("staff is", Staff.objects.first().surName)
         return render(request, "select-staff.html", context)
 
     elif request.method == "POST":
@@ -177,6 +194,7 @@ def staff_select(request):
         # return redirect("/vms/stations/appointments")
 
 
+@login_required(login_url='account_login')
 def appointments(request):
     if request.method == "GET":
         print("current session is", request.session.items())
@@ -198,6 +216,7 @@ def appointments(request):
         return render(request, "todays-appts.html", context)
 
 
+@login_required(login_url='account_login')
 def patient_info(request):
     if request.method == "GET":
         # Get the patient ID from the form
@@ -224,6 +243,7 @@ def patient_info(request):
         return redirect("/vms/stations/medical_questions")
 
 
+@login_required(login_url='account_login')
 def medical_questions(request):
     # This is a redirect from patient_info.
     #
@@ -252,10 +272,12 @@ def medical_questions(request):
         return redirect("/vms/stations/next_appt")
 
 
+@login_required(login_url='account_login')
 def next_appt(request):
     return render(request, "nextappt.html")
 
 
+@login_required(login_url='account_login')
 def vaccine_info(request):
     if request.method == "GET":
         # if session is not set, redirect to the
@@ -320,6 +342,21 @@ def process_vaccine_info_data(patient_id, data):
         dose.location = data.get("location", None)
         dose.save()
 
+def register_new_staff(request):
+    if request.method == "POST":
+        form = CreateStaffForm(request.POST)
+        if form.is_valid():
+            form.save()
+            email = form.cleaned_data.get("email")
+            messages.success(request,
+                "{email} has been registered successfully".format(
+                    email=email
+                )
+            )
+
+
+    context = {}
+    return render(request, "staff-register.html", context)
 
 def patient_matching():
     # first we need to figure out how many doses there are

@@ -1,0 +1,12 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Sign Up Closed" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Sign Up Closed" %}</h1>
+
+<p>{% trans "If you want to signup as an admin, please contact the admins at: 111-111-1111" %}</p>
+<p>{% trans "If you want to signup as a SUPPORT/VACCINATOR staff: " %} <a href={% url 'staff_register' %}> Click Here </a> </p>
+{% endblock %}

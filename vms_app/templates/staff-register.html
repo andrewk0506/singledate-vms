@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
+		integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+	<link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+
+	<title>Add Staff</title>
+
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+</head>
+
+<body>
+	<div class="container" id="page-form-container">
+		<nav>
+			<ul class="nav nav-pills">
+				<li class="nav-item" role="presentation"><a class="nav-link active" href="#">Register Staff </a><li>
+				<li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'role_select' %}">Role Selection</a></li>
+				<li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'staff_select' %}">Staff Selection</a></li>
+				<li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'account_logout' %}">Logout</a></li>
+			</ul>
+		</nav>
+		<div id="messages">
+			{% include 'partials/messages.html' %}
+		</div>
+
+		<form method="POST" action="" id="form-register-staff">
+			{% csrf_token %}
+			<div class="row">
+				<div class="col-12 text-center">
+					<div id="page-form-header">
+						New Staff Regsitration
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12 text-center">
+					<div class="description">Please fill out the form below to register a new staff to the system
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+                        <div class="form-group">
+                            <label for="input-fname" class="description pad-bottom">First Name</label>
+                            <input type="text" name="first_name" class="form-control input-form" id="input-fname"
+                                placeholder="Enter first name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input-lname" class="description pad-bottom">Last Name</label>
+                            <input type="text" name="last_name" class="form-control input-form" id="input-lname"
+                                placeholder="Enter last name" required>
+                        </div>
+
+						<div class="form-group email-group">
+							<label for="input-email" class="description pad-bottom">Email address</label>
+							<input type="email" name="email" class="form-control input-form" id="input-email" aria-describedby="emailHelp"
+								placeholder="Enter email" required>
+						</div>
+
+                        <div class="form-group">
+                            <label for="input-phone" class="description pad-bottom">Phone Number</label>
+                            <input type="tel" name="phone_number" class="form-control input-form" id="input-phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                                placeholder="000-000-0000">
+                        </div>
+
+						<div class="form-group pad-bottom">
+							<label for="input-HIPAA" class="description pad-bottom">HIPAA</label>
+							<input type="date" name="HIPAACert" class="form-control input-form" id="input-HIPAA">
+						</div>
+
+						<div class="form-group pad-bottom">
+							<label for="input-medical-id" class="description pad-bottom">Medical ID</label>
+							<input type="number" name="medical_id" class="form-control input-form" id="input-medical-id"
+								placeholder="Medical Id" >
+						</div>
+				</div>
+			</div>
+			<div class = "row">
+				<div class = "col-12 text-center">
+					<div class="row justify-content-center m-3 p-3">
+						<div class="col-md-3 align-self-center">
+								<input type="submit" id="new-staff-submit" class="btn mb-3 form-button" value="Submit">
+						</div>
+					</div>
+				</div>
+			</div >
+		</form>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="{% static 'js/admin-register.js' %}"></script>
+</body>
+
+</html>

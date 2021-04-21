@@ -34,7 +34,7 @@
 		<div class="row text-center">
 			<div class="col-4">
 				<div class="description bold">Station Number</div>
-			
+
 					<!--Administration method-->
 					<div class="row m-3">
 						<div class="col-md-12">
@@ -51,63 +51,62 @@
 					</div>
 					<br />
 					<br />
-				
+
 			</div>
 			<div class="col-4">
 				<div class="description bold">Vaccinator</div>
-			
+
 					<!--Administration method-->
 					<div class="row m-3">
 						<div class="col-md-12">
 							<!--Source: https://www.cdc.gov/vaccines/hcp/admin/administer-vaccines.html-->
 							<select name = "vaccinator" id="vaccinator-select" name = "vaccinator" class="form-select">
 								{% for person in staff %}
-								
-								<option>{{person.first_name}} {{person.last_name}}</option>
-							
+									{% if person.role.role == "V" %}
+										<option>{{person.first_name}} {{person.last_name}}</option>
+									{% endif %}
 								{% endfor %}
-								
 							</select>
 						</div>
 					</div>
 					<br />
 					<br />
-				
+
 			</div>
 			<div class="col-4">
 				<div class="description bold">Support Staff</div>
-		
+
 					<!--Administration method-->
 					<div class="row m-3">
 						<div class="col-md-12">
 							<!--Source: https://www.cdc.gov/vaccines/hcp/admin/administer-vaccines.html-->
 							<select name = "staff-member" id="staff-select" class="form-select">
 								{% for person in staff %}
-								
-								<option>{{person.first_name}} {{person.last_name}}</option>
-							
+									{% if person.role.role == "S" %}
+										<option>{{person.first_name}} {{person.last_name}}</option>
+									{% endif %}
 								{% endfor %}
-								
+
 							</select>
 						</div>
 					</div>
 					<br />
-					<br />		
+					<br />
 			</div>
 		</div>
-	
+
 
 		<div class = "row" id = "continue-main">
 			<div class="col-12 text-center">
 				<div class="row justify-content-center">
 					<div class="col-md-6 align-self-center">
 
-						
+
 						<!-- note: v. important that button is INSIDE the form -->
 						<button  type="submit" id="continue-button" class="button-decoration btn mb-3 form-button"
 							onclick="">Continue</button>
 							<!-- <input type="submit" value="OK"> -->
-						
+
 					</div>
 				</div>
 			</div>
@@ -116,9 +115,9 @@
 	</div>
 	<script>
 							// 	function posted(){
-							
+
 		          //   const form = document.getElementById("page-form");
-								
+
               //   const XHR = new XMLHttpRequest();
               //   const formData = new FormData(form);
 
@@ -146,7 +145,7 @@
               //   //sent the post request
               //   XHR.open("POST", "/vms/stations/staff_select");
               //   XHR.send(formData);
-								
+
               //   return true;
 							// }
 	</script>

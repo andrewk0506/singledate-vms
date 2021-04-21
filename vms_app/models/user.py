@@ -1,9 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.forms import ModelForm, ModelChoiceField, ChoiceField, RadioSelect, MultipleChoiceField, CheckboxSelectMultiple, Select
 from django.core.validators import validate_email
 from phone_field import PhoneField
 from .utils import Gender, Race, Ethnicity, AddressType, States, GenerateDBID, CleanCharField
 from multiselectfield import MultiSelectField
+from .role import Role
 
 class NoCommaField(CleanCharField):
     """
@@ -21,7 +23,7 @@ class Patient(models.Model):
     """
     Table of patient's personal and contact information.
     """
- 
+
     ### Database Identifier
     dbid = models.CharField(max_length=11, default=GenerateDBID, unique=True)
 
@@ -32,9 +34,9 @@ class Patient(models.Model):
     middle_initial = CleanCharField(max_length=1)
     dob = models.DateField() # Not null by default.
     gender = models.CharField(max_length=1, choices=Gender.choices, default=Gender.F)
-    race = MultiSelectField(choices=Race.choices, default=Race.X) # django-multiselectfield calculates the max length automatically 
+    race = MultiSelectField(choices=Race.choices, default=Race.X) # django-multiselectfield calculates the max length automatically
     ethnicity = models.CharField(max_length=1, choices=Ethnicity.choices, default=Ethnicity.X)
-    
+
     ### Contact Info
     phone = PhoneField(blank=True)
     email = models.EmailField(validators=[validate_email]) # Not null by default.
@@ -46,11 +48,15 @@ class Patient(models.Model):
                                     default=AddressType.H)
 
 class Staff(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     last_name = CleanCharField(max_length=100)
     first_name = CleanCharField(max_length=100)
-    phone_number = CleanCharField(max_length=40, null=True)
-    email = CleanCharField(max_length=60)
-    password = models.CharField(max_length=60, null=True)
+    phone_number = PhoneField(null=True, blank=True)
+    email = models.CharField(max_length=60)
     HIPAACert = models.DateTimeField(null=True, blank=True)
     medical_id = models.IntegerField(null=True, blank=True)
-    role = CleanCharField(max_length=60)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.email
+

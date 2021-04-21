@@ -41,6 +41,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # django-allauth dependencies
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
     "phone_field",
     "formtools",
 ]
@@ -60,7 +67,8 @@ ROOT_URLCONF = "vms.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "vms_app/templates")],
+        "DIRS": [os.path.join(BASE_DIR, "vms_app", "templates"),
+                os.path.join(BASE_DIR, "vms_app", "templates", "allauth")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -87,7 +95,6 @@ DATABASES = {
         },
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -104,6 +111,14 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 
@@ -126,6 +141,28 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
+ACCOUNT_ADAPTER = 'vms_app.adapter.NoNewUsersAccountAdapter'
+
+
+########## django-allauth settings ############
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = "/stations/role_select"
+LOGOUT_REDIRECT_URL = "/accounts/login"
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_VERIFICATION = True
+
+# SMTP
+DEFAULT_FROM_EMAIL = "info@getvaccinatednow.org"
+EMAIL_USE_TLS = True
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 # Session settings
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
