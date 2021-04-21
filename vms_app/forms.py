@@ -70,16 +70,5 @@ class PatientForm(ModelForm):
         print(f"Check results: {c1} / {c2}")
 
         if c1 or c2:
-            raise ValidationError("This appears to be a duplicate registration!")
-
-
-# class FormWizardView(SessionWizardView):
-#     template_name = "path/to/template"
-#     form_list = [PatientForm, MedicalEligibilityAnswerForm]
-
-#     def done(self, form_list, **kwargs):
-#         return render(self.request, 'done.html', {
-#             'form_data': [form.cleaned_data for form in form_list],
-#         })
-
+            raise ValidationError(f"This appears to be a duplicate registration! {c1} {c2}")
 

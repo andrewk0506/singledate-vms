@@ -96,6 +96,8 @@ def signup(request):
         return HttpResponseRedirect("/registered")
     else:
         print(f"FORM IS NOT VALID\n\n{patient_form.data}")
+        print(f"ERRORS: {patient_form.errors} \nNON FIELD ERRORS: {patient_form.non_field_errors()}")
+
 
     context = {
         'patient_form': patient_form,
@@ -103,7 +105,6 @@ def signup(request):
     }
 
     return render(request, "signup.html", context)
-
 
 def verify(request):
     """
