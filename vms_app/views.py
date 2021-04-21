@@ -19,7 +19,7 @@ import json
 from .forms import PatientForm, MedicalEligibilityAnswerForm
 
 def index(request):
-    # TODO: figure out what site we're at, eg; leonia.getvaccinatednow.org 
+    # TODO: figure out what site we're at, eg; leonia.getvaccinatednow.org
     context={}
     site = Site.objects.first() # TODO: Eventually won't be based on first but on actual clinic
 
@@ -116,7 +116,6 @@ def role_select(request):
 @login_required(login_url="account_login")
 def export_data(request):
     email = request.user.email
-    print("email of user is: ", email)
     adminStaffAccounts = Staff.objects.filter(email=email)
     adminRoles = []
     for acct in adminStaffAccounts:
@@ -125,7 +124,6 @@ def export_data(request):
 
     allowedSites = []
     for role in adminRoles:
-        print(role)
         if role.role == "A":
             allowedSites.append((role.site, str(role.site)))
 
@@ -137,10 +135,7 @@ def export_data(request):
 @login_required(login_url='account_login')
 def staff_select(request):
     if request.method == "GET":
-        # print("staff is", Staff.objects.first())
         context = {"staff": Staff.objects.all()}
-
-        # print("staff is", Staff.objects.first().surName)
         return render(request, "select-staff.html", context)
 
     elif request.method == "POST":
