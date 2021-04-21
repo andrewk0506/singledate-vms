@@ -17,6 +17,14 @@
     width: 85%;
 }
 
+.phone-field-ext {
+    display: none;
+}
+
+#id_phone_1 {
+    display: none;
+}
+
 .textInputsl {
     /* Override defaults */
     height: 45px;

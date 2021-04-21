@@ -56,51 +56,94 @@ def signup(request):
 
     """
     context = {}
-    # questionData = json.loads(open("vms_app/templates/json/questions.json", "r").read())
 
     # create object of form
     patient_form = PatientForm(request.POST or None)
-    answer_form = MedicalEligibilityAnswerForm(request.POST or None)
 
+    # 
+    medical_question = MedicalEligibilityQuestion.objects.all()
+    questions = []
+    for q in medical_question:
+        new_question = {
+                "prompt": q.question,
+                "id": q.id,
+                "explanation": q.explanation,
+                "gender": q.gender
+            }
+        if q.bool:
+            additional = {"type": "select", "options": ["No", "Yes"]}
+        else:
+            additional = {"type": "text", "options": 100}
+
+        questions.append(dict(new_question, **additional))
+    
     # check if form data is valid
     if patient_form.is_valid():
         # save the form data to model
+        patient = patient_form.save()
+        now = datetime.datetime.now()
         print(f"FORM IS VALID\n\n{patient_form.data}")
-        patient_form.save()
+        ## Extract the questions and answer
+        for q in medical_question:
+            answer = MedicalEligibilityAnswer()
+            answer.patient = patient
+            answer.question = q
+            answer.answered = now
+
+            if q.bool:
+                answer.answer_bool = True if patient_form.data[f'{q.id}'] == 'Yes' else False
+            else:
+                answer.answer_text = patient_form.data[f'{q.id}']
+            
+            answer.save()
         return HttpResponseRedirect("/registered")
     else:
         print(f"FORM IS NOT VALID\n\n{patient_form.data}")
+        print(f"ERRORS: {patient_form.errors} \nNON FIELD ERRORS: {patient_form.non_field_errors()}")
 
-    if request.method == "GET":
-        medQuestions = MedicalEligibilityQuestion.objects.all()
-        medPage = {"questions": []}
-        for medQ in medQuestions:
-            print(medQ.question)
-            newQuestion = {
-                "prompt": medQ.question,
-                "id": medQ.id,
-                "explanation": medQ.explanation,
-                "gender": medQ.gender
-            }
-            if medQ.bool:
-                additional = {"type": "select", "options": ["No", "Yes"]}
-            else:
-                additional = {"type": "text", "options": 100}
-
-            medPage["questions"].append(dict(newQuestion, **additional))
 
     context = {
         'patient_form': patient_form,
-        'answer_form': answer_form,
-        'questionData': medPage
+        'medical_question': questions
     }
-
-    print(context['questionData'])
 
     return render(request, "signup.html", context)
 
 def verify(request):
-    return render(request, "verify.html", {})
+    """
+    Handle request from the verify page: Query the database for the user submitted information
+    and inform whether the user has been registered. If registered, say so; if not registered,
+    point the user to the register page.
+    """
+    patients = Patient.objects.all()
+    form = request.GET
+    if (len(form) == 0):
+        # First time visiting the verify page.
+        return  render(request, "verify.html", {})
+    registered = False
+    if "searchBy" in form:
+        # Verify by email or phone.
+        for p in patients:
+            if form["searchBy"] == "email":
+                if p.first_name == form["firstName"] and \
+                    p.last_name == form["lastName"] and \
+                    p.email == form["searchByOption"]:
+                    registered = True
+                    break
+            else:
+                if p.first_name == form["firstName"] and \
+                    p.last_name == form["lastName"] and \
+                    p.phone == form["searchByOption"]:
+                    registered = True
+                    break
+    else:
+        # Verify by reference code.
+        for p in patients:
+            if str(p.person) == form["referenceCode"]:
+                registered = True
+                break
+    context = {"registered": registered, "show_verify_result": True}
+    return render(request, "verify.html", context)
 
 
 # Admin
