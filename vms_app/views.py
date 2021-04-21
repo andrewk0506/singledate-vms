@@ -41,20 +41,7 @@ def check(request):
 
 
 def signup(request):
-    """
-        TODO:
-            6. Populate Answer with answer from table
 
-        DONE:
-            1. Reconnect basic info name, etc...
-            2. Connect contact info/address etc...
-            3. Submit those to db
-            4. New page
-            5. Populate Question with db
-
-
-
-    """
     context = {}
 
     # create object of form

@@ -1,5 +1,5 @@
 from django.forms import ModelForm, ModelChoiceField, ChoiceField, RadioSelect, MultipleChoiceField, CheckboxSelectMultiple, Select, ValidationError
-from .models import MedicalEligibilityAnswer, Patient
+from .models import MedicalEligibilityAnswer, Patient, Staff
 from .models.utils import Gender, Ethnicity, AddressType, States, Race
 from phone_field.forms import PhoneFormField
 
