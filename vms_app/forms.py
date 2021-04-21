@@ -46,9 +46,9 @@ class PatientForm(ModelForm):
         new_patient_email = cleaned_data.get("email")
         new_patient_phone = cleaned_data.get("phone")
 
-        # Check 1 
+        # Check 1
         c1 = Patient.objects.filter(dob=new_patient_dob).filter(email=new_patient_email).exists()
-        # Check 2 
+        # Check 2
         c2 = Patient.objects.filter(dob=new_patient_dob).filter(phone=new_patient_phone).exists()
         print(f"Check results: {c1} / {c2}")
 
