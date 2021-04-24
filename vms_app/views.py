@@ -1,34 +1,26 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from vms_app.forms import CreateStaffForm
+from vms_app.forms import CreateStaffForm, PatientForm
 from vms_app.models import Staff, Slot, Dose
 
-from .models import Dose
-from django.db import models
 from vms_app.models import Patient
 from vms_app.models import MedicalEligibilityAnswer, MedicalEligibilityQuestion
-from .models import Slot
 from vms_app.models.scheduling import Site
-from vms_app.models.utils import Gender
 from django.http import HttpResponseRedirect
-from django.urls import reverse
 import datetime
-import json
 
-from .forms import PatientForm, MedicalEligibilityAnswerForm
 
 def index(request):
     # TODO: figure out what site we're at, eg; leonia.getvaccinatednow.org
-    context={}
-    site = Site.objects.first() # TODO: Eventually won't be based on first but on actual clinic
+    context = {}
+    site = (
+        Site.objects.first()
+    )  # TODO: Eventually won't be based on first but on actual clinic
 
-    context["siteDescription"] = site.comments
+    if site:
+        context["siteDescription"] = site.comments
     return render(request, "preregister.html", context)
-
-
-# def preregister(request):
-#     return render(request, "preregister.html", {})
 
 
 # Patient registration
@@ -41,36 +33,34 @@ def check(request):
 
 
 def signup(request):
-
     context = {}
 
     # create object of form
     patient_form = PatientForm(request.POST or None)
 
-    # 
     medical_question = MedicalEligibilityQuestion.objects.all()
     questions = []
     for q in medical_question:
         new_question = {
-                "prompt": q.question,
-                "id": q.id,
-                "explanation": q.explanation,
-                "gender": q.gender
-            }
+            "prompt": q.question,
+            "id": q.id,
+            "explanation": q.explanation,
+            "gender": q.gender,
+        }
         if q.bool:
             additional = {"type": "select", "options": ["No", "Yes"]}
         else:
             additional = {"type": "text", "options": 100}
 
         questions.append(dict(new_question, **additional))
-    
+
     # check if form data is valid
     if patient_form.is_valid():
         # save the form data to model
         patient = patient_form.save()
         now = datetime.datetime.now()
         print(f"FORM IS VALID\n\n{patient_form.data}")
-        ## Extract the questions and answer
+        # Extract the questions and answer
         for q in medical_question:
             answer = MedicalEligibilityAnswer()
             answer.patient = patient
@@ -78,49 +68,55 @@ def signup(request):
             answer.answered = now
 
             if q.bool:
-                answer.answer_bool = True if patient_form.data[f'{q.id}'] == 'Yes' else False
+                answer.answer_bool = (
+                    True if patient_form.data[f"{q.id}"] == "Yes" else False
+                )
             else:
-                answer.answer_text = patient_form.data[f'{q.id}']
-            
+                answer.answer_text = patient_form.data[f"{q.id}"]
+
             answer.save()
         return HttpResponseRedirect("/registered")
     else:
         print(f"FORM IS NOT VALID\n\n{patient_form.data}")
-        print(f"ERRORS: {patient_form.errors} \nNON FIELD ERRORS: {patient_form.non_field_errors()}")
+        print(
+            f"ERRORS: {patient_form.errors} \
+            NON FIELD ERRORS: {patient_form.non_field_errors()}"
+        )
 
-
-    context = {
-        'patient_form': patient_form,
-        'medical_question': questions
-    }
+    context = {"patient_form": patient_form, "medical_question": questions}
 
     return render(request, "signup.html", context)
 
+
 def verify(request):
     """
-    Handle request from the verify page: Query the database for the user submitted information
-    and inform whether the user has been registered. If registered, say so; if not registered,
-    point the user to the register page.
+    Handle request from the verify page: Query the database for the
+    user submitted information and inform whether the user has been registered.
+    If registered, say so; if not, point the user to the register page.
     """
     patients = Patient.objects.all()
     form = request.GET
-    if (len(form) == 0):
+    if len(form) == 0:
         # First time visiting the verify page.
-        return  render(request, "verify.html", {})
+        return render(request, "verify.html", {})
     registered = False
     if "searchBy" in form:
         # Verify by email or phone.
         for p in patients:
             if form["searchBy"] == "email":
-                if p.first_name == form["firstName"] and \
-                    p.last_name == form["lastName"] and \
-                    p.email == form["searchByOption"]:
+                if (
+                    p.first_name == form["firstName"]
+                    and p.last_name == form["lastName"]
+                    and p.email == form["searchByOption"]
+                ):
                     registered = True
                     break
             else:
-                if p.first_name == form["firstName"] and \
-                    p.last_name == form["lastName"] and \
-                    p.phone == form["searchByOption"]:
+                if (
+                    p.first_name == form["firstName"]
+                    and p.last_name == form["lastName"]
+                    and p.phone == form["searchByOption"]
+                ):
                     registered = True
                     break
     else:
@@ -138,10 +134,10 @@ def registered(request):
     return render(request, "registered.html", {})
 
 
-
 @login_required(login_url="account_login")
 def role_select(request):
     return render(request, "role-selection.html")
+
 
 @login_required(login_url="account_login")
 def export_data(request):
@@ -150,7 +146,6 @@ def export_data(request):
     adminRoles = []
     for acct in adminStaffAccounts:
         adminRoles.append(acct.role)
-
 
     allowedSites = []
     for role in adminRoles:
@@ -162,7 +157,7 @@ def export_data(request):
     return render(request, "export-data.html", context=context)
 
 
-@login_required(login_url='account_login')
+@login_required(login_url="account_login")
 def staff_select(request):
     if request.method == "GET":
         context = {"staff": Staff.objects.all()}
@@ -176,34 +171,25 @@ def staff_select(request):
         support = post_request["staff-member"]
         request.session["vaccinator"] = vaccinator
         request.session["staff-member"] = support
-        return HttpResponseRedirect('appointments')
+        return HttpResponseRedirect("appointments")
         # return render(request, "todays-appts.html")
         # return redirect("/vms/stations/appointments")
 
 
-@login_required(login_url='account_login')
+@login_required(login_url="account_login")
 def appointments(request):
     if request.method == "GET":
         print("current session is", request.session.items())
         now = datetime.datetime.utcnow().strftime("%Y-%m-%d")
         print("now is ", now)
 
-        # get all slots within a few hours
         slots = Slot.objects.filter(startTime__lte=now)
 
-        # get all doses
-        dose = Dose.objects.filter(slot__in=slots)
-        # dose_ids = dose.patient_id
-
-        patients = Patient.objects.filter(person__in=dose)
-        # print("slots are", slots[0].capacity)
-        # print("doses are", dose[0].location)
-        # print("patients are", patients[0].first_name)
         context = {"appointments": slots}
         return render(request, "todays-appts.html", context)
 
 
-@login_required(login_url='account_login')
+@login_required(login_url="account_login")
 def patient_info(request):
     if request.method == "GET":
         # Get the patient ID from the form
@@ -220,7 +206,7 @@ def patient_info(request):
         # Obtain the patient object
         patient = Patient.objects.filter(person=patient_id).first
 
-        if patient != None:
+        if not patient:
             context = {"patient": patient}
 
         return render(request, "patient-info.html", context)
@@ -230,7 +216,7 @@ def patient_info(request):
         return redirect("/vms/stations/medical_questions")
 
 
-@login_required(login_url='account_login')
+@login_required(login_url="account_login")
 def medical_questions(request):
     # This is a redirect from patient_info.
     #
@@ -259,12 +245,12 @@ def medical_questions(request):
         return redirect("/vms/stations/next_appt")
 
 
-@login_required(login_url='account_login')
+@login_required(login_url="account_login")
 def next_appt(request):
     return render(request, "nextappt.html")
 
 
-@login_required(login_url='account_login')
+@login_required(login_url="account_login")
 def vaccine_info(request):
     if request.method == "GET":
         # if session is not set, redirect to the
@@ -329,26 +315,21 @@ def process_vaccine_info_data(patient_id, data):
         dose.location = data.get("location", None)
         dose.save()
 
+
 def register_new_staff(request):
     if request.method == "POST":
         form = CreateStaffForm(request.POST)
         if form.is_valid():
             form.save()
             email = form.cleaned_data.get("email")
-            messages.success(request,
-                "{email} has been registered successfully".format(
-                    email=email
-                )
-            )
-
+            message_str = "{email} has been registered successfully".format(email=email)
+            messages.success(request, message_str)
 
     context = {}
     return render(request, "staff-register.html", context)
 
+
 def patient_matching():
-    # first we need to figure out how many doses there are
-    num_doses = 0
-    # we are retrieving the set where it is a first dose and the patient id is null
     q = Dose.objects.filter(secondDose=0, patient_id=None)
     num_doses = q.count()
 
