@@ -29,6 +29,7 @@ urlpatterns = [
     path("stations/role_select", views.role_select, name="role_select"),
     path("stations/staff_select", views.staff_select, name="staff_select"),
     path("stations/export_data", views.export_data, name="export_data"),
+    path("stations/create_csv", views.create_csv, name = "create_csv"),
     path("stations/appointments", views.appointments, name="appointments"),
     path("stations/patient_info", views.patient_info),
     path("stations/medical_questions", views.medical_questions),

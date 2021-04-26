@@ -27,7 +27,7 @@ SECRET_KEY = "dev"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','localhost', 'ec2-35-168-7-160.compute-1.amazonaws.com', 'www.getvaccinatednow.org']
+ALLOWED_HOSTS = ['0.0.0.0','localhost', 'ec2-35-168-7-160.compute-1.amazonaws.com', 'www.getvaccinatednow.org', '127.0.0.1', '10.0.0.21']
 
 STATIC_URL = '/static/'
 
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
 
     "phone_field",
     "formtools",
@@ -87,14 +88,27 @@ WSGI_APPLICATION = "vms.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "OPTIONS": {
+#             "read_default_file": "local.cnf",
+#         },
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "OPTIONS": {
-            "read_default_file": "local.cnf",
-        },
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dummydata',
+        'USER': 'root',
+        'PASSWORD': 'V@cc_In3?..y',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -157,12 +171,13 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_VERIFICATION = True
 
 # SMTP
-DEFAULT_FROM_EMAIL = "info@getvaccinatednow.org"
-EMAIL_USE_TLS = True
-EMAIL_HOST = os.getenv("EMAIL_HOST")
-EMAIL_PORT = 587
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+# DEFAULT_FROM_EMAIL = "info@getvaccinatednow.org"
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = os.getenv("EMAIL_HOST")
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Session settings
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
