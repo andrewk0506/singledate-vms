@@ -481,10 +481,10 @@ def create_csv(request):
     ## ADD TABLE QUERIES AND MAKE CSV
     strdate = datetime.strftime(selected_date, "%Y-%m-%d")
     qsDose = Dose.objects.filter(timeVax__startswith=strdate, ).order_by('patient').values("patient", "vaccine",
-                                                                                           'administered',
+                                                                                           'location',
                                                                                            "slot")  # TODO put in amount column from vaccinetype
-    dfDose = pd.DataFrame(list(qsDose), columns=["patient", "vaccine", 'administered', "slot"])
-    dfDose.rename(columns={"vaccine": "Vaccine Lot Number", "administered": "Vaccine Route of Administration"},
+    dfDose = pd.DataFrame(list(qsDose), columns=["patient", "vaccine", 'location', "slot"])
+    dfDose.rename(columns={"vaccine": "Vaccine Lot Number", "location": "Vaccine Route of Administration"},
                   inplace=True)
 
     qsSlot = Slot.objects.filter(id__in=list(dfDose["slot"])).values("id", "site", "startTime", "duration",
@@ -534,20 +534,23 @@ def create_csv(request):
     df_Dose_Slot_Patient_VaccineType.drop(columns=["slot", "vaccineType"], inplace=True)
     # df_Dose_Slot_Patient_VaccineType = df_Dose_Slot_Patient_VaccineType[["patient", "Site ID", "Booking Start", "Booking End", "Patient Last Name", "DOB_Day", "DOB_Month", "DOB_Year", "Administrative Sex", "Race", "Ethnic Group", "Street Address", "City", "State", "Zip Code", "Patient Address Type", "Phone Number", "Email Address", "Date of Administration", "Vaccine Administered Amount", "Vaccine Lot Number", "Vaccine Manufacturer Name", "Vaccine Route of Administration"]]
 
-    qsAnswers = MedicalEligibilityAnswer.objects.all().values("patient", "question",
-                                                              "answer_text")  # TODO figure out which questions will have bool answer, or like test if answer_bool isn't Null?
-    dfAnswers = pd.DataFrame(list(qsAnswers), columns=["patient", "question", "answer_text"])
+    qsAnswers = MedicalEligibilityAnswer.objects.filter(patient__in=list(df_Dose_Slot_Patient_VaccineType["patient"])).values("patient", "question",
+                                                              "answer_text", "answer_bool")  # TODO figure out which questions will have bool answer, or like test if answer_bool isn't Null?
+    dfAnswers = pd.DataFrame(list(qsAnswers), columns=["patient", "question", "answer_text", "answer_bool"])
+    dfAnswers["answer_bool"].fillna(dfAnswers["answer_text"], inplace=True)
     qsQuestions = MedicalEligibilityQuestion.objects.all().values("id", "question")
     dfQuestions = pd.DataFrame(list(qsQuestions), columns=["id", "question"])
     df_Questions_Answers = pd.merge(dfAnswers, dfQuestions, left_on="question", right_on="id", how="left")
     df_Questions_Answers.drop(columns=["question_x", "id"], inplace=True)
-    df_Questions_Answers = df_Questions_Answers.pivot(index="patient", columns="question_y", values="answer_text")
+    df_Questions_Answers = df_Questions_Answers.pivot(index="patient", columns="question_y", values="answer_bool")
     # df_Questions_Answers = df_Questions_Answers[["Do you have a bleeding disorder or are you on medication that affects your immune system?", "Do you have any allergies to medication, and/or have you ever had an adverse reaction to a vaccine?", "Do you have a fever?", "Are you pregnant or do you plan to become pregnant soon?", "Are you currently breastfeeding?", "Have you received another COVID-19 vaccine?", "Have you had any OTHER vaccine in the last 14 days?", "Will you be available for your second dose in approximately 4 weeks?", "Comments"]]
     df_final = pd.merge(df_Dose_Slot_Patient_VaccineType, df_Questions_Answers, left_on="patient", right_on="patient",
                         how="left")
     df_final.drop(columns="patient", inplace=True)
+    df_final["Canceled?"] = ""
+    df_final["Vaccine Expiration Date"] = ""
     df_final = df_final[
-        ["Site ID", "Booking Start", "Booking End", "Patient Last Name", "Patient First Name", "DOB_Day", "DOB_Month",
+        ["Site ID", "Booking Start", "Booking End", "Canceled?", "Patient Last Name", "Patient First Name", "DOB_Day", "DOB_Month",
          "DOB_Year", "Administrative Sex", "Race", "Ethnic Group", "Street Address", "City", "State", "Zip Code",
          "Patient Address Type", "Phone Number", "Email Address",
          "Do You Have A Bleeding Disorder Or Are You On Medication That Affects Your Immune System?",
@@ -556,7 +559,7 @@ def create_csv(request):
          "Are You Currently Breastfeeding?", "Have You Received Another Covid-19 Vaccine?",
          "Have You Had Any Other Vaccine In The Last 14 Days?",
          "Will You Be Available For Your Second Dose In Approximately 4 Weeks?", "Comments", "Date of Administration",
-         "Vaccine Administered Amount", "Vaccine Lot Number", "Vaccine Manufacturer Name",
+         "Vaccine Administered Amount", "Vaccine Lot Number", "Vaccine Expiration Date", "Vaccine Manufacturer Name",
          "Vaccine Route of Administration"]]
 
     df_final.to_csv(response)
