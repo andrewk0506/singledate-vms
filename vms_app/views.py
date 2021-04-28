@@ -499,6 +499,11 @@ def create_csv(request):
                         inplace=True)
     df_Dose_Slot.drop(columns='id', inplace=True)
 
+    qsSite = Site.objects.filter(id__in=list(df_Dose_Slot["Site ID"])).values("id", "street", "city", "zipCode", "state")
+    dfSite = pd.DataFrame(list(qsSite), columns=["id", "street", "city", "zipCode", "state"])
+    dfSite["Vaccine Administration Site"] = dfSite["street"] + " " + dfSite["city"] + ", " + dfSite["state"] + " " + dfSite["zipCode"]
+    df_Dose_Slot = pd.merge(df_Dose_Slot, dfSite, left_on="Site ID", right_on="id", how="left")
+    df_Dose_Slot.drop(columns=['id', "street", "city", "zipCode", "state"], inplace=True)
     qsPatient = Patient.objects.filter(person__in=list(df_Dose_Slot["patient"])).values("person", "first_name",
                                                                                         "last_name", "dob", "gender",
                                                                                         "race", "ethnicity", "phone",
@@ -534,6 +539,13 @@ def create_csv(request):
     df_Dose_Slot_Patient_VaccineType.drop(columns=["slot", "vaccineType"], inplace=True)
     # df_Dose_Slot_Patient_VaccineType = df_Dose_Slot_Patient_VaccineType[["patient", "Site ID", "Booking Start", "Booking End", "Patient Last Name", "DOB_Day", "DOB_Month", "DOB_Year", "Administrative Sex", "Race", "Ethnic Group", "Street Address", "City", "State", "Zip Code", "Patient Address Type", "Phone Number", "Email Address", "Date of Administration", "Vaccine Administered Amount", "Vaccine Lot Number", "Vaccine Manufacturer Name", "Vaccine Route of Administration"]]
 
+    qsVaccineBatch = VaccineBatch.objects.filter(batch__in=list(df_Dose_Slot_Patient_VaccineType["Vaccine Lot Number"])).values("expiration")
+    dfVaccineBatch = pd.DataFrame(list(qsVaccineBatch), columns=["batch", "expiration"])
+    df_Dose_Slot_Patient_VaccineType_VaccineBatch = pd.merge(df_Dose_Slot_Patient_VaccineType, dfVaccineBatch,
+                                                             left_on="Vaccine Lot Number", right_on="batch", how="left")
+    df_Dose_Slot_Patient_VaccineType_VaccineBatch.drop(columns="batch", inplace=True)
+    df_Dose_Slot_Patient_VaccineType_VaccineBatch.rename(columns={"expiration":"Vaccine Expiration Date"}, inplace=True)
+
     qsAnswers = MedicalEligibilityAnswer.objects.filter(patient__in=list(df_Dose_Slot_Patient_VaccineType["patient"])).values("patient", "question",
                                                               "answer_text", "answer_bool")  # TODO figure out which questions will have bool answer, or like test if answer_bool isn't Null?
     dfAnswers = pd.DataFrame(list(qsAnswers), columns=["patient", "question", "answer_text", "answer_bool"])
@@ -544,11 +556,10 @@ def create_csv(request):
     df_Questions_Answers.drop(columns=["question_x", "id"], inplace=True)
     df_Questions_Answers = df_Questions_Answers.pivot(index="patient", columns="question_y", values="answer_bool")
     # df_Questions_Answers = df_Questions_Answers[["Do you have a bleeding disorder or are you on medication that affects your immune system?", "Do you have any allergies to medication, and/or have you ever had an adverse reaction to a vaccine?", "Do you have a fever?", "Are you pregnant or do you plan to become pregnant soon?", "Are you currently breastfeeding?", "Have you received another COVID-19 vaccine?", "Have you had any OTHER vaccine in the last 14 days?", "Will you be available for your second dose in approximately 4 weeks?", "Comments"]]
-    df_final = pd.merge(df_Dose_Slot_Patient_VaccineType, df_Questions_Answers, left_on="patient", right_on="patient",
+    df_final = pd.merge(df_Dose_Slot_Patient_VaccineType_VaccineBatch, df_Questions_Answers, left_on="patient", right_on="patient",
                         how="left")
     df_final.drop(columns="patient", inplace=True)
     df_final["Canceled?"] = ""
-    df_final["Vaccine Expiration Date"] = ""
     df_final = df_final[
         ["Site ID", "Booking Start", "Booking End", "Canceled?", "Patient Last Name", "Patient First Name", "DOB_Day", "DOB_Month",
          "DOB_Year", "Administrative Sex", "Race", "Ethnic Group", "Street Address", "City", "State", "Zip Code",
@@ -558,9 +569,9 @@ def create_csv(request):
          "Do You Have A Fever?", "Are You Pregnant Or Do You Plan To Become Pregnant Soon?",
          "Are You Currently Breastfeeding?", "Have You Received Another Covid-19 Vaccine?",
          "Have You Had Any Other Vaccine In The Last 14 Days?",
-         "Will You Be Available For Your Second Dose In Approximately 4 Weeks?", "Comments", "Date of Administration",
-         "Vaccine Administered Amount", "Vaccine Lot Number", "Vaccine Expiration Date", "Vaccine Manufacturer Name",
-         "Vaccine Route of Administration"]]
+         "Will You Be Available For Your Second Dose In Approximately 4 Weeks?", "Comments", "Vaccine Administration Site",
+         "Date of Administration","Vaccine Administered Amount", "Vaccine Lot Number", "Vaccine Expiration Date",
+         "Vaccine Manufacturer Name", "Vaccine Route of Administration"]]
 
     df_final.to_csv(response)
     return response
